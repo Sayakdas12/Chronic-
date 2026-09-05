@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ReliefConnect - Post-disaster management" />
+    <meta name="theme-color" content="#091a2d" />
+    <script src="../js/auth-guard.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <title>ReliefConnect | Post-Disaster Management</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav-wrap">
+        <div class="brand" aria-label="ReliefConnect home">
+          <div class="brand-mark">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          <div class="brand-copy">
+            <span class="brand-name">ReliefConnect</span>
+            <small>Post-Disaster Management</small>
+          </div>
+        </div>
+
+        <nav class="main-nav" aria-label="Main navigation">
+          <a class="nav-link active" href="index.html">Home</a>
+          <a class="nav-link" href="dashboard.html">Dashboard</a>
+          <a class="nav-link" href="#features">Features</a>
+          <a class="nav-link" href="resource-center.html">Resources</a>
+          <a class="nav-link" href="#about">About Us</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="header-login" href="login.html">Log In</a>
+          <a class="header-cta" href="register.html">Get Started</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-layout">
+          <div class="hero-copy">
+            <h1>
+              One App.<br />
+              Every Response.<br />
+              Stronger <span>Together.</span>
+            </h1>
+            <p>
+              ReliefConnect helps citizens, rescue teams, and authorities work together for faster relief and recovery.
+            </p>
+
+            <div class="hero-actions">
+              <details class="help-menu">
+                <summary class="btn btn-primary">
+                  <span class="icon-box"><i class="fa-solid fa-headset"></i></span>
+                  <span>I NEED HELP</span>
+                </summary>
+                <div class="help-menu-options">
+                  <a
+                    href="tel:+918013593509"
+                    class="help-menu-option"
+                    aria-label="Call for help at 8013593509"
+                  >
+                    <i class="fa-solid fa-phone"></i>
+                    <span>
+                      <strong>Call for help</strong>
+                      <small>8013593509</small>
+                    </span>
+                  </a>
+                  <a href="life-helper.html" class="help-menu-option">
+                    <i class="fa-solid fa-robot"></i>
+                    <span>
+                      <strong>Chat with AI agent</strong>
+                      <small>Get guided assistance</small>
+                    </span>
+                  </a>
+                </div>
+              </details>
+              <a href="report-problem.html" class="btn btn-secondary">
+                <span class="icon-box"><i class="fa-regular fa-clipboard"></i></span>
+                <span>REPORT DAMAGE</span>
+              </a>
+              <a href="admin-login.html" class="btn btn-government">
+                <span class="icon-box"><i class="fa-solid fa-landmark"></i></span>
+                <span>GOVERNMENT LOGIN</span>
+              </a>
+            </div>
+
+            <div class="safety-note">
+              <span class="shield"><i class="fa-solid fa-shield-heart"></i></span>
+              Your safety is our priority.
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="alert-card">
+              <div class="alert-head">
+                <div class="alert-icon"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
+                <span class="alert-status"><i class="fa-solid fa-circle"></i> LIVE ALERT</span>
+              </div>
+              <div class="alert-content">
+                <span class="alert-kicker">DISASTER RISK WATCH</span>
+                <h3>Active Emergency</h3>
+                <p>Flood Recovery Operation</p>
+                <small><i class="fa-solid fa-location-dot"></i> West Bengal, India</small>
+              </div>
+              <div class="alert-metrics">
+                <div><strong>68</strong><span>Risk score</span></div>
+                <div><strong>HIGH</strong><span>Severity</span></div>
+                <div><strong>6–12h</strong><span>Risk window</span></div>
+              </div>
+              <div class="alert-footer"><i class="fa-solid fa-shield-halved"></i> Stay alert. Stay safe.</div>
+              <a class="view-btn" href="risk-dashboard.html">Open Risk Dashboard <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="container stats-row" id="features">
+          <div class="stat-item">
+            <div class="stat-icon people"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-copy">
+              <strong>12,458</strong>
+              <span>People Affected</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon rescue"><i class="fa-solid fa-truck-medical"></i></div>
+            <div class="stat-copy">
+              <strong>143</strong>
+              <span>Rescue Operations</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon shelter"><i class="fa-solid fa-house-chimney"></i></div>
+            <div class="stat-copy">
+              <strong>68</strong>
+              <span>Relief Shelters</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon medical"><i class="fa-solid fa-plus"></i></div>
+            <div class="stat-copy">
+              <strong>24</strong>
+              <span>Medical Camps</span>
+            </div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon package"><i class="fa-solid fa-box-open"></i></div>
+            <div class="stat-copy">
+              <strong>5,648</strong>
+              <span>Relief Packages Distributed</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="feature-grid-section">
+        <div class="container feature-grid">
+          <div class="feature-card danger">
+            <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3>Report Damage</h3>
+            <p>Report incidents and damages with location and photos.</p>
+            <a href="report-problem.html">Report Now <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <div class="feature-card blue">
+            <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h3>Live Situation Map</h3>
+            <p>View affected areas, rescue teams, shelters, and more in real-time.</p>
+            <a href="journey.html">View Map <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <div class="feature-card purple">
+            <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <h3>Request Help</h3>
+            <p>Send SOS and get help for medical, food, rescue, shelter and more.</p>
+              <a href="request.html">Request Now <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <div class="feature-card pink">
+            <div class="feature-icon"><i class="fa-solid fa-kit-medical"></i></div>
+            <h3>Relief & Resources</h3>
+            <p>Find nearby hospitals, shelters, food centers, and essential resources.</p>
+            <a href="resource-center.html">Find Resources <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <div class="feature-card gold">
+            <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
+            <h3>Rescue Tracking</h3>
+            <p>Track rescue operations and assigned teams in real-time.</p>
+            <a href="track.html">Track Now <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+          <div class="feature-card cyan">
+            <div class="feature-icon"><i class="fa-solid fa-user-group"></i></div>
+            <h3>Missing Persons</h3>
+            <p>Search and report missing persons in your area.</p>
+            <a href="missing-persons.html">Search Now <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-it-works" id="about">
+        <div class="container how-layout">
+          <div class="steps-pane">
+            <div class="step-item">
+              <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+              <div>
+                <h4>Report</h4>
+                <p>Report incidents or request help.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-icon"><i class="fa-solid fa-sliders"></i></div>
+              <div>
+                <h4>Prioritize</h4>
+                <p>AI and team prioritizes based on urgency.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-icon"><i class="fa-solid fa-people-carry-box"></i></div>
+              <div>
+                <h4>Respond</h4>
+                <p>Rescue teams respond and take action.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
+              <div>
+                <h4>Recover</h4>
+                <p>Relief is delivered and communities recover.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="phone-pane">
+            <div class="phone-shell">
+              <div class="phone-topbar">
+                <span>9:41</span>
+                <div class="phone-icons"><i class="fa-solid fa-wifi"></i><i class="fa-solid fa-battery-full"></i></div>
+              </div>
+              <div class="phone-app">
+                <div class="phone-header">
+                  <div class="chip">ReliefConnect</div>
+                  <div class="status-dot"></div>
+                </div>
+                <div class="phone-card">
+                  <span class="mini-tag">Active Emergency</span>
+                  <h5>Flood Recovery Operation</h5>
+                  <small><i class="fa-solid fa-location-dot"></i> West Bengal, India</small>
+                </div>
+                <div class="phone-buttons">
+                  <button>I NEED HELP</button>
+                  <button>REPORT DAMAGE</button>
+                </div>
+                <div class="mini-grid">
+                  <span><i class="fa-solid fa-map"></i></span>
+                  <span><i class="fa-solid fa-box-open"></i></span>
+                  <span><i class="fa-solid fa-truck-fast"></i></span>
+                  <span><i class="fa-solid fa-user-group"></i></span>
+                </div>
+                <div class="live-update">
+                  <div class="update-label">Recent Updates</div>
+                  <div class="update-line">Relief camp opened in Murshidabad <span>2 hours ago</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="audience-pane">
+            <h2>Together,<br />We Can Save More Lives</h2>
+            <p>
+              ReliefConnect is built for everyoneâ€”citizens, volunteers, rescue teams, and authoritiesâ€”to ensure faster response and effective relief coordination.
+            </p>
+
+            <div class="audience-list">
+              <div class="audience-item">
+                <div class="audience-icon red"><i class="fa-solid fa-users"></i></div>
+                <div>
+                  <h4>For Citizens</h4>
+                  <p>Report, request help, and stay informed.</p>
+                </div>
+              </div>
+              <div class="audience-item">
+                <div class="audience-icon blue"><i class="fa-solid fa-life-ring"></i></div>
+                <div>
+                  <h4>For Rescue Teams</h4>
+                  <p>View tasks, track operations, and save lives.</p>
+                </div>
+              </div>
+              <div class="audience-item">
+                <div class="audience-icon green"><i class="fa-solid fa-landmark"></i></div>
+                <div>
+                  <h4>For Authorities</h4>
+                  <p>Monitor, coordinate, and make better decisions.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta-band" id="start">
+        <div class="container cta-wrap">
+          <div class="cta-brand">
+            <div class="cta-icon"><i class="fa-solid fa-heart"></i></div>
+            <div>
+              <h3>Be a Hero in Someone's Life</h3>
+              <p>Every report matters. Every second counts.</p>
+            </div>
+          </div>
+          <div class="cta-actions">
+            <details class="support-menu">
+              <summary class="cta-button support-button">Give Support <span aria-hidden="true">&#8594;</span></summary>
+              <div class="support-options">
+                <a href="register.html" class="support-option">
+                  <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
+                  <span>
+                    <strong>Donate Funds</strong>
+                    <small>Help provide urgent relief</small>
+                  </span>
+                </a>
+                <a href="resource-center.html" class="support-option">
+                  <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+                  <span>
+                    <strong>Donate Resources</strong>
+                    <small>Food, water, medicine, clothes</small>
+                  </span>
+                </a>
+                <a href="register.html" class="support-option">
+                  <i class="fa-solid fa-people-carry-box" aria-hidden="true"></i>
+                  <span>
+                    <strong>Volunteer</strong>
+                    <small>Join the relief response</small>
+                  </span>
+                </a>
+              </div>
+            </details>
+            <a href="register.html" class="cta-button">Get Started Now</a>
+            <a href="login.html" class="cta-login">Already have an account? Log in</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script ></script>
+    <script>
+      if (localStorage.getItem("chronicAILoggedIn") === "true") {
+        document.body.classList.add("signed-in-user");
+      }
+
+      const popupMenus = document.querySelectorAll(".help-menu, .support-menu");
+
+      document.addEventListener("click", (event) => {
+        popupMenus.forEach((menu) => {
+          if (menu.open && !menu.contains(event.target)) {
+            menu.removeAttribute("open");
+          }
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          popupMenus.forEach((menu) => menu.removeAttribute("open"));
+        }
+      });
+    </script>
+  </body>
+</html>
+

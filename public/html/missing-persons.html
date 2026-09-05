@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Search, report, and share tips about missing persons.">
+  <title>ReliefConnect | Missing Persons</title>
+  <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+  <script src="../js/auth-guard.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="../css/missing-persons.css">
+</head>
+<body>
+  <header class="mp-header"><a class="mp-brand" href="index.html"><span class="mp-brand-mark"><i class="fa-solid fa-shield-heart"></i></span><span><strong>ReliefConnect</strong><small>MISSING PERSONS</small></span></a><a class="mp-back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Home</a></header>
+  <main class="mp-shell">
+    <section class="mp-hero"><span class="eyebrow"><i class="fa-solid fa-people-group"></i> COMMUNITY RESPONSE</span><h1>Help bring someone <span>home.</span></h1><p>Search verified alerts, report a missing person, and share useful information securely with response teams.</p></section>
+    <section class="mp-toolbar" aria-label="Search missing persons">
+      <div class="search-field"><i class="fa-solid fa-magnifying-glass"></i><input id="searchName" placeholder="Search by name"></div>
+      <input id="searchLocation" placeholder="Location">
+      <input id="searchAge" type="number" min="0" max="120" placeholder="Age">
+      <select id="searchStatus"><option value="">All statuses</option><option>Pending</option><option>Active</option><option>Found</option><option>Closed</option></select>
+      <button class="primary-button" id="searchButton"><i class="fa-solid fa-filter"></i> Search</button>
+    </section>
+    <section class="mp-layout">
+      <div class="mp-results-panel"><div class="section-heading"><div><span class="eyebrow">VERIFIED ALERTS</span><h2>Missing persons near you</h2></div><span class="result-count" id="resultCount">0 alerts</span></div><div class="person-grid" id="personGrid"><div class="empty-state"><i class="fa-solid fa-circle-info"></i><p>Loading verified alerts...</p></div></div></div>
+      <div class="map-panel"><div class="section-heading"><div><span class="eyebrow">LIVE MAP</span><h2>Approved locations</h2></div><i class="fa-solid fa-location-dot map-label"></i></div><div id="missingMap"></div><p class="privacy-note"><i class="fa-solid fa-lock"></i> Exact locations are shown only when approved by response administrators.</p></div>
+    </section>
+    <section class="mp-actions"><button class="action-card" data-open="reportModal"><i class="fa-solid fa-user-plus"></i><span><strong>Report Missing Person</strong><small>Submit details for admin verification</small></span><i class="fa-solid fa-arrow-right"></i></button><button class="action-card" data-open="tipModal"><i class="fa-solid fa-comment-medical"></i><span><strong>Submit a Tip</strong><small>Share information, optionally anonymously</small></span><i class="fa-solid fa-arrow-right"></i></button></section>
+    <section class="my-reports-section" id="myReportsSection"><div class="section-heading"><div><span class="eyebrow">MY REPORTS</span><h2>Reports from this browser</h2></div><span class="privacy-note">Delete hides it here only</span></div><div class="my-reports-grid" id="myReportsGrid"><p class="empty-state">Your submitted reports will appear here.</p></div></section>
+    <section class="admin-section hidden" id="adminSection"><div class="section-heading"><div><span class="eyebrow">ADMIN CONSOLE</span><h2>Review missing-person reports</h2></div><button class="outline-button" id="refreshAdmin"><i class="fa-solid fa-rotate"></i> Refresh</button></div><div id="adminGrid" class="admin-grid"></div></section>
+  </main>
+  <dialog class="mp-modal" id="reportModal"><form method="dialog" class="modal-card" id="missingForm"><button class="close-modal" value="cancel" aria-label="Close"><i class="fa-solid fa-xmark"></i></button><span class="eyebrow">SECURE REPORT</span><h2>Report a missing person</h2><div class="modal-grid"><label>Full name<input id="personName" required maxlength="120"></label><label>Age<input id="personAge" type="number" min="0" max="120" required></label><label>Last-seen location<input id="lastSeenLocation" required maxlength="240"></label><label>Last-seen date<input id="lastSeenDate" type="datetime-local" required></label></div><label>Details<textarea id="personDetails" required maxlength="2000" placeholder="Clothing, identifying details, circumstances..."></textarea></label><label>Contact information<input id="contactInfo" required maxlength="240" placeholder="Phone or email for verified responders"></label><label class="upload-control">Photo<input id="personPhoto" type="file" accept="image/jpeg,image/png,image/webp" required><small>JPG, PNG, or WEBP up to 5 MB</small></label><label class="check-row"><input id="locationApproved" type="checkbox"> Allow approximate location on the public map</label><button class="primary-button" id="submitMissing" type="submit"><i class="fa-solid fa-shield-heart"></i> Send for verification</button><p class="form-message" id="reportMessage"></p></form></dialog>
+  <dialog class="mp-modal" id="tipModal"><form method="dialog" class="modal-card" id="tipForm"><button class="close-modal" value="cancel" aria-label="Close"><i class="fa-solid fa-xmark"></i></button><span class="eyebrow">COMMUNITY TIP</span><h2>Submit a tip</h2><label>Related person or alert ID<input id="tipPersonId" required maxlength="80"></label><label>What do you know?<textarea id="tipMessage" required maxlength="1500"></textarea></label><label class="check-row"><input id="tipAnonymous" type="checkbox" checked> Submit anonymously</label><label id="tipContactWrap">Your contact information<input id="tipContact" maxlength="240"></label><button class="primary-button" type="submit"><i class="fa-solid fa-paper-plane"></i> Send tip securely</button><p class="form-message" id="tipMessageStatus"></p></form></dialog>
+  <dialog class="mp-modal" id="detailModal"><article class="modal-card detail-card"><button class="close-modal" id="closeDetail" aria-label="Close"><i class="fa-solid fa-xmark"></i></button><div id="detailContent"></div></article></dialog>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script type="module" src="../js/missing-persons.js"></script>
+</body>
+</html>
+

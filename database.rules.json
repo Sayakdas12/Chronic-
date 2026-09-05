@@ -1,0 +1,52 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "otpChallenges": {
+      ".indexOn": ["expiresAt"]
+    },
+    "verifiedOtpTokens": {
+      ".indexOn": ["expiresAt"]
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && ((auth.uid === $uid && ((!data.exists() && newData.child('role').val() === 'citizen') || (data.exists() && newData.child('role').val() === data.child('role').val()))) || root.child('users').child(auth.uid).child('role').val() === 'admin')",
+        "role": {
+          ".write": false
+        }
+      }
+    },
+    "missingPersons": {
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator', 'viewer']",
+      "$personId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator', 'viewer'] || data.child('reporterUid').val() === auth.uid)",
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator'] || (!data.exists() && newData.child('reporterUid').val() === auth.uid))",
+        ".validate": "newData.hasChildren(['name','age','location','lastSeenDate','details','status','approved','reporterUid','createdAt']) && newData.child('name').isString() && newData.child('details').isString() && newData.child('status').val() in ['Pending','Active','Found','Closed']",
+        "reporterUid": { ".write": "!data.exists()" },
+        "approved": { ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin'" },
+        "status": { ".write": "root.child('users').child(auth.uid).child('role').val() === 'admin'" }
+      }
+    },
+    "missingPublic": {
+      ".read": "auth != null",
+      "$personId": {
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator'] || ((!data.exists() || data.child('reporterUid').val() === auth.uid) && newData.child('reporterUid').val() === auth.uid))"
+      }
+    },
+    "missingTips": {
+      "$personId": {
+        "$tipId": {
+          ".write": "auth != null && !data.exists()",
+          ".validate": "newData.hasChildren(['message','anonymous','status','createdAt']) && newData.child('message').isString() && newData.child('message').val().length <= 1500"
+        }
+      }
+    },
+    "riskWatch": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    }
+  }
+}
