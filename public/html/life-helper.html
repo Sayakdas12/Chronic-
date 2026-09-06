@@ -467,12 +467,46 @@ button{
 
     font-size:14px;
 }
+.disaster-actions{
+    width:min(760px,100%);
+    margin-top:24px;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+}
+.disaster-action{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    min-height:48px;
+    padding:11px 13px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    color:var(--text2);
+    cursor:pointer;
+    text-align:left;
+    transition:background .2s ease,border-color .2s ease,transform .2s ease;
+}
+.disaster-action:hover{
+    transform:translateY(-2px);
+    border-color:rgba(45,212,191,.55);
+    background:rgba(45,212,191,.10);
+    color:#fff;
+}
+.disaster-action i{width:18px;color:#5eead4;text-align:center}
+.disaster-action span{font-size:12px;font-weight:700;line-height:1.3}
+@media(max-width:650px){
+    .disaster-actions{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:420px){
+    .disaster-actions{grid-template-columns:1fr;}
+}
 
 .message{
     display:flex;
 
     gap:12px;
-
     margin-bottom:24px;
 
     animation:
@@ -1476,7 +1510,7 @@ body.light-mode .input-wrapper{background:linear-gradient(to top,var(--bg) 65%,t
 }
 
 /* =========================================================
-   RELIEFCONNECT VISUAL SYSTEM
+   CHRONICAI VISUAL SYSTEM
    Keeps the existing chat behavior while matching index.html.
 ========================================================= */
 
@@ -1738,9 +1772,18 @@ body {
                     <p>
                         ChronicAI is your AI life helper.
                         Ask questions, speak naturally,
-                        upload an image, or use Voice Assistant
+                        upload an image, or use voice input
                         for a hands-free conversation.
                     </p>
+
+                    <div class="disaster-actions" aria-label="Disaster help shortcuts">
+                        <button class="disaster-action" type="button" data-disaster-prompt="There is a flood or rising water near me. Give me the safest immediate steps and tell me when to evacuate."><i class="fa-solid fa-water"></i><span>Flood or rising water</span></button>
+                        <button class="disaster-action" type="button" data-disaster-prompt="There is a fire or heavy smoke near me. Give me immediate evacuation and safety steps."><i class="fa-solid fa-fire"></i><span>Fire or smoke</span></button>
+                        <button class="disaster-action" type="button" data-disaster-prompt="An earthquake just happened. Give me immediate safety steps and what to do after the shaking stops."><i class="fa-solid fa-house-crack"></i><span>Earthquake</span></button>
+                        <button class="disaster-action" type="button" data-disaster-prompt="Someone is injured right now. Give me safe first-aid priorities while I contact emergency services."><i class="fa-solid fa-kit-medical"></i><span>Someone is injured</span></button>
+                        <button class="disaster-action" type="button" data-disaster-prompt="I am trapped or need rescue. Help me make a clear emergency message with my location and immediate needs."><i class="fa-solid fa-life-ring"></i><span>Need rescue</span></button>
+                        <button class="disaster-action" type="button" data-disaster-prompt="Help me prepare a practical emergency kit and family evacuation plan for the next 72 hours."><i class="fa-solid fa-kit-medical"></i><span>Prepare for disaster</span></button>
+                    </div>
 
                 </div>
 
@@ -1812,7 +1855,7 @@ body {
                 id="voiceToggle"
             >
                 <i class="fa-solid fa-microphone"></i>
-                Voice OFF
+                Microphone OFF
             </button>
 
 
@@ -2017,6 +2060,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const toast = $("helperToast");
     const recentList = $("recentSearchList");
     const chatSearch = $("chatSearch");
+    const disasterActions = document.querySelectorAll("[data-disaster-prompt]");
 
     const headerMenuButton = $("headerMenuButton");
     const headerMenu = $("headerMenu");
@@ -2691,6 +2735,16 @@ document.addEventListener("DOMContentLoaded", () => {
             };
 
     }
+
+
+    disasterActions.forEach((button) => {
+        button.addEventListener("click", () => {
+            if (!chatInput || isSending) return;
+            chatInput.value = button.dataset.disasterPrompt || "";
+            resize();
+            sendMessage();
+        });
+    });
 
 
     /* =========================================================
@@ -5395,9 +5449,9 @@ document.addEventListener("DOMContentLoaded", () => {
             voiceToggle.innerHTML =
                 voiceMode
 
-                    ? '<i class="fa-solid fa-microphone"></i> Voice ON'
+                    ? '<i class="fa-solid fa-microphone"></i> Microphone ON'
 
-                    : '<i class="fa-solid fa-microphone"></i> Voice OFF';
+                    : '<i class="fa-solid fa-microphone"></i> Microphone OFF';
 
         }
 
@@ -5599,7 +5653,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         updateVoiceUI(
-            "Starting microphoneâ€¦"
+            "Starting microphone..."
         );
 
 
@@ -5607,7 +5661,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         showToast(
-            "Voice Assistant ON"
+            "Microphone ON"
         );
 
 
@@ -5666,13 +5720,13 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
             voiceToggle.innerHTML =
-                '<i class="fa-solid fa-microphone"></i> Voice OFF';
+                '<i class="fa-solid fa-microphone"></i> Microphone OFF';
 
         }
 
 
         showToast(
-            "Voice Assistant OFF"
+            "Microphone OFF"
         );
 
     }
@@ -7105,9 +7159,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         voiceMode = true;
         detectedLanguage = null;
-        updateVoiceUI("Connecting real-time voiceâ€¦");
+        updateVoiceUI("Connecting real-time voice...");
         unlockSpeechSynthesis();
-        showToast("Voice Assistant ON");
+        showToast("Microphone ON");
 
         /* Try the real-time transport first. If /api/realtime is not
            implemented, fall back to the already-tested recorder path. */

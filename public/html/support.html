@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Support disaster relief and volunteer response"><title>ChronicAI | Support & Volunteer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="../css/global.css"><link rel="stylesheet" href="../css/support.css">
+</head>
+<body class="support-page">
+  <header class="support-topbar"><a href="index.html" class="support-brand"><i class="fa-solid fa-shield-heart"></i><span>ChronicAI<small>SUPPORT & VOLUNTEER</small></span></a><a href="index.html" class="support-back"><i class="fa-solid fa-arrow-left"></i> Back to home</a></header>
+  <main class="support-shell">
+    <section class="support-hero"><span class="support-kicker"><i class="fa-solid fa-hand-holding-heart"></i> COMMUNITY RESPONSE NETWORK</span><h1>Support response efforts.</h1><p>Select a way to assist verified disaster-management work. Submitted information is reviewed by the relevant response team.</p></section>
+    <section class="support-options-grid" aria-label="Support options">
+      <article class="support-card financial"><div class="support-card-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div><h2>Donate Funds</h2><p>Provide financial support for urgent relief and recovery work.</p><button type="button" data-category="financial_donation">Provide Support <i class="fa-solid fa-arrow-right"></i></button></article>
+      <article class="support-card resources"><div class="support-card-icon"><i class="fa-solid fa-box-open"></i></div><h2>Donate Resources</h2><p>Provide food, medicine, water, equipment, transport, or shelter support.</p><button type="button" data-category="resource_donation">Provide Support <i class="fa-solid fa-arrow-right"></i></button></article>
+      <article class="support-card volunteer"><div class="support-card-icon"><i class="fa-solid fa-people-carry-box"></i></div><h2>Volunteer Support</h2><p>Assist with first aid, rescue support, distribution, and communication tasks.</p><button type="button" data-category="civic_volunteer">Register Interest <i class="fa-solid fa-arrow-right"></i></button></article>
+    </section>
+    <section class="support-form-panel" id="supportFormPanel" hidden>
+      <div class="support-form-heading"><div><span class="support-kicker">SECURE REGISTRATION</span><h2 id="formTitle">Support request</h2><p id="formStepText">Step 1 of 2 · Contact and verification</p></div><button class="support-close" id="closeForm" type="button" aria-label="Close form"><i class="fa-solid fa-xmark"></i></button></div>
+      <div class="support-progress"><span id="progressBar"></span></div>
+      <form id="supportForm" novalidate>
+        <input type="hidden" id="category" name="category"><fieldset><legend>Personal information</legend><div class="support-form-grid"><label>Full Name *<input name="fullName" required></label><label>Mobile Number *<input name="mobile" type="tel" required pattern="[0-9+() -]{7,20}"></label><label>Alternate Mobile<input name="alternateMobile" type="tel"></label><label>Email Address *<input name="email" type="email" required></label></div></fieldset>
+        <fieldset><legend>Current location</legend><div class="support-form-grid"><label class="wide location-field"><span>Current Location</span><div><input name="currentLocation" id="currentLocation" placeholder="Optional; permission required"><button type="button" id="useLocation"><i class="fa-solid fa-location-crosshairs"></i> Use GPS</button></div></label></div></fieldset>
+        <fieldset><legend id="helpLegend">Support details</legend><div id="dynamicFields" class="support-form-grid"></div></fieldset>
+        <label class="consent-row"><input name="terms" type="checkbox" required> I agree to the terms and privacy notice. *</label><label class="consent-row"><input name="contactConsent" type="checkbox" required> I consent to be contacted by the authorized disaster-management team. *</label><p class="support-privacy"><i class="fa-solid fa-lock"></i> Never submit passwords, OTPs, CVVs or card credentials. Location is collected only with your permission.</p><div class="support-form-actions"><button type="button" class="support-secondary" id="previousStep" hidden>Previous</button><button type="submit" class="support-submit" id="submitSupport">Submit Support Request <i class="fa-solid fa-arrow-right"></i></button></div><p class="support-message" id="supportMessage" role="alert"></p>
+      </form>
+    </section>
+    <section class="support-success" id="supportSuccess" hidden><i class="fa-solid fa-circle-check"></i><h2>Thank You for Your Support</h2><p>Your submission has been received. An authorized team will review it and contact you if required.</p><strong id="requestIdOutput"></strong><a href="index.html">Return to ChronicAI</a></section>
+  </main>
+  <script type="module" src="../js/support.js"></script>
+</body></html>

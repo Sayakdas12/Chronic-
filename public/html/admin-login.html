@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ChronicAI | Government Login</title>
+  <title>ChronicAI | Government Portal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="../css/admin-dashboard.css">
   <script type="module" src="../js/admin-login.js"></script>
@@ -16,12 +16,16 @@
       <h1>Government access</h1>
       <p class="auth-copy">Open the local operations dashboard to monitor emergencies and coordinate response.</p>
       <form id="adminLoginForm">
+        <label for="adminEmail">Government email</label>
+        <input id="adminEmail" name="email" type="email" autocomplete="username" placeholder="admin@chronic" required>
+        <label for="adminPassword">Password</label>
+        <input id="adminPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required>
         <button class="primary-action" type="submit" id="loginButton"><i class="fa-solid fa-arrow-right"></i> Open government dashboard</button>
       </form>
       <p class="form-message" id="loginMessage" role="alert"></p>
       <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Return to citizen portal</a>
     </section>
-    <aside class="auth-brief"><span class="eyebrow">LOCAL OPERATIONS CENTER</span><h2>One view for every response.</h2><p>Live cases, rescue needs, resource gaps, and verified updates in one workspace.</p><div class="security-note"><i class="fa-solid fa-laptop"></i><span>Passwordless access is enabled for this local development server only.</span></div></aside>
+    <aside class="auth-brief"><span class="eyebrow">LOCAL OPERATIONS CENTER</span><h2>Unified response overview.</h2><p>View active cases, operational needs, resource gaps, and verified updates in one workspace.</p><div class="security-note"><i class="fa-solid fa-laptop"></i><span>Access is enabled for this local development environment only.</span></div></aside>
   </main>
 </body>
 </html>

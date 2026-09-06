@@ -41,25 +41,25 @@
       "routed": false,
       "routedAt": null
     },
-    "status": "Verified",
+    "status": "Submitted",
     "priority": "High",
     "sla": {
       "hours": 24,
       "deadline": "2026-09-06T08:51:28.914Z",
-      "breached": false,
-      "breachedAt": null
+      "breached": true,
+      "breachedAt": "2026-09-06T13:34:29.667Z"
     },
     "escalation": {
-      "escalated": false,
-      "escalatedAt": null,
-      "escalatedTo": null,
-      "reason": null
+      "escalated": true,
+      "escalatedAt": "2026-09-06T13:34:29.667Z",
+      "escalatedTo": "Higher Civic Authority",
+      "reason": "SLA deadline exceeded without resolution."
     },
     "admin": {
       "assignedTo": null,
       "assignedDepartment": null,
-      "note": "Updated by projitsarkar595@gmail.com",
-      "updatedAt": "2026-09-05T14:25:26.377Z"
+      "note": "Updated by local administrator",
+      "updatedAt": "2026-09-06T16:16:58.544Z"
     },
     "timeline": [
       {
@@ -94,9 +94,71 @@
         "message": "Updated by projitsarkar595@gmail.com",
         "actor": "local@localhost",
         "timestamp": "2026-09-05T14:25:26.377Z"
+      },
+      {
+        "eventId": "EVT-1788701669669-5923",
+        "type": "SLA_BREACH",
+        "status": "Escalated",
+        "message": "SLA deadline exceeded. Report automatically escalated.",
+        "actor": "ChronicAI SLA System",
+        "timestamp": "2026-09-06T13:34:29.667Z"
+      },
+      {
+        "eventId": "EVT-1788701906066-2320",
+        "type": "STATUS_UPDATE",
+        "status": "Resolved",
+        "previousStatus": "Escalated",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T13:38:26.066Z"
+      },
+      {
+        "eventId": "EVT-1788711407179-4448",
+        "type": "STATUS_UPDATE",
+        "status": "Resolved",
+        "previousStatus": "Resolved",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T16:16:47.179Z"
+      },
+      {
+        "eventId": "EVT-1788711408400-3049",
+        "type": "STATUS_UPDATE",
+        "status": "Submitted",
+        "previousStatus": "Resolved",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T16:16:48.400Z"
+      },
+      {
+        "eventId": "EVT-1788711415116-7169",
+        "type": "STATUS_UPDATE",
+        "status": "Verified",
+        "previousStatus": "Submitted",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T16:16:55.116Z"
+      },
+      {
+        "eventId": "EVT-1788711416354-9932",
+        "type": "STATUS_UPDATE",
+        "status": "Submitted",
+        "previousStatus": "Verified",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T16:16:56.354Z"
+      },
+      {
+        "eventId": "EVT-1788711418544-9020",
+        "type": "STATUS_UPDATE",
+        "status": "Submitted",
+        "previousStatus": "Submitted",
+        "message": "Updated by local administrator",
+        "actor": "local@localhost",
+        "timestamp": "2026-09-06T16:16:58.544Z"
       }
     ],
     "createdAt": "2026-09-05T08:51:28.914Z",
-    "updatedAt": "2026-09-05T14:25:26.377Z"
+    "updatedAt": "2026-09-06T16:16:58.544Z"
   }
 ]

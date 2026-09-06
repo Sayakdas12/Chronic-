@@ -40,6 +40,9 @@
         href="../css/global.css"
     >
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+    <link rel="stylesheet" href="../css/rescue-tracking.css">
+
 
     <!-- =====================================================
          PAGE STYLES
@@ -87,6 +90,43 @@
                 #9ca8c7;
 
         }
+
+        .report-timeline {
+            margin-top: 24px;
+            padding: 22px;
+            border: 1px solid rgba(120, 150, 255, 0.10);
+            border-radius: 18px;
+            background: rgba(5, 9, 24, 0.52);
+        }
+
+        .report-timeline h3 {
+            margin: 0 0 16px;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .timeline-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .timeline-event {
+            position: relative;
+            padding: 12px 14px 12px 18px;
+            border-left: 2px solid var(--track-cyan);
+            background: rgba(79, 140, 255, 0.06);
+        }
+
+        .timeline-event strong,
+        .timeline-event span,
+        .timeline-event small {
+            display: block;
+        }
+
+        .timeline-event strong { color: #fff; font-size: 13px; }
+        .timeline-event span { margin-top: 5px; color: #c5d0ea; font-size: 12px; line-height: 1.5; }
+        .timeline-event small { margin-top: 6px; color: var(--track-muted); font-size: 11px; }
+        .timeline-empty { color: var(--track-muted); font-size: 12px; }
 
 
         /* =====================================================
@@ -1629,6 +1669,35 @@
 
             </section>
 
+            <section class="rescue-command-center" aria-labelledby="rescueTrackingTitle">
+                <div class="rescue-command-header">
+                    <div>
+                        <span class="rescue-eyebrow"><i class="fa-solid fa-satellite-dish"></i> Authorized response network</span>
+                        <h2 id="rescueTrackingTitle">Live Rescue Tracking</h2>
+                        <p>See permitted emergency resources responding near your approved or current location.</p>
+                    </div>
+                    <div class="rescue-connection-pill" id="rescueConnectionStatus"><span></span> Connecting to live tracking</div>
+                </div>
+                <div class="rescue-toolbar">
+                    <label class="rescue-location-input"><span>Tracking location</span><div><i class="fa-solid fa-location-crosshairs"></i><input id="rescueLocationInput" type="search" placeholder="Use GPS or search a location" autocomplete="off"><button id="rescueLocationButton" type="button">Use current location</button></div></label>
+                    <div class="rescue-filters" role="group" aria-label="Rescue vehicle filters">
+                        <button class="active" data-rescue-filter="all" type="button">All</button><button data-rescue-filter="police" type="button">Police</button><button data-rescue-filter="ambulance" type="button">Ambulance</button><button data-rescue-filter="fire" type="button">Fire</button><button data-rescue-filter="rescue" type="button">Rescue teams</button>
+                    </div>
+                </div>
+                <div class="rescue-grid">
+                    <aside class="rescue-overview-panel">
+                        <span class="rescue-eyebrow">Response picture</span>
+                        <h3>Nearby Rescue</h3>
+                        <div class="rescue-count-grid"><div><strong id="rescueAmbulanceCount">0</strong><span>Ambulances</span></div><div><strong id="rescuePoliceCount">0</strong><span>Police</span></div><div><strong id="rescueFireCount">0</strong><span>Fire</span></div><div><strong id="rescueTeamCount">0</strong><span>Teams</span></div></div>
+                        <div class="rescue-incident-card" id="rescueIncidentCard"><span class="rescue-eyebrow">Assigned incident</span><strong id="rescueIncidentTitle">No active emergency selected</strong><p id="rescueIncidentStatus">Submit a request to see an assigned authorized resource here.</p></div>
+                        <div class="rescue-source-note">Only intentionally shared agency GPS data appears here. Offline resources are marked stale.</div>
+                    </aside>
+                    <div class="rescue-map-shell"><div id="rescueMap" aria-label="Live rescue vehicle map"></div><div class="rescue-map-legend"><span><i class="rescue-legend-user"></i> You</span><span><i class="rescue-legend-ambulance"></i> Ambulance</span><span><i class="rescue-legend-police"></i> Police</span><span><i class="rescue-legend-fire"></i> Fire</span><span><i class="rescue-legend-rescue"></i> Rescue</span></div></div>
+                    <aside class="rescue-nearby-panel"><div class="rescue-panel-title"><div><span class="rescue-eyebrow">Authorized vehicles</span><h3>Live units</h3></div><strong id="rescueVehicleCount">0</strong></div><div id="rescueVehicleList" class="rescue-vehicle-list"><div class="rescue-empty"><i class="fa-solid fa-satellite-dish"></i><span>Waiting for authorized vehicle data.</span></div></div></aside>
+                </div>
+                <div class="rescue-selected-panel" id="rescueSelectedPanel" hidden><div><span class="rescue-eyebrow">Selected response resource</span><h3 id="selectedRescueTitle">No vehicle selected</h3><p id="selectedRescueMeta">Select a live unit to see its status and route.</p></div><div class="rescue-selected-actions"><button id="viewRescueRouteButton" type="button"><i class="fa-solid fa-route"></i> View live route</button><a id="rescueContactButton" href="#" hidden><i class="fa-solid fa-phone"></i> Call agency</a></div></div>
+            </section>
+
 
 
             <!-- =================================================
@@ -2082,6 +2151,14 @@
                         </div>
 
 
+                        <section class="report-timeline" aria-labelledby="reportTimelineTitle">
+                            <h3 id="reportTimelineTitle"><i class="fa-solid fa-clock-rotate-left"></i> Status history</h3>
+                            <div id="reportTimeline" class="timeline-list">
+                                <div class="timeline-empty">Status updates will appear here.</div>
+                            </div>
+                        </section>
+
+
 
                         <!-- Actions -->
 
@@ -2169,6 +2246,9 @@
     <!-- =====================================================
          TRACK SCRIPT
     ====================================================== -->
+
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+        <script type="module" src="../js/rescue-tracking.js"></script>
 
     <script>
 
@@ -2272,6 +2352,12 @@
         const statusText =
             document.getElementById(
                 "statusText"
+            );
+
+
+        const reportTimeline =
+            document.getElementById(
+                "reportTimeline"
             );
 
 
@@ -2630,6 +2716,26 @@
         }
 
 
+        function renderTimeline(timeline) {
+
+            if (!reportTimeline) {
+                return;
+            }
+
+            const events = Array.isArray(timeline) ? timeline.slice().reverse() : [];
+
+            reportTimeline.innerHTML = events.length
+                ? events.map((event) => `
+                    <article class="timeline-event">
+                        <strong>${escapeHTML(event.status || event.type || "Report update")}</strong>
+                        <span>${escapeHTML(event.message || "Report status updated.")}</span>
+                        <small>${escapeHTML(formatDate(event.timestamp || event.createdAt))}${event.actor ? ` · ${escapeHTML(event.actor)}` : ""}</small>
+                    </article>
+                `).join("")
+                : `<div class="timeline-empty">No status updates have been recorded yet.</div>`;
+        }
+
+
 
         /* =====================================================
            SHOW REPORT
@@ -2908,6 +3014,13 @@
                     );
 
                 }
+
+                const timelineResponse = await fetch(
+                    `${API_BASE}/api/reports/${encodeURIComponent(reportId)}/timeline`,
+                    { headers: { "Accept": "application/json" } }
+                );
+                const timelineData = await timelineResponse.json().catch(() => ({}));
+                renderTimeline(timelineResponse.ok ? timelineData.timeline : report.timeline);
 
 
                 showReport(

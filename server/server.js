@@ -2,15 +2,35 @@
 // The primary process supervises two identical workers running firebase.js.
 
 import cluster from "node:cluster";
+import net from "node:net";
 import os from "node:os";
+import { pathToFileURL } from "node:url";
 
-const port = Number(process.env.PORT) || 3000;
+export async function getAvailablePort(preferredPort, host = "0.0.0.0") {
+	for (let candidate = Number(preferredPort) || 3000; candidate < (Number(preferredPort) || 3000) + 25; candidate += 1) {
+		const isFree = await new Promise((resolve) => {
+			const tester = net.createServer();
+			tester.once("error", () => resolve(false));
+			tester.once("listening", () => {
+				tester.close(() => resolve(true));
+			});
+			tester.listen(candidate, host);
+		});
+
+		if (isFree) return candidate;
+	}
+
+	return Number(preferredPort) || 3000;
+}
+
+const preferredPort = Number(process.env.PORT) || 3000;
+const port = await getAvailablePort(preferredPort);
 const workerCount = Math.max(2, Number(process.env.HA_WORKERS) || 2);
 const heartbeatIntervalMs = Math.max(1000, Number(process.env.HA_HEARTBEAT_MS) || 2000);
 const heartbeatTimeoutMs = Math.max(heartbeatIntervalMs * 2, Number(process.env.HA_HEARTBEAT_TIMEOUT_MS) || 7000);
 const maxRssMb = Math.max(128, Number(process.env.HA_MAX_RSS_MB) || 768);
 
-if (cluster.isPrimary) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href && cluster.isPrimary) {
 	cluster.schedulingPolicy = cluster.SCHED_RR;
 	const workers = new Map();
 	let restartTimer;
@@ -19,9 +39,10 @@ if (cluster.isPrimary) {
 		console.log(`[HA ${new Date().toISOString()}] ${message}${details ? ` ${details}` : ""}`);
 	}
 
-	function startWorker() {
+	function startWorker(index = 0) {
 		const worker = cluster.fork({
 			CHRONICAI_WORKER: "true",
+			CHRONICAI_LISTEN: index === 0 ? "true" : "false",
 			PORT: String(port)
 		});
 		workers.set(worker.id, { worker, lastHeartbeat: Date.now(), ready: false });
@@ -32,7 +53,7 @@ if (cluster.isPrimary) {
 			state.ready = true;
 			state.health = message;
 		});
-		log(`Worker ${worker.id} started`, `pid=${worker.process.pid}`);
+		log(`Worker ${worker.id} started`, `pid=${worker.process.pid} listen=${index === 0 ? "enabled" : "disabled"}`);
 	}
 
 	function scheduleWorkerStart() {
@@ -43,7 +64,7 @@ if (cluster.isPrimary) {
 		}, 500);
 	}
 
-	for (let index = 0; index < workerCount; index += 1) startWorker();
+	for (let index = 0; index < workerCount; index += 1) startWorker(index);
 
 	setInterval(() => {
 		const now = Date.now();
@@ -80,6 +101,6 @@ if (cluster.isPrimary) {
 	process.on("SIGTERM", () => shutdown("SIGTERM"));
 
 	log("Primary load balancer online", `pid=${process.pid} port=${port} workers=${workerCount} hostCpus=${os.cpus().length}`);
-} else {
+} else if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 	import("./firebase.js");
 }

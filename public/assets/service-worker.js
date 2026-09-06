@@ -2,7 +2,7 @@
 const OFFLINE_URLS = [
   "/html/index.html",
   "/html/citizen.html",
-  "/html/dashboard.html",
+  "/html/index.html",
   "/html/risk-dashboard.html",
   "/html/journey.html",
   "/html/life-helper.html",

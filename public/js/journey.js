@@ -276,7 +276,7 @@ document.addEventListener(
 function initializeApp() {
 
     console.log(
-        "ðŸ›¡ï¸ SafeJourney starting..."
+        "🛡️ SafeJourney starting..."
     );
 
 
@@ -296,7 +296,7 @@ function initializeApp() {
 
 
     console.log(
-        "âœ… SafeJourney initialized."
+        "✅ SafeJourney initialized."
     );
 
 }
@@ -368,7 +368,7 @@ function switchSection(
     const titles = {
 
         journey:
-            "Start Your Journey",
+            "Start your journey",
 
         map:
             "Live Map",
@@ -911,7 +911,7 @@ async function startJourney() {
                 false;
 
             confirmStartJourney.innerHTML =
-                "Allow & Start Journey";
+                "Allow and start journey";
 
         }
 
@@ -1594,6 +1594,8 @@ function initializeMap() {
 
     mapInitialized =
         true;
+
+    window.safeJourneyMap = map;
 
 
     console.log(
@@ -2410,7 +2412,7 @@ function stopJourney() {
             false;
 
         startJourneyBtn.textContent =
-            "ðŸ“ Start Journey";
+            "Begin journey";
 
     }
 

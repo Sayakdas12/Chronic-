@@ -176,7 +176,7 @@ document.addEventListener("submit", async event => {
     longitude: Number($("personLongitude")?.value) || null,
     lastSeenDate: $("lastSeenDate").value, details: $("personDetails").value.trim(),
     contactInfo: $("contactInfo").value.trim(), photoUrl: "",
-    locationApproved: $("locationApproved").checked, status: "Active", approved: true,
+    locationApproved: $("locationApproved").checked, status: "Pending", approved: false,
     reporterUid: state.user.uid, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
   };
   try {
@@ -187,11 +187,6 @@ document.addEventListener("submit", async event => {
     const newRef = push(ref(database, "missingPersons"));
     record.photoUrl = photoUrl;
     await withTimeout(set(newRef, record), "Private report save");
-    await withTimeout(set(ref(database, `missingPublic/${newRef.key}`), {
-      name: record.name, age: record.age, location: record.location, lastSeenDate: record.lastSeenDate,
-      details: record.details, photoUrl: record.photoUrl, status: record.status, approved: true,
-      reporterUid: record.reporterUid, latitude: record.latitude, longitude: record.longitude, updatedAt: record.updatedAt
-    }), "Public alert publish");
     knownIds.push(newRef.key);
     localStorage.setItem("missingPersonReportIds", JSON.stringify(knownIds));
     message("reportMessage", "Alert published successfully.", true);

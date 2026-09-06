@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Request disaster assistance from ReliefConnect.">
-  <title>ReliefConnect | Request Help</title>
+  <meta name="description" content="Request disaster assistance from ChronicAI.">
+  <title>ChronicAI | Request Assistance</title>
   <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
   <script src="../js/auth-guard.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -14,7 +14,7 @@
   <header class="request-header">
     <a class="request-brand" href="index.html">
       <span class="request-brand-mark"><i class="fa-solid fa-plus"></i></span>
-      <span><strong>ReliefConnect</strong><small>DISASTER ASSISTANCE</small></span>
+      <span><strong>ChronicAI</strong><small>DISASTER ASSISTANCE</small></span>
     </a>
     <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back home</a>
   </header>
@@ -22,8 +22,8 @@
   <main class="request-shell">
     <section class="request-intro">
       <span class="eyebrow"><i class="fa-solid fa-life-ring"></i> CITIZEN SUPPORT</span>
-      <h1>Request <span>Help</span></h1>
-      <p>Tell us what is happening. ReliefConnect will analyze your request, route it to the right team, and help you track the response.</p>
+      <h1>Request <span>Assistance</span></h1>
+      <p>Share the situation details. ChronicAI will assess the request, route it to the appropriate team, and help track the response.</p>
     </section>
 
     <section class="request-layout" aria-label="Disaster assistance request">
@@ -47,9 +47,9 @@
 
         <div class="field-group">
           <label for="requestDescription">Describe the situation</label>
-          <textarea id="requestDescription" rows="5" required placeholder="What happened? How many people need help? Is anyone in immediate danger?"></textarea>
+          <textarea id="requestDescription" rows="5" required placeholder="Describe the situation, affected people, and any immediate risk."></textarea>
           <div class="voice-row">
-            <button type="button" class="text-button" id="voiceButton"><i class="fa-solid fa-microphone"></i> Speak instead</button>
+            <button type="button" class="text-button" id="voiceButton"><i class="fa-solid fa-microphone"></i> Use voice input</button>
             <span id="voiceStatus" aria-live="polite">Text or voice description</span>
           </div>
         </div>
@@ -58,7 +58,7 @@
           <label>Current location</label>
           <div class="location-row">
             <input id="locationText" placeholder="Share your location or enter an address" required>
-            <button type="button" class="outline-button" id="locationButton"><i class="fa-solid fa-location-crosshairs"></i> Use location</button>
+            <button type="button" class="outline-button" id="locationButton"><i class="fa-solid fa-location-crosshairs"></i> Use current location</button>
           </div>
           <small class="field-hint" id="locationStatus">Location is used only to route your request.</small>
         </div>
@@ -94,7 +94,7 @@
 
     <section class="success-card hidden" id="successCard" aria-live="polite">
       <div class="success-icon"><i class="fa-solid fa-check"></i></div>
-      <span class="eyebrow">REQUEST CREATED</span><h2>Help is on the way</h2><p>Your request has been assigned a unique ID. Save it to track updates.</p>
+      <span class="eyebrow">REQUEST CREATED</span><h2>Request submitted</h2><p>Your request has been assigned a unique ID. Save it to track updates.</p>
       <div class="request-id" id="requestId"></div>
       <div class="tracking-steps"><span class="current">Submitted</span><span>Analyzing</span><span>Routed</span><span>In Progress</span><span>Resolved</span></div>
       <div class="success-actions"><a class="primary-button" id="trackRequestButton" href="#"><i class="fa-solid fa-route"></i> Track request</a><a class="outline-button" href="request.html">Help someone else</a></div>

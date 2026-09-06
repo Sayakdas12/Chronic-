@@ -1,0 +1,31 @@
+import { auth } from "./firebase-client.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+const $ = (id) => document.getElementById(id);
+const form = $("supportForm");
+const panel = $("supportFormPanel");
+const success = $("supportSuccess");
+const message = $("supportMessage");
+const dynamicFields = $("dynamicFields");
+let currentUser = null;
+let submitting = false;
+
+const definitions = {
+  financial_donation: { title: "Financial Donation", fields: `<label>Donation Amount<input name="donationAmount" inputmode="decimal" placeholder="Amount and currency"></label><label>Preferred Payment Method<select name="paymentMethod"><option value="">Select method</option><option>Bank transfer (details provided securely later)</option><option>UPI (details provided securely later)</option><option>Contact me about options</option></select></label><label>Donation Purpose<input name="donationPurpose" placeholder="General relief, medical, shelter..."></label><label class="wide">Additional Message<textarea name="additionalMessage" rows="3"></textarea></label>` },
+  resource_donation: { title: "Resource Donation", fields: `<label>Resource Type *<input name="resourceType" required placeholder="Food, water, medicine, clothing..."></label><label>Resource Name *<input name="resourceName" required></label><label>Quantity *<input name="quantity" required></label><label>Available Location *<input name="availableLocation" required></label><label>Availability Date / Time<input name="availability" type="datetime-local"></label><label>Transportation Available?<select name="transportation"><option>No</option><option>Yes</option></select></label><label>Approximate Capacity<input name="capacity"></label><label class="wide">Additional Details<textarea name="additionalDetails" rows="3"></textarea></label>` },
+  civic_volunteer: { title: "Civic Volunteer Registration", fields: `<label class="wide">Volunteer Skills *<input name="skills" required placeholder="First aid, driving, logistics..."></label><label>Previous Experience<textarea name="experience" rows="2"></textarea></label><label>Preferred Volunteer Role<select name="preferredRole"><option>Response support</option><option>First aid</option><option>Transportation</option><option>Distribution</option><option>Communication</option><option>Crowd management</option></select></label><label>Availability<input name="availability"></label><label>Available Days<input name="availableDays"></label><label>Emergency Availability?<select name="emergencyAvailability"><option>No</option><option>Yes</option></select></label><label>Vehicle Available?<select name="vehicleAvailable"><option>No</option><option>Yes</option></select></label><label>First Aid Training?<select name="firstAid"><option>No</option><option>Yes</option></select></label><label>Languages Known<input name="languages"></label><label>Maximum Travel Distance<input name="travelDistance" type="number" min="0" placeholder="Kilometres"></label><label class="wide">Additional Skills / Details<textarea name="additionalDetails" rows="3"></textarea></label>` }
+};
+
+function showMessage(text, error = true) { message.textContent = text; message.style.color = error ? "#f6bd66" : "#5bd5a5"; }
+function categoryFromQuery() { const value = new URLSearchParams(location.search).get("category"); return definitions[value] ? value : ""; }
+function openForm(category) { const definition = definitions[category]; if (!definition) return; $("category").value = category; $("formTitle").textContent = definition.title; $("helpLegend").textContent = definition.title + " details"; dynamicFields.innerHTML = definition.fields; panel.hidden = false; success.hidden = true; panel.scrollIntoView({ behavior: "smooth", block: "start" }); }
+function collectData() { const data = Object.fromEntries(new FormData(form).entries()); delete data.terms; delete data.contactConsent; data.currentLocation = data.currentLocation || "Not provided"; return data; }
+function setupLocation() { $("useLocation").addEventListener("click", () => { if (!navigator.geolocation) return showMessage("Location is not available in this browser."); $("useLocation").disabled = true; navigator.geolocation.getCurrentPosition((position) => { $("currentLocation").value = `${position.coords.latitude.toFixed(5)}, ${position.coords.longitude.toFixed(5)}`; $("useLocation").disabled = false; }, () => { showMessage("Location permission was not granted."); $("useLocation").disabled = false; }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }); }); }
+async function submit(event) { event.preventDefault(); if (submitting || !form.reportValidity()) return; if (!currentUser) return showMessage("Please sign in before submitting a support request."); submitting = true; const button = $("submitSupport"); button.disabled = true; button.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending securely...`; showMessage("", false); try { const response = await fetch("/api/support-requests", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${await currentUser.getIdToken()}` }, body: JSON.stringify({ category: $("category").value, personalInfo: collectData() }) }); const result = await response.json(); if (!response.ok || !result.success) throw new Error(result.error || "Unable to submit request."); panel.hidden = true; $("requestIdOutput").textContent = `Request ID: ${result.requestId}`; success.hidden = false; success.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (error) { showMessage(error.message); } finally { submitting = false; button.disabled = false; button.innerHTML = `Submit Support Request <i class="fa-solid fa-arrow-right"></i>`; } }
+
+document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => openForm(button.dataset.category)));
+$("closeForm").addEventListener("click", () => { panel.hidden = true; });
+form.addEventListener("submit", submit);
+setupLocation();
+onAuthStateChanged(auth, (user) => { currentUser = user; if (!user) showMessage("Sign in is required before submitting. You can complete the form first."); });
+const initialCategory = categoryFromQuery(); if (initialCategory) openForm(initialCategory);

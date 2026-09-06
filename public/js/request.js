@@ -21,6 +21,7 @@ const voiceStatus = document.getElementById("voiceStatus");
 
 let requestDraft = null;
 let imageData = null;
+let approvedCoordinates = null;
 
 function setMessage(text, success = false) {
 	message.textContent = text;
@@ -30,10 +31,11 @@ function setMessage(text, success = false) {
 async function readApiResponse(response) {
 	const contentType = response.headers.get("content-type") || "";
 	const body = await response.text();
+	const appOrigin = window.location.origin;
 
 	if (!contentType.includes("application/json")) {
 		if (body.trimStart().startsWith("<!DOCTYPE") || body.trimStart().startsWith("<html")) {
-			throw new Error("The API returned a web page. Open this page through http://localhost:3000 and make sure the server is running.");
+			throw new Error(`The API returned a web page. Open this page through ${appOrigin} and make sure the server is running.`);
 		}
 		throw new Error(`The server returned an unexpected response (${response.status}).`);
 	}
@@ -103,6 +105,7 @@ document.getElementById("locationButton").addEventListener("click", () => {
 	navigator.geolocation.getCurrentPosition(
 		position => {
 			const { latitude, longitude } = position.coords;
+			approvedCoordinates = { latitude, longitude, accuracy: position.coords.accuracy || null };
 			locationInput.value = `Current location (${latitude.toFixed(5)}, ${longitude.toFixed(5)})`;
 			locationStatus.textContent = "Location captured for routing.";
 		},
@@ -111,19 +114,44 @@ document.getElementById("locationButton").addEventListener("click", () => {
 	);
 });
 
+async function createEmergencyRequest(reportId) {
+	if (!approvedCoordinates) return null;
+	try {
+		const { auth } = await import("./firebase-client.js");
+		const user = auth.currentUser || await new Promise(resolve => {
+			let unsubscribe;
+			import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js").then(({ onAuthStateChanged }) => {
+				unsubscribe = onAuthStateChanged(auth, current => { unsubscribe(); resolve(current); });
+			});
+		});
+		if (!user) return null;
+		const response = await fetch(`${API_BASE}/api/emergency-requests`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json", Authorization: `Bearer ${await user.getIdToken()}` },
+			body: JSON.stringify({ latitude: approvedCoordinates.latitude, longitude: approvedCoordinates.longitude, emergencyType: selectedHelpType(), reportId: reportId || "" })
+		});
+		const result = await readApiResponse(response);
+		if (!response.ok || !result.success) throw new Error(result.error || "Emergency dispatch is unavailable.");
+		return result.incidentId || null;
+	} catch (error) {
+		console.warn("Emergency request tracking could not be created", error);
+		return null;
+	}
+}
+
 if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
 	const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 	voiceButton.addEventListener("click", () => {
 		const recognition = new SpeechRecognition();
 		recognition.lang = "en-IN";
 		recognition.interimResults = false;
-		voiceStatus.textContent = "Listening... speak now";
+		voiceStatus.textContent = "Listening for speech...";
 		recognition.onresult = event => {
 			const spokenText = event.results[0][0].transcript;
 			descriptionInput.value = `${descriptionInput.value} ${spokenText}`.trim();
-			voiceStatus.textContent = "Voice description added.";
+			voiceStatus.textContent = "Speech input captured.";
 		};
-		recognition.onerror = () => { voiceStatus.textContent = "Voice input was unavailable."; };
+		recognition.onerror = () => { voiceStatus.textContent = "Voice input is unavailable."; };
 		recognition.onend = () => { if (voiceStatus.textContent.includes("Listening")) voiceStatus.textContent = "Text or voice description"; };
 		recognition.start();
 	});
@@ -186,8 +214,9 @@ confirmButton.addEventListener("click", async () => {
 		const result = await readApiResponse(response);
 		if (!response.ok || !result.success) throw new Error(result.error || "Unable to create request.");
 		const id = result.report?.reportId || result.reportId;
+		const incidentId = await createEmergencyRequest(id);
 		requestIdOutput.textContent = id || "REQUEST-CREATED";
-		trackButton.href = `track.html?id=${encodeURIComponent(id || "")}`;
+		trackButton.href = incidentId ? `track.html?id=${encodeURIComponent(id || "")}&incidentId=${encodeURIComponent(incidentId)}` : `track.html?id=${encodeURIComponent(id || "")}`;
 		reviewCard.classList.add("hidden");
 		document.querySelector(".request-layout").classList.add("hidden");
 		successCard.classList.remove("hidden");

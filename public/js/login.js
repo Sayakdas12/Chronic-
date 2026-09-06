@@ -108,6 +108,16 @@ const currentPage =
 const API_BASE =
     window.location.origin;
 
+const LOCAL_DEMO_CREDENTIALS = Object.freeze({
+    email: "demo@localhost",
+    password: "LocalDemo123!"
+});
+
+const IS_LOCAL_DEV_HOST =
+    ["localhost", "127.0.0.1", "::1"].includes(
+        window.location.hostname
+    );
+
 // ============================================================
 // LOCAL SESSION KEYS
 // ============================================================
@@ -3953,6 +3963,39 @@ function setupLoginForm() {
         loginButton.innerHTML =
             '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
         loginMessage.textContent = "";
+
+        if (
+            IS_LOCAL_DEV_HOST &&
+            email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email &&
+            password === LOCAL_DEMO_CREDENTIALS.password
+        ) {
+
+            saveLocalUser({
+                uid: "local-demo-citizen",
+                name: "Local Demo Citizen",
+                email: LOCAL_DEMO_CREDENTIALS.email,
+                role: "citizen",
+                loggedIn: true
+            });
+
+            loginMessage.textContent =
+                "Local demo login successful. Redirecting...";
+            loginMessage.style.color = "#4ade80";
+
+            const requestedTarget =
+                new URLSearchParams(window.location.search)
+                    .get("redirect");
+
+            const redirectTarget =
+                requestedTarget &&
+                !requestedTarget.includes("://") &&
+                !requestedTarget.startsWith("/")
+                    ? requestedTarget
+                    : "index.html";
+
+            window.location.href = redirectTarget;
+            return;
+        }
 
         try {
 

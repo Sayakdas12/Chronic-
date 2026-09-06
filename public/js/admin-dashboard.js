@@ -30,7 +30,7 @@ async function api(path, options = {}) {
 }
 
 function renderMetrics(stats) {
-    const metrics = [["Total reports", stats.totalReports, "All submitted cases"], ["Active emergencies", stats.activeEmergencies, "Pending response"], ["Critical cases", stats.criticalCases, "Severe or critical"], ["People needing help", stats.peopleNeedingHelp, "Rescue signals"], ["Missing persons", stats.missingPersons, "Open records"], ["Trapped / stranded", stats.trappedPeople, "Urgent assistance"], ["Resource requests", stats.resourceRequests, "Supply signals"], ["Damaged assets", stats.damagedAssets, "Houses & infrastructure"], ["Resolved cases", stats.resolvedCases, "Closed or resolved"]];
+    const metrics = [["Total reports", stats.totalReports, "All submitted cases"], ["Active emergencies", stats.activeEmergencies, "Pending response"], ["Critical cases", stats.criticalCases, "Severe or critical"], ["People needing help", stats.peopleNeedingHelp, "Rescue signals"], ["Missing persons", stats.missingPersons, "Open records"], ["Trapped / stranded", stats.trappedPeople, "Urgent assistance"], ["Resource requests", stats.resourceRequests, "Supply signals"], ["Damaged assets", stats.damagedAssets, "Houses & infrastructure"], ["Resolved cases", stats.resolvedCases, "Closed or resolved"], ["Support requests", stats.supportTotal, "All support submissions"], ["Financial donations", stats.financialDonations, "Support offers"], ["Resource donations", stats.resourceDonations, "Supply offers"], ["Civic volunteers", stats.civicVolunteers, "Volunteer registrations"], ["Support pending", stats.supportPending, "Awaiting review"], ["Support under review", stats.supportUnderReview, "Admin action"], ["Support completed", stats.supportCompleted, "Closed support requests"]];
     $("metricGrid").innerHTML = metrics.map(([label, value, note]) => `<article class="metric"><span>${escapeHTML(label)}</span><strong>${Number(value) || 0}</strong><small>${escapeHTML(note)}</small></article>`).join("");
 }
 
@@ -89,12 +89,33 @@ async function loadDashboard() {
         currentRole = data.user.role;
         $("officialName").textContent = data.user.name || data.user.email;
         $("roleName").textContent = data.user.role.replaceAll("_", " ");
-        renderMetrics(data.stats); renderAlerts(data.alerts); renderMissing(data.missingPersons); renderChart(data.reports); renderMap(data.locationSignals || []); renderTypes(data.reports);
+        renderMetrics(data.stats); renderAlerts(data.alerts); renderMissing(data.missingPersons); renderChart(data.reports); renderMap(data.locationSignals || []); renderTypes(data.reports); await loadSupportRequests();
         $("paginationLabel").textContent = `${data.pagination.total} cases · page ${data.pagination.page}`;
         document.querySelectorAll(".case-table tbody").forEach((node) => { node.innerHTML = ""; });
-        $("caseRows").innerHTML = data.reports.length ? data.reports.map((report) => { const severity = String(report.analysis?.severity || report.priority || "medium").toLowerCase(); const canWrite = ["admin", "super_admin", "government_officer", "rescue_coordinator"].includes(currentRole); return `<tr><td><strong>${escapeHTML(report.reportId)}</strong><small>${escapeHTML(report.analysis?.problem || report.description || "Civic report")}</small></td><td>${escapeHTML(report.location || "Unavailable")}</td><td><span class="pill ${severity}">${escapeHTML(report.analysis?.severity || report.priority || "Medium")}</span></td><td>${escapeHTML(report.status || "Submitted")}</td><td>${canWrite ? `<form class="status-form" data-id="${escapeHTML(report.reportId)}"><select aria-label="Update ${escapeHTML(report.reportId)}"><option>Submitted</option><option>Verified</option><option>Assigned</option><option>In Progress</option><option>Resolved</option></select><button class="case-actions" type="submit">Save</button></form>` : `<small>Read only</small>`}</td></tr>`; }).join("") : `<tr><td colspan="5" class="empty">No cases match the selected filters.</td></tr>`;
+        $("caseRows").innerHTML = data.reports.length ? data.reports.map((report) => { const severity = String(report.analysis?.severity || report.priority || "medium").toLowerCase(); const canWrite = ["admin", "super_admin", "government_officer", "rescue_coordinator"].includes(currentRole); return `<tr><td><strong>${escapeHTML(report.reportId)}</strong><small>${escapeHTML(report.analysis?.problem || report.description || "Civic report")}</small></td><td>${escapeHTML(report.location || "Unavailable")}</td><td><span class="pill ${severity}">${escapeHTML(report.analysis?.severity || report.priority || "Medium")}</span></td><td>${escapeHTML(report.status || "Submitted")}</td><td>${canWrite ? `<div class="case-action-group"><form class="status-form" data-id="${escapeHTML(report.reportId)}"><select aria-label="Update ${escapeHTML(report.reportId)}"><option>Submitted</option><option>Verified</option><option>Assigned</option><option>In Progress</option><option>Resolved</option></select><button class="case-actions" type="submit">Save</button></form><button class="case-delete" type="button" data-id="${escapeHTML(report.reportId)}">Delete</button></div>` : `<small>Read only</small>`}</td></tr>`; }).join("") : `<tr><td colspan="5" class="empty">No cases match the selected filters.</td></tr>`;
         $("caseRows").querySelectorAll(".status-form").forEach((form) => form.addEventListener("submit", updateStatus));
+        $("caseRows").querySelectorAll(".case-delete").forEach((button) => button.addEventListener("click", deleteReport));
     } catch (error) { $("criticalAlert").innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i><div><strong>Dashboard unavailable</strong><span>${escapeHTML(error.message)}</span></div>`; }
+}
+
+async function loadSupportRequests() {
+    const params = new URLSearchParams({ q: $("supportSearchInput")?.value.trim() || "", category: $("supportCategoryFilter")?.value || "", status: $("supportStatusFilter")?.value || "" });
+    try {
+        const data = await api(`/api/admin/support-requests?${params}`);
+        const rows = $("supportRows");
+        if (!rows) return;
+        const requests = data.requests || [];
+        $("supportNewBadge").textContent = `${requests.filter((item) => item.status === "pending").length} pending`;
+        rows.innerHTML = requests.length ? requests.map((item) => {
+            const info = item.personalInfo || {};
+            const category = item.category === "financial_donation" ? "Financial" : item.category === "resource_donation" ? "Resources" : "Volunteer";
+            return `<tr><td><strong>${escapeHTML(item.requestId)}</strong><small>${escapeHTML(info.fullName || "Unnamed")}</small></td><td>${escapeHTML(info.mobile || "Unavailable")}<small>${escapeHTML(info.email || "")}</small></td><td>${category}</td><td>${escapeHTML([info.city, info.district, info.state].filter(Boolean).join(", ") || info.address || "Unavailable")}</td><td>${escapeHTML(item.status)}</td><td><form class="support-status-form" data-support-id="${escapeHTML(item.requestId)}"><select aria-label="Update ${escapeHTML(item.requestId)}"><option value="pending">Pending</option><option value="under_review">Under review</option><option value="approved">Approved</option><option value="contacted">Contacted</option><option value="completed">Completed</option><option value="rejected">Rejected</option></select><button type="submit">Save</button></form></td></tr>`;
+        }).join("") : `<tr><td colspan="6" class="empty">No support requests match the selected filters.</td></tr>`;
+        rows.querySelectorAll(".support-status-form").forEach((form) => {
+            form.querySelector("select").value = requests.find((item) => item.requestId === form.dataset.supportId)?.status || "pending";
+            form.addEventListener("submit", async (event) => { event.preventDefault(); const button = form.querySelector("button"); button.disabled = true; try { await api(`/api/admin/support-requests/${encodeURIComponent(form.dataset.supportId)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: form.querySelector("select").value, adminNotes: `Updated by ${currentUser?.email || "government administrator"}` }) }); await loadSupportRequests(); } catch (error) { alert(error.message); } finally { button.disabled = false; } });
+        });
+    } catch (error) { if ($("supportRows")) $("supportRows").innerHTML = `<tr><td colspan="6" class="empty">Support requests unavailable: ${escapeHTML(error.message)}</td></tr>`; }
 }
 
 async function updateStatus(event) {
@@ -103,6 +124,16 @@ async function updateStatus(event) {
     const button = form.querySelector("button");
     button.disabled = true;
     try { await api(`/api/reports/${encodeURIComponent(form.dataset.id)}/status`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: form.querySelector("select").value, adminNote: `Updated by ${currentUser?.email || "local administrator"}` }) }); await loadDashboard(); } catch (error) { alert(error.message); button.disabled = false; }
+}
+
+async function deleteReport(event) {
+    const button = event.currentTarget;
+    const reportId = button.dataset.id;
+    if (!reportId) return;
+    const confirmed = window.confirm(`Delete report ${reportId}? This action cannot be undone.`);
+    if (!confirmed) return;
+    button.disabled = true;
+    try { await api(`/api/reports/${encodeURIComponent(reportId)}`, { method: "DELETE" }); await loadDashboard(); } catch (error) { alert(error.message); button.disabled = false; }
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -114,3 +145,5 @@ onAuthStateChanged(auth, async (user) => {
 $("logoutButton").addEventListener("click", async () => { await signOut(auth); sessionStorage.removeItem("governmentSession"); window.location.replace("admin-login.html"); });
 $("refreshButton").addEventListener("click", loadDashboard);
 ["searchInput", "severityFilter", "statusFilter", "typeFilter"].forEach((id) => $(id).addEventListener("input", () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(loadDashboard, 250); }));
+["supportSearchInput", "supportCategoryFilter", "supportStatusFilter"].forEach((id) => $(id)?.addEventListener("input", () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(loadSupportRequests, 250); }));
+window.setInterval(() => { if (currentUser || localAdminMode) loadSupportRequests(); }, 30000);

@@ -1011,9 +1011,16 @@ function handleLocationError(
     }
 
 
-    showLocationError(
-        message
-    );
+    const hadSavedLocation =
+        loadSavedLocation(
+            "GPS unavailable. Showing your recently saved location."
+        );
+
+    if (!hadSavedLocation) {
+        showLocationError(
+            message
+        );
+    }
 
 }
 
@@ -2043,12 +2050,70 @@ function loadSavedLocation() {
 
     try {
 
+        const raw =
+            localStorage.getItem(
+                "chronicai_resource_location"
+            );
+
+        if (!raw) {
+            return false;
+        }
+
+        const saved =
+            JSON.parse(raw);
+
+        const isValid =
+            Number.isFinite(Number(saved?.lat)) &&
+            Number.isFinite(Number(saved?.lng)) &&
+            Number.isFinite(Number(saved?.savedAt)) &&
+            Date.now() - Number(saved.savedAt) <= RESOURCE_CONFIG.savedLocationMaxAgeMs;
+
+        if (!isValid) {
+            localStorage.removeItem(
+                "chronicai_resource_location"
+            );
+            return false;
+        }
+
+        userLocation = {
+            lat: Number(saved.lat),
+            lng: Number(saved.lng),
+            accuracy: Number(saved.accuracy) || 100
+        };
+
+        updateUserMarker(
+            userLocation.lat,
+            userLocation.lng,
+            userLocation.accuracy
+        );
+
+        map.setView(
+            [userLocation.lat, userLocation.lng],
+            16,
+            { animate: false }
+        );
+
+        setLocationStatus(
+            "Using your recently saved location. Enable GPS for live updates.",
+            "success"
+        );
+
+        loadNearbyResources();
+        loadAirQuality(
+            userLocation.lat,
+            userLocation.lng
+        );
+
+        return true;
+
+    }
+    catch {
         localStorage.removeItem(
             "chronicai_resource_location"
         );
 
+        return false;
     }
-    catch {}
 
 }
 
@@ -2623,7 +2688,7 @@ function formatAirValue(
         !Number.isFinite(value)
     ) {
 
-        return "â€”";
+        return "—";
 
     }
 
@@ -2992,7 +3057,7 @@ function drawPollutionZone(
                     ${formatAirValue(
                         zone.pm25
                     )}
-                    Âµg/mÂ³
+                    µg/m³
 
                     <br>
 
@@ -3000,23 +3065,23 @@ function drawPollutionZone(
                     ${formatAirValue(
                         zone.pm10
                     )}
-                    Âµg/mÂ³
+                    µg/m³
 
                     <br>
 
-                    NOâ‚‚:
+                    NO₂:
                     ${formatAirValue(
                         zone.no2
                     )}
-                    Âµg/mÂ³
+                    µg/m³
 
                     <br>
 
-                    Oâ‚ƒ:
+                    O₃:
                     ${formatAirValue(
                         zone.o3
                     )}
-                    Âµg/mÂ³
+                    µg/m³
 
                     <br>
 
@@ -3024,7 +3089,7 @@ function drawPollutionZone(
                     ${formatAirValue(
                         zone.co
                     )}
-                    Âµg/mÂ³
+                    µg/m³
 
                     <br><br>
 
@@ -3578,7 +3643,7 @@ function renderPollutionLocationResult(
                             </strong>
 
                             <small>
-                                Âµg/mÂ³
+                                µg/m³
                             </small>
 
                         </div>
@@ -3597,7 +3662,7 @@ function renderPollutionLocationResult(
                             </strong>
 
                             <small>
-                                Âµg/mÂ³
+                                µg/m³
                             </small>
 
                         </div>
@@ -3606,7 +3671,7 @@ function renderPollutionLocationResult(
                         <div class="pollution-place-value">
 
                             <span>
-                                NOâ‚‚
+                                NO₂
                             </span>
 
                             <strong>
@@ -3616,7 +3681,7 @@ function renderPollutionLocationResult(
                             </strong>
 
                             <small>
-                                Âµg/mÂ³
+                                µg/m³
                             </small>
 
                         </div>
@@ -3625,7 +3690,7 @@ function renderPollutionLocationResult(
                         <div class="pollution-place-value">
 
                             <span>
-                                Oâ‚ƒ
+                                O₃
                             </span>
 
                             <strong>
@@ -3635,7 +3700,7 @@ function renderPollutionLocationResult(
                             </strong>
 
                             <small>
-                                Âµg/mÂ³
+                                µg/m³
                             </small>
 
                         </div>
@@ -3654,7 +3719,7 @@ function renderPollutionLocationResult(
                             </strong>
 
                             <small>
-                                Âµg/mÂ³
+                                µg/m³
                             </small>
 
                         </div>
@@ -3853,7 +3918,7 @@ async function showSearchedPollutionOnMap() {
 
 
         mapStatus.textContent =
-            `Pollution map â€” ${location.name}`;
+            `Pollution map — ${location.name}`;
 
     }
     catch (error) {

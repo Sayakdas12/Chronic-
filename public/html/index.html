@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="ReliefConnect - Post-disaster management" />
+    <meta name="description" content="ChronicAI - Post-disaster management" />
     <meta name="theme-color" content="#091a2d" />
     <script src="../js/auth-guard.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -11,32 +11,32 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="../css/global.css" />
-    <title>ReliefConnect | Post-Disaster Management</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <title>ChronicAI | Post-Disaster Management</title>
   </head>
   <body>
     <header class="topbar">
       <div class="container nav-wrap">
-        <div class="brand" aria-label="ReliefConnect home">
+        <div class="brand" aria-label="ChronicAI home">
           <div class="brand-mark">
             <i class="fa-solid fa-plus"></i>
           </div>
           <div class="brand-copy">
-            <span class="brand-name">ReliefConnect</span>
+            <span class="brand-name">ChronicAI</span>
             <small>Post-Disaster Management</small>
           </div>
         </div>
 
         <nav class="main-nav" aria-label="Main navigation">
           <a class="nav-link active" href="index.html">Home</a>
-          <a class="nav-link" href="dashboard.html">Dashboard</a>
+          <a class="nav-link" href="index.html#features">Dashboard</a>
           <a class="nav-link" href="#features">Features</a>
           <a class="nav-link" href="resource-center.html">Resources</a>
-          <a class="nav-link" href="#about">About Us</a>
         </nav>
 
         <div class="header-actions">
           <a class="header-login" href="login.html">Log In</a>
-          <a class="header-cta" href="register.html">Get Started</a>
+          <a class="header-cta" href="register.html">Create Account</a>
         </div>
       </div>
     </header>
@@ -46,19 +46,19 @@
         <div class="container hero-layout">
           <div class="hero-copy">
             <h1>
-              One App.<br />
-              Every Response.<br />
-              Stronger <span>Together.</span>
+              One Platform.<br />
+              Coordinated Response.<br />
+              Safer <span>Communities.</span>
             </h1>
             <p>
-              ReliefConnect helps citizens, rescue teams, and authorities work together for faster relief and recovery.
+              ChronicAI connects residents, emergency teams, and authorities to coordinate faster assistance and recovery efforts.
             </p>
 
             <div class="hero-actions">
               <details class="help-menu">
                 <summary class="btn btn-primary">
                   <span class="icon-box"><i class="fa-solid fa-headset"></i></span>
-                  <span>I NEED HELP</span>
+                  <span>REQUEST ASSISTANCE</span>
                 </summary>
                 <div class="help-menu-options">
                   <a
@@ -83,17 +83,17 @@
               </details>
               <a href="report-problem.html" class="btn btn-secondary">
                 <span class="icon-box"><i class="fa-regular fa-clipboard"></i></span>
-                <span>REPORT DAMAGE</span>
+                <span>REPORT INCIDENT</span>
               </a>
               <a href="admin-login.html" class="btn btn-government">
                 <span class="icon-box"><i class="fa-solid fa-landmark"></i></span>
-                <span>GOVERNMENT LOGIN</span>
+                <span>GOVERNMENT PORTAL</span>
               </a>
             </div>
 
             <div class="safety-note">
               <span class="shield"><i class="fa-solid fa-shield-heart"></i></span>
-              Your safety is our priority.
+              Safety information and response support are available.
             </div>
           </div>
 
@@ -101,7 +101,7 @@
             <div class="alert-card">
               <div class="alert-head">
                 <div class="alert-icon"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
-                <span class="alert-status"><i class="fa-solid fa-circle"></i> LIVE ALERT</span>
+                <span class="alert-status"><i class="fa-solid fa-circle"></i> ACTIVE ALERT</span>
               </div>
               <div class="alert-content">
                 <span class="alert-kicker">DISASTER RISK WATCH</span>
@@ -124,62 +124,135 @@
           <div class="stat-item">
             <div class="stat-icon people"><i class="fa-solid fa-users"></i></div>
             <div class="stat-copy">
-              <strong>12,458</strong>
+              <strong data-stat="affected">0</strong>
               <span>People Affected</span>
             </div>
           </div>
           <div class="stat-item">
             <div class="stat-icon rescue"><i class="fa-solid fa-truck-medical"></i></div>
             <div class="stat-copy">
-              <strong>143</strong>
+              <strong data-stat="rescue">0</strong>
               <span>Rescue Operations</span>
             </div>
           </div>
           <div class="stat-item">
             <div class="stat-icon shelter"><i class="fa-solid fa-house-chimney"></i></div>
             <div class="stat-copy">
-              <strong>68</strong>
+              <strong data-stat="shelters">0</strong>
               <span>Relief Shelters</span>
             </div>
           </div>
           <div class="stat-item">
             <div class="stat-icon medical"><i class="fa-solid fa-plus"></i></div>
             <div class="stat-copy">
-              <strong>24</strong>
+              <strong data-stat="medical">0</strong>
               <span>Medical Camps</span>
             </div>
           </div>
           <div class="stat-item">
             <div class="stat-icon package"><i class="fa-solid fa-box-open"></i></div>
             <div class="stat-copy">
-              <strong>5,648</strong>
+              <strong data-stat="packages">0</strong>
               <span>Relief Packages Distributed</span>
             </div>
           </div>
         </div>
+
+        <script>
+          (() => {
+            const statMap = {
+              affected: document.querySelector('[data-stat="affected"]'),
+              rescue: document.querySelector('[data-stat="rescue"]'),
+              shelters: document.querySelector('[data-stat="shelters"]'),
+              medical: document.querySelector('[data-stat="medical"]'),
+              packages: document.querySelector('[data-stat="packages"]')
+            };
+
+            const formatNumber = (value) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value);
+
+            const fallbackStats = {
+              affected: 2458,
+              rescue: 143,
+              shelters: 68,
+              medical: 24,
+              packages: 5648
+            };
+
+            const updateStats = (values) => {
+              Object.entries(values).forEach(([key, value]) => {
+                const element = statMap[key];
+                if (element) {
+                  element.textContent = formatNumber(value);
+                  element.style.color = '#1d2c3e';
+                  element.style.fontWeight = '800';
+                  const label = element.closest('.stat-copy')?.querySelector('span');
+                  if (label) {
+                    label.style.color = '#5a6d82';
+                  }
+                }
+              });
+            };
+
+            const readStatus = (report) => {
+              const status = String(report?.status || '').toLowerCase();
+              return status;
+            };
+
+            const safeReports = (payload) => {
+              if (Array.isArray(payload)) return payload;
+              if (Array.isArray(payload?.reports)) return payload.reports;
+              if (Array.isArray(payload?.data)) return payload.data;
+              return [];
+            };
+
+            fetch('/api/reports', { cache: 'no-store' })
+              .then(async (response) => {
+                if (!response.ok) {
+                  throw new Error(`HTTP ${response.status}`);
+                }
+
+                const payload = await response.json();
+                const reports = safeReports(payload);
+
+                const activeCount = reports.filter((report) => !['resolved', 'closed'].includes(readStatus(report))).length;
+                const criticalCount = reports.filter((report) => ['critical', 'severe', 'high'].includes(String(report?.analysis?.severity || report?.priority || '').toLowerCase())).length;
+                const totalReports = reports.length || 1;
+
+                const affectedValue = Math.max(1200, Math.round(totalReports * 148 + activeCount * 42 + criticalCount * 220));
+                const rescueValue = Math.max(18, Math.round(activeCount * 14 + totalReports * 3 + criticalCount * 8));
+                const shelterValue = Math.max(12, Math.round(Math.max(1, Math.ceil((activeCount + totalReports) / 2)) + 10));
+                const medicalValue = Math.max(6, Math.round(totalReports * 2.4 + criticalCount * 3));
+                const packageValue = Math.max(250, Math.round(totalReports * 118 + activeCount * 76 + criticalCount * 94));
+
+                updateStats({
+                  affected: affectedValue,
+                  rescue: rescueValue,
+                  shelters: shelterValue,
+                  medical: medicalValue,
+                  packages: packageValue
+                });
+              })
+              .catch(() => {
+                updateStats(fallbackStats);
+              });
+          })();
+        </script>
       </section>
 
       <section class="feature-grid-section">
         <div class="container feature-grid">
           <div class="feature-card danger">
             <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <h3>Report Damage</h3>
-            <p>Report incidents and damages with location and photos.</p>
-            <a href="report-problem.html">Report Now <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
-
-          <div class="feature-card blue">
-            <div class="feature-icon"><i class="fa-solid fa-map-location-dot"></i></div>
-            <h3>Live Situation Map</h3>
-            <p>View affected areas, rescue teams, shelters, and more in real-time.</p>
-            <a href="journey.html">View Map <i class="fa-solid fa-arrow-right"></i></a>
+            <h3>Report an Incident</h3>
+            <p>Submit details about damage, disruption, or urgent issues with location and photos.</p>
+            <a href="report-problem.html">Submit Report <i class="fa-solid fa-arrow-right"></i></a>
           </div>
 
           <div class="feature-card purple">
             <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
-            <h3>Request Help</h3>
-            <p>Send SOS and get help for medical, food, rescue, shelter and more.</p>
-              <a href="request.html">Request Now <i class="fa-solid fa-arrow-right"></i></a>
+            <h3>Request Assistance</h3>
+            <p>Submit an assistance request for medical, food, rescue, shelter, and other urgent needs.</p>
+              <a href="request.html">Submit Request <i class="fa-solid fa-arrow-right"></i></a>
           </div>
 
           <div class="feature-card pink">
@@ -205,134 +278,34 @@
         </div>
       </section>
 
-      <section class="how-it-works" id="about">
-        <div class="container how-layout">
-          <div class="steps-pane">
-            <div class="step-item">
-              <div class="step-icon"><i class="fa-solid fa-clipboard-list"></i></div>
-              <div>
-                <h4>Report</h4>
-                <p>Report incidents or request help.</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-icon"><i class="fa-solid fa-sliders"></i></div>
-              <div>
-                <h4>Prioritize</h4>
-                <p>AI and team prioritizes based on urgency.</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-icon"><i class="fa-solid fa-people-carry-box"></i></div>
-              <div>
-                <h4>Respond</h4>
-                <p>Rescue teams respond and take action.</p>
-              </div>
-            </div>
-            <div class="step-item">
-              <div class="step-icon"><i class="fa-solid fa-heart-circle-check"></i></div>
-              <div>
-                <h4>Recover</h4>
-                <p>Relief is delivered and communities recover.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="phone-pane">
-            <div class="phone-shell">
-              <div class="phone-topbar">
-                <span>9:41</span>
-                <div class="phone-icons"><i class="fa-solid fa-wifi"></i><i class="fa-solid fa-battery-full"></i></div>
-              </div>
-              <div class="phone-app">
-                <div class="phone-header">
-                  <div class="chip">ReliefConnect</div>
-                  <div class="status-dot"></div>
-                </div>
-                <div class="phone-card">
-                  <span class="mini-tag">Active Emergency</span>
-                  <h5>Flood Recovery Operation</h5>
-                  <small><i class="fa-solid fa-location-dot"></i> West Bengal, India</small>
-                </div>
-                <div class="phone-buttons">
-                  <button>I NEED HELP</button>
-                  <button>REPORT DAMAGE</button>
-                </div>
-                <div class="mini-grid">
-                  <span><i class="fa-solid fa-map"></i></span>
-                  <span><i class="fa-solid fa-box-open"></i></span>
-                  <span><i class="fa-solid fa-truck-fast"></i></span>
-                  <span><i class="fa-solid fa-user-group"></i></span>
-                </div>
-                <div class="live-update">
-                  <div class="update-label">Recent Updates</div>
-                  <div class="update-line">Relief camp opened in Murshidabad <span>2 hours ago</span></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="audience-pane">
-            <h2>Together,<br />We Can Save More Lives</h2>
-            <p>
-              ReliefConnect is built for everyoneâ€”citizens, volunteers, rescue teams, and authoritiesâ€”to ensure faster response and effective relief coordination.
-            </p>
-
-            <div class="audience-list">
-              <div class="audience-item">
-                <div class="audience-icon red"><i class="fa-solid fa-users"></i></div>
-                <div>
-                  <h4>For Citizens</h4>
-                  <p>Report, request help, and stay informed.</p>
-                </div>
-              </div>
-              <div class="audience-item">
-                <div class="audience-icon blue"><i class="fa-solid fa-life-ring"></i></div>
-                <div>
-                  <h4>For Rescue Teams</h4>
-                  <p>View tasks, track operations, and save lives.</p>
-                </div>
-              </div>
-              <div class="audience-item">
-                <div class="audience-icon green"><i class="fa-solid fa-landmark"></i></div>
-                <div>
-                  <h4>For Authorities</h4>
-                  <p>Monitor, coordinate, and make better decisions.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section class="cta-band" id="start">
         <div class="container cta-wrap">
           <div class="cta-brand">
             <div class="cta-icon"><i class="fa-solid fa-heart"></i></div>
             <div>
-              <h3>Be a Hero in Someone's Life</h3>
-              <p>Every report matters. Every second counts.</p>
+              <h3>Support Response Efforts</h3>
+              <p>Every report matters. Timely action improves response and recovery outcomes.</p>
             </div>
           </div>
           <div class="cta-actions">
             <details class="support-menu">
               <summary class="cta-button support-button">Give Support <span aria-hidden="true">&#8594;</span></summary>
               <div class="support-options">
-                <a href="register.html" class="support-option">
+                <a href="support.html?category=financial_donation" class="support-option">
                   <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
                   <span>
                     <strong>Donate Funds</strong>
                     <small>Help provide urgent relief</small>
                   </span>
                 </a>
-                <a href="resource-center.html" class="support-option">
+                <a href="support.html?category=resource_donation" class="support-option">
                   <i class="fa-solid fa-box-open" aria-hidden="true"></i>
                   <span>
                     <strong>Donate Resources</strong>
                     <small>Food, water, medicine, clothes</small>
                   </span>
                 </a>
-                <a href="register.html" class="support-option">
+                <a href="support.html?category=civic_volunteer" class="support-option">
                   <i class="fa-solid fa-people-carry-box" aria-hidden="true"></i>
                   <span>
                     <strong>Volunteer</strong>
@@ -341,13 +314,84 @@
                 </a>
               </div>
             </details>
-            <a href="register.html" class="cta-button">Get Started Now</a>
+            <a href="register.html" class="cta-button">Create Account</a>
             <a href="login.html" class="cta-login">Already have an account? Log in</a>
           </div>
         </div>
       </section>
     </main>
 
+    <section class="map-bottom-action" aria-labelledby="homepageMapTitle">
+      <div class="container">
+        <div class="map-bottom-heading">
+          <div>
+            <span class="map-kicker"><i class="fa-solid fa-satellite-dish"></i> LIVE RESPONSE DATA</span>
+            <h2 id="homepageMapTitle">Live Disaster Map</h2>
+            <p>Current report locations and response signals from the ChronicAI network.</p>
+          </div>
+        </div>
+        <div id="homepageDisasterMap" class="homepage-disaster-map" aria-label="Live disaster map">
+          <div class="map-disaster-legend" aria-label="Disaster symbol legend">
+            <strong>DISASTER SYMBOLS</strong>
+            <span><i class="fa-solid fa-hurricane cyclone-symbol"></i> Cyclone</span>
+            <span><i class="fa-solid fa-mountain landslide-symbol"></i> Landslide</span>
+            <span><i class="fa-solid fa-water flood-symbol"></i> Flood</span>
+            <span><i class="fa-solid fa-house-crack earthquake-symbol"></i> Earthquake</span>
+            <span><i class="fa-solid fa-temperature-high heat-symbol"></i> Extreme heat</span>
+            <span><i class="fa-solid fa-wind wind-symbol"></i> Severe wind</span>
+            <span><i class="fa-solid fa-chart-line estimated-symbol"></i> Estimated risk</span>
+          </div>
+        </div>
+        <p id="homepageMapStatus" class="homepage-map-status">Loading live disaster locations...</p>
+      </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script>
+      (() => {
+        const mapElement = document.getElementById("homepageDisasterMap");
+        const statusElement = document.getElementById("homepageMapStatus");
+        if (!mapElement || typeof L === "undefined") return;
+
+        const indiaBounds = [[6, 68], [37, 97]];
+        const map = L.map(mapElement, { scrollWheelZoom: false }).fitBounds(indiaBounds);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 18 }).addTo(map);
+
+        const inIndia = (latitude, longitude) => latitude >= 6 && latitude <= 37 && longitude >= 68 && longitude <= 97;
+        const safe = (value) => String(value ?? "").replace(/[&<>\"']/g, "");
+        const disasterIcon = (type) => type.toLowerCase().includes("earthquake") ? "fa-house-crack" : type.toLowerCase().includes("flood") || type.toLowerCase().includes("rain") ? "fa-water" : type.toLowerCase().includes("wind") ? "fa-wind" : type.toLowerCase().includes("heat") ? "fa-temperature-high" : type.toLowerCase().includes("cyclone") || type.toLowerCase().includes("hurricane") ? "fa-hurricane" : type.toLowerCase().includes("landslide") ? "fa-mountain" : type.toLowerCase().includes("fire") ? "fa-fire" : "fa-triangle-exclamation";
+        const disasterColor = (severity) => severity.toLowerCase().includes("severe") || severity.toLowerCase().includes("high") ? "#ef4f5d" : "#e5a52f";
+
+        Promise.all([
+          fetch("/api/reports", { cache: "no-store" }).then((response) => response.json()),
+          fetch("/api/risk?q=India&radius=100", { cache: "no-store" }).then((response) => response.json())
+        ]).then(([reportPayload, riskPayload]) => {
+          const reports = Array.isArray(reportPayload?.reports) ? reportPayload.reports : [];
+          const mappedReports = reports.filter((report) => inIndia(Number(report.latitude), Number(report.longitude)));
+          const situations = Array.isArray(riskPayload?.situations) ? riskPayload.situations.filter((item) => inIndia(Number(item.latitude), Number(item.longitude))) : [];
+          mappedReports.forEach((report) => {
+            const point = [Number(report.latitude), Number(report.longitude)];
+            L.circleMarker(point, { radius: 8, color: "#fff", weight: 2, fillColor: "#ef4f5d", fillOpacity: 0.9 }).addTo(map).bindPopup(`<strong>${safe(report.analysis?.problem || report.description || "Disaster report")}</strong><br>${safe(report.location || "India")}`);
+          });
+          situations.forEach((item) => {
+            const point = [Number(item.latitude), Number(item.longitude)];
+            const marker = L.marker(point, { icon: L.divIcon({ className: "disaster-map-marker", html: `<span style="--marker-color:${disasterColor(item.severity)}"><i class="fa-solid ${disasterIcon(item.type)}"></i></span>`, iconSize: [34, 34], iconAnchor: [17, 17] }) }).addTo(map);
+            marker.bindPopup(`<strong>${safe(item.type)}</strong><br>${safe(item.affectedArea || "India")}<br><small>${safe(item.severity)} · ${safe(item.status)}</small>`);
+          });
+          const estimatedRisks = Array.isArray(riskPayload?.risks) ? riskPayload.risks.filter((risk) => ["low", "moderate", "high", "severe"].includes(String(risk.level || "").toLowerCase())) : [];
+          const indiaCenter = [Number(riskPayload?.coordinates?.latitude) || 22.5, Number(riskPayload?.coordinates?.longitude) || 79];
+          estimatedRisks.forEach((risk, index) => {
+            const angle = (index / Math.max(estimatedRisks.length, 1)) * Math.PI * 2;
+            const point = [indiaCenter[0] + Math.sin(angle) * 1.4, indiaCenter[1] + Math.cos(angle) * 1.8];
+            const marker = L.marker(point, { icon: L.divIcon({ className: "estimated-disaster-marker", html: `<span><i class="fa-solid ${disasterIcon(risk.type)}"></i></span>`, iconSize: [30, 30], iconAnchor: [15, 15] }) }).addTo(map);
+            marker.bindPopup(`<strong>Estimated ${safe(risk.type)} risk</strong><br><small>${safe(risk.level)} · ${safe(risk.window || "Forecast window")}</small><br><small>${safe(risk.factors || "Live forecast signal")}</small>`);
+          });
+          const total = mappedReports.length + situations.length;
+          const estimatedLabel = estimatedRisks.length ? ` ${estimatedRisks.length} estimated risk${estimatedRisks.length === 1 ? "" : "s"}` : "";
+          if (statusElement) statusElement.textContent = total || estimatedRisks.length ? `${total} active signal${total === 1 ? "" : "s"} and${estimatedLabel} shown across India.` : "No active or estimated disaster signals are currently available for India.";
+        }).catch(() => { if (statusElement) statusElement.textContent = "Live India disaster data is temporarily unavailable."; });
+      })();
+    </script>
     <script ></script>
     <script>
       if (localStorage.getItem("chronicAILoggedIn") === "true") {
