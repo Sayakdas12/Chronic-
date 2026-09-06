@@ -3,7 +3,6 @@
 
 import cluster from "node:cluster";
 import net from "node:net";
-import os from "node:os";
 import { pathToFileURL } from "node:url";
 
 export async function getAvailablePort(preferredPort, host = "0.0.0.0") {
@@ -53,7 +52,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href && cluster.isPrimary
 			state.ready = true;
 			state.health = message;
 		});
-		log(`Worker ${worker.id} started`, `pid=${worker.process.pid} listen=${index === 0 ? "enabled" : "disabled"}`);
 	}
 
 	function scheduleWorkerStart() {
@@ -100,7 +98,6 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href && cluster.isPrimary
 	process.on("SIGINT", () => shutdown("SIGINT"));
 	process.on("SIGTERM", () => shutdown("SIGTERM"));
 
-	log("Primary load balancer online", `pid=${process.pid} port=${port} workers=${workerCount} hostCpus=${os.cpus().length}`);
 } else if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 	import("./firebase.js");
 }

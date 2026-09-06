@@ -50,7 +50,7 @@ const __dirname = path.dirname(__filename);
 // IMPORTANT: app MUST be created before app.get/app.post
 // ============================================================
 
-const app = express();
+export const app = express();
 
 const PORT = Number(process.env.PORT) || 3000;
 const otpRateLimit = new Map();
@@ -2649,10 +2649,11 @@ function checkSlaAndEscalate() {
 // SLA CHECK EVERY MINUTE
 // ============================================================
 
-setInterval(
+const slaTimer = setInterval(
     checkSlaAndEscalate,
     60 * 1000
 );
+slaTimer.unref();
 
 checkSlaAndEscalate();
 
@@ -2892,123 +2893,9 @@ if (process.env.CHRONICAI_LISTEN === "true") {
         PORT,
         "0.0.0.0",
         () => {
-
-            console.log("");
-
-            console.log(
-                "=========================================="
-            );
-
-            console.log(
-                "          CHRONICAI BACKEND SERVER"
-            );
-
-            console.log(
-                "=========================================="
-            );
-
-            console.log(
-                `Server running on port: ${PORT}`
-            );
-
-            console.log(
-                `Local URL: http://localhost:${PORT}`
-            );
-
-            console.log(
-                `Frontend: http://localhost:${PORT}/`
-            );
-
-            console.log(
-                `Health: http://localhost:${PORT}/api/health`
-            );
-
-            console.log(
-                `Gemini Test: http://localhost:${PORT}/api/test-gemini`
-            );
-
-            console.log(
-                `API: http://localhost:${PORT}/api`
-            );
-
-            console.log(
-                `Reports: http://localhost:${PORT}/api/reports`
-            );
-
-            console.log("");
-
-            console.log(
-                "AI Analysis: ENABLED"
-            );
-
-            console.log(
-                "AI Complaint Generation: ENABLED"
-            );
-
-            console.log(
-                "Authority Routing: ENABLED"
-            );
-
-            console.log(
-                "Admin Status Update: ENABLED"
-            );
-
-            console.log(
-                "Report Timeline: ENABLED"
-            );
-
-            console.log(
-                "SLA Monitoring: ENABLED"
-            );
-
-            console.log(
-                "Automatic Escalation: ENABLED"
-            );
-
-            console.log("");
-
-            console.log(
-                `Frontend directory: ${PUBLIC_DIR}`
-            );
-
-            console.log(
-                `index.html exists: ${
-                    fs.existsSync(
-                        path.join(
-                            HTML_DIR,
-                            "index.html"
-                        )
-                    )
-                        ? "YES"
-                        : "NO"
-                }`
-            );
-
-            console.log(
-                `Gemini AI Ready: ${
-                    process.env.GEMINI_API_KEY
-                        ? "YES"
-                        : "NO"
-                }`
-            );
-
-            console.log(
-                "Firebase Auth: CLIENT-SIDE"
-            );
-
-            console.log(
-                "Firebase Database: CLIENT-SIDE"
-            );
-
-            console.log(
-                "=========================================="
-            );
-
-            console.log("");
+            console.log(`ChronicAI listening on http://localhost:${PORT}`);
         }
     );
-} else {
-    console.log(`Worker ${process.pid} started without HTTP listener (cluster health worker).`);
 }
 
 // ============================================================
