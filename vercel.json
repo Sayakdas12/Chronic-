@@ -1,14 +1,58 @@
 {
   "version": 2,
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "{public/**,data/**}"
-    }
-  },
+  "cleanUrls": true,
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/api/index.js"
+      "source": "/",
+      "destination": "/html"
+    },
+    {
+      "source": "/index",
+      "destination": "/html"
+    },
+    {
+      "source": "/index.html",
+      "destination": "/html"
+    },
+    {
+      "source": "/service-worker.js",
+      "destination": "/assets/service-worker.js"
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/assets/manifest.json"
+    },
+    {
+      "source": "/css/:path*",
+      "destination": "/css/:path*"
+    },
+    {
+      "source": "/js/:path*",
+      "destination": "/js/:path*"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "/images/:path*"
+    },
+    {
+      "source": "/icons/:path*",
+      "destination": "/icons/:path*"
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://chronicai-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/:page.html",
+      "destination": "/html/:page"
+    },
+    {
+      "source": "/:page",
+      "destination": "/html/:page"
     }
   ]
 }

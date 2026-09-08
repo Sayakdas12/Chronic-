@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: chronicai-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: ALLOW_LOCAL_ADMIN_BYPASS
+        value: "true"
+      - key: HA_WORKERS
+        value: "2"
+      - key: HA_MAX_RSS_MB
+        value: "512"
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash
+      - key: GEMINI_CHAT_MODEL
+        value: gemini-3.5-flash-lite
+      - key: EMAIL_PROVIDER
+        value: brevo
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "465"
+      - key: SMTP_SECURE
+        value: "true"
