@@ -1,0 +1,283 @@
+[
+  {
+    "id": "ambulance_a12",
+    "name": "Ambulance A-12 (Critical Life Support)",
+    "type": "AMBULANCE",
+    "status": "DISPATCHED",
+    "capabilities": [
+      "OXYGEN",
+      "FIRST_AID",
+      "PATIENT_TRANSPORT",
+      "VENTILATOR"
+    ],
+    "capacity": 4,
+    "location": {
+      "latitude": 22.571,
+      "longitude": 88.362,
+      "address": "Ward 7 Central Hospital",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00012",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732655
+  },
+  {
+    "id": "ambulance_a09",
+    "name": "Ambulance A-09 (Standard Transport)",
+    "type": "AMBULANCE",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "FIRST_AID",
+      "PATIENT_TRANSPORT"
+    ],
+    "capacity": 3,
+    "location": {
+      "latitude": 22.585,
+      "longitude": 88.375,
+      "address": "Sector 2 Health Post",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00009",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732657
+  },
+  {
+    "id": "rescue_r04",
+    "name": "Rescue Team R-04 (Water & Flood Specialist)",
+    "type": "RESCUE_TEAM",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "WATER_RESCUE",
+      "SEARCH_AND_RESCUE",
+      "HEAVY_CUTTING",
+      "FIRST_AID"
+    ],
+    "capacity": 8,
+    "location": {
+      "latitude": 22.574,
+      "longitude": 88.368,
+      "address": "Civil Defense Station 1",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00104",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732661
+  },
+  {
+    "id": "boat_b02",
+    "name": "Rescue Boat B-02",
+    "type": "BOAT",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "WATER_RESCUE",
+      "PATIENT_TRANSPORT",
+      "FOOD_SUPPLY"
+    ],
+    "capacity": 6,
+    "location": {
+      "latitude": 22.576,
+      "longitude": 88.361,
+      "address": "Riverbank Depot",
+      "ward": "Ward 7"
+    },
+    "contact": "",
+    "lastSeenAt": 1788955731306,
+    "createdAt": 1788955731306,
+    "updatedAt": 1788955731317
+  },
+  {
+    "id": "shelter_s01",
+    "name": "Ward 7 Community Hall Evacuation Shelter",
+    "type": "SHELTER",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "BEDS",
+      "CLEAN_WATER",
+      "FIRST_AID",
+      "KITCHEN"
+    ],
+    "capacity": 150,
+    "location": {
+      "latitude": 22.568,
+      "longitude": 88.365,
+      "address": "Community Hall Ward 7",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00201",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732666
+  },
+  {
+    "id": "amb_test_disp",
+    "name": "Ambulance Test Unit",
+    "type": "AMBULANCE",
+    "status": "AVAILABLE",
+    "capabilities": [],
+    "capacity": 4,
+    "location": {
+      "latitude": null,
+      "longitude": null,
+      "address": "",
+      "ward": null
+    },
+    "contact": "",
+    "lastSeenAt": 1788955731343,
+    "createdAt": 1788955731343,
+    "updatedAt": 1788955731378,
+    "activeMissionId": null
+  },
+  {
+    "id": "res_sync_amb",
+    "name": "Sync Ambulance",
+    "type": "RESCUE_TEAM",
+    "status": "DISPATCHED",
+    "capabilities": [],
+    "capacity": 4,
+    "location": {
+      "latitude": null,
+      "longitude": null,
+      "address": "",
+      "ward": null
+    },
+    "contact": "",
+    "lastSeenAt": 1788955734960,
+    "createdAt": 1788955734960,
+    "updatedAt": 1788955734969,
+    "activeMissionId": "MSN-8SSQ6T"
+  },
+  {
+    "id": "ambulance_a03",
+    "name": "Ambulance A-03 (Mobile ICU)",
+    "type": "AMBULANCE",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "OXYGEN",
+      "FIRST_AID",
+      "PATIENT_TRANSPORT",
+      "CARDIAC_MONITOR"
+    ],
+    "capacity": 2,
+    "location": {
+      "latitude": 22.565,
+      "longitude": 88.36,
+      "address": "North Suburban Clinic",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00003",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732658
+  },
+  {
+    "id": "ambulance_a15",
+    "name": "Ambulance A-15 (Patient Transit)",
+    "type": "AMBULANCE",
+    "status": "MAINTENANCE",
+    "capabilities": [
+      "PATIENT_TRANSPORT"
+    ],
+    "capacity": 4,
+    "location": {
+      "latitude": 22.569,
+      "longitude": 88.358,
+      "address": "Central Depot Workshop",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00015",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732660
+  },
+  {
+    "id": "rescue_r01",
+    "name": "Rescue Team R-01 (Urban Search Unit)",
+    "type": "RESCUE_TEAM",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "SEARCH_AND_RESCUE",
+      "FIRST_AID",
+      "DEBRIS_REMOVAL"
+    ],
+    "capacity": 6,
+    "location": {
+      "latitude": 22.57,
+      "longitude": 88.365,
+      "address": "Ward 7 Fire Station",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00101",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732663
+  },
+  {
+    "id": "cutter_h01",
+    "name": "Heavy Rescue Unit H-01 (Debris Clearance)",
+    "type": "RESCUE_TEAM",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "HEAVY_CUTTING",
+      "DEBRIS_REMOVAL",
+      "WINCHING"
+    ],
+    "capacity": 4,
+    "location": {
+      "latitude": 22.578,
+      "longitude": 88.369,
+      "address": "PWD Heavy Machinery Yard",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00105",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732664
+  },
+  {
+    "id": "shelter_s02",
+    "name": "Girls High School Flood Relief Camp",
+    "type": "SHELTER",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "BEDS",
+      "FOOD_SUPPLY",
+      "FIRST_AID"
+    ],
+    "capacity": 200,
+    "location": {
+      "latitude": 22.5742,
+      "longitude": 88.3625,
+      "address": "College Road Girls School",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00202",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732668
+  },
+  {
+    "id": "shelter_s03",
+    "name": "Youth Sports Complex Emergency Refuge",
+    "type": "SHELTER",
+    "status": "AVAILABLE",
+    "capabilities": [
+      "MASS_SHELTER",
+      "GENERATOR_POWER",
+      "CLEAN_WATER"
+    ],
+    "capacity": 350,
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.373,
+      "address": "Sector 3 Stadium Ground",
+      "ward": "Ward 7"
+    },
+    "contact": "+91 98300 00203",
+    "lastSeenAt": 1788955732655,
+    "createdAt": 1788955732655,
+    "updatedAt": 1788955732670
+  }
+]

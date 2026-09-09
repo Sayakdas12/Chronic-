@@ -12,21 +12,346 @@
   <script type="module" src="../js/admin-dashboard.js"></script>
 </head>
 <body class="admin-page">
-  <header class="admin-topbar"><a class="admin-brand" href="admin-dashboard.html"><i class="fa-solid fa-landmark"></i><span>ChronicAI <small>GOVERNMENT OPERATIONS</small></span></a><div class="admin-user"><span>Signed in as <strong id="officialName">Government official</strong></span><button class="admin-button" id="logoutButton"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button></div></header>
+  <header class="admin-topbar">
+    <a class="admin-brand" href="admin-dashboard.html">
+      <i class="fa-solid fa-landmark"></i>
+      <span>ChronicAI <small>GOVERNMENT OPERATIONS & RESPONSE COMMAND</small></span>
+    </a>
+    <div class="admin-user">
+      <span>Signed in as <strong id="officialName">Government official</strong></span>
+      <button class="admin-button" id="logoutButton"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+    </div>
+  </header>
+
   <main class="admin-shell">
-    <section class="admin-heading"><div><span class="eyebrow">SITUATION ROOM</span><h1>Response command center</h1><p>Live civic cases, emergency needs, and coordinated action.</p></div><button class="refresh" id="refreshButton"><i class="fa-solid fa-rotate"></i> Refresh data</button></section>
-    <section class="alert-strip" id="criticalAlert"><i class="fa-solid fa-triangle-exclamation"></i><div><strong>Loading critical alerts...</strong><span>Connecting to protected government data.</span></div></section>
+    <section class="admin-heading">
+      <div>
+        <span class="eyebrow">SITUATION ROOM</span>
+        <h1>Disaster Response Command Center</h1>
+        <p>Real-time canonical incident management, AI telemetry briefing, resource dispatch, and offline field coordination.</p>
+      </div>
+      <div class="heading-actions">
+        <button class="seed-scenario-btn" id="seedScenarioBtn">
+          <i class="fa-solid fa-cloud-bolt"></i> Seed Ward 7 Flash Flood Scenario
+        </button>
+        <button class="refresh" id="refreshButton">
+          <i class="fa-solid fa-rotate"></i> Refresh Data
+        </button>
+      </div>
+    </section>
+
+    <!-- LIVE AI DISTRICT SITREP BRIEFING -->
+    <section class="panel sitrep-panel" id="aiBriefingCard">
+      <header class="sitrep-head">
+        <div class="sitrep-title-group">
+          <span class="eyebrow"><i class="fa-solid fa-satellite-dish"></i> LIVE EOC SITREP BRIEFING · <span id="sitrepDistrict">WARD 7</span></span>
+          <h2 id="sitrepHeadline"><span class="loading-pulse">Aggregating district telemetry & synthesizing SitRep...</span></h2>
+        </div>
+        <div class="sitrep-actions-bar">
+          <span class="threat-badge" id="sitrepThreatLevel">MONITORING</span>
+          <button class="sitrep-refresh-btn" id="refreshBriefingBtn" title="Regenerate SitRep">
+            <i class="fa-solid fa-arrows-rotate"></i> Regenerate
+          </button>
+        </div>
+      </header>
+
+      <div class="sitrep-body">
+        <div class="sitrep-metrics" id="sitrepMetrics">
+          <div class="sitrep-metric-item critical">
+            <span class="s-val" id="sP1Count">0</span>
+            <span class="s-lbl">P1 Life-Threat</span>
+          </div>
+          <div class="sitrep-metric-item warning">
+            <span class="s-val" id="sP2Count">0</span>
+            <span class="s-lbl">P2 Urgent</span>
+          </div>
+          <div class="sitrep-metric-item">
+            <span class="s-val" id="sRiskCount">0</span>
+            <span class="s-lbl">At Risk</span>
+          </div>
+          <div class="sitrep-metric-item">
+            <span class="s-val" id="sInjuredCount">0</span>
+            <span class="s-lbl">Injured</span>
+          </div>
+          <div class="sitrep-metric-item success">
+            <span class="s-val" id="sRescuedCount">0</span>
+            <span class="s-lbl">Evacuated</span>
+          </div>
+          <div class="sitrep-metric-item">
+            <span class="s-val" id="sAmbulanceCount">0</span>
+            <span class="s-lbl">Fleet Available</span>
+          </div>
+          <div class="sitrep-metric-item hazard">
+            <span class="s-val" id="sBlockedRoadsCount">0</span>
+            <span class="s-lbl">Road Blocks</span>
+          </div>
+        </div>
+
+        <div class="sitrep-content-grid">
+          <div class="sitrep-summary-box">
+            <h4><i class="fa-solid fa-clipboard-check"></i> Executive Situation Summary</h4>
+            <p id="sitrepSummaryText">Analyzing real-time reports and verified hazard incidents...</p>
+            <div class="sitrep-route-box" id="sitrepRouteBox">
+              <strong><i class="fa-solid fa-road-barrier"></i> Transit & Route Advisory:</strong>
+              <span id="sitrepRouteText">Checking route clearance...</span>
+            </div>
+            <div class="sitrep-casualty-box" id="sitrepCasualtyBox">
+              <strong><i class="fa-solid fa-heart-pulse"></i> Casualty SitRep:</strong>
+              <span id="sitrepCasualtyText">Gathering triage status...</span>
+            </div>
+          </div>
+          <div class="sitrep-directives-box">
+            <h4><i class="fa-solid fa-list-check"></i> Immediate Tactical Directives</h4>
+            <ul class="sitrep-directives-list" id="sitrepDirectivesList">
+              <li>Loading operational directives...</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="alert-strip" id="criticalAlert">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <div>
+        <strong>Loading critical alerts...</strong>
+        <span>Connecting to protected government data.</span>
+      </div>
+    </section>
+
+    <!-- CANONICAL INCIDENT QUEUE -->
+    <section class="panel canonical-panel" id="canonicalIncidentsSection">
+      <header class="panel-head">
+        <div>
+          <span class="eyebrow"><i class="fa-solid fa-shield-halved"></i> CANONICAL INCIDENT QUEUE</span>
+          <h2>Prioritized Response Incidents (P1–P4)</h2>
+        </div>
+        <div class="canonical-meta">
+          <span class="canonical-counter-badge" id="canonicalCountBadge">0 Incidents</span>
+        </div>
+      </header>
+
+      <div class="filters canonical-filters">
+        <input id="canonicalSearchInput" placeholder="Search ID, title, location, category..." aria-label="Search canonical incidents">
+        <select id="canonicalPriorityFilter" aria-label="Filter priority">
+          <option value="">All Priorities</option>
+          <option value="P1">P1 - Immediate Life Threat</option>
+          <option value="P2">P2 - Urgent / Severe</option>
+          <option value="P3">P3 - Standard Civic</option>
+          <option value="P4">P4 - Routine</option>
+        </select>
+        <select id="canonicalStatusFilter" aria-label="Filter status">
+          <option value="">All Lifecycle Statuses</option>
+          <option value="NEEDS_VERIFICATION">Needs Verification</option>
+          <option value="VERIFIED">Verified</option>
+          <option value="ASSIGNED">Assigned</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="RESOLVED">Resolved</option>
+          <option value="REJECTED">Rejected</option>
+        </select>
+      </div>
+
+      <div class="table-wrap">
+        <table class="case-table canonical-table">
+          <thead>
+            <tr>
+              <th>Incident & AI Analysis</th>
+              <th>Priority & Score</th>
+              <th>Location & Hazards</th>
+              <th>Status & Auditing</th>
+              <th>Tactical Action</th>
+            </tr>
+          </thead>
+          <tbody id="canonicalRows">
+            <tr><td colspan="5" class="empty">Loading canonical incidents...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="metric-grid" id="metricGrid"></section>
-    <div class="dashboard-grid"><div>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">CASE CONTROL</span><h2>Emergency and civic reports</h2></div><small id="paginationLabel"></small></header><div class="filters"><input id="searchInput" placeholder="Search ID, location, description..." aria-label="Search cases"><select id="severityFilter" aria-label="Filter severity"><option value="">All severity</option><option>Critical</option><option>Severe</option><option>High</option><option>Medium</option><option>Low</option></select><select id="statusFilter" aria-label="Filter status"><option value="">All status</option><option>Submitted</option><option>Verified</option><option>Assigned</option><option>In Progress</option><option>Resolved</option></select><select id="typeFilter" aria-label="Filter case type"><option value="">All case types</option></select></div><div class="table-wrap"><table class="case-table"><thead><tr><th>Case</th><th>Location</th><th>Severity</th><th>Status</th><th>Update</th></tr></thead><tbody id="caseRows"></tbody></table></div></section>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">TREND SIGNAL</span><h2>Case activity</h2></div><small>Current loaded cases</small></header><div class="chart" id="trendChart"></div></section>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">FIELD VIEW</span><h2>Location signals</h2></div><small>Every person and active case</small></header><div class="map-preview" id="mapPreview"></div></section>
-    </div><aside>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">CRITICAL ALERTS</span><h2>Needs attention</h2></div></header><div class="alert-list" id="alertList"></div></section>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">MISSING PERSONS</span><h2>Open cases</h2></div></header><div class="missing-list" id="missingList"></div></section>
-      <section class="panel"><header class="panel-head"><div><span class="eyebrow">ACCESS CONTROL</span><h2 id="roleName">Government role</h2></div></header><div class="empty">All data access is logged. Write actions are limited by role and verified on the server.</div></section>
-    </aside></div>
-    <section class="panel support-admin-panel"><header class="panel-head"><div><span class="eyebrow">COMMUNITY RESPONSE</span><h2>Support & Volunteer Requests <span class="support-badge" id="supportNewBadge">0 new</span></h2></div><div class="filters support-filters"><input id="supportSearchInput" placeholder="Search name, phone, request ID..." aria-label="Search support requests"><select id="supportCategoryFilter"><option value="">All categories</option><option value="financial_donation">Financial</option><option value="resource_donation">Resources</option><option value="civic_volunteer">Volunteers</option></select><select id="supportStatusFilter"><option value="">All status</option><option value="pending">Pending</option><option value="under_review">Under review</option><option value="approved">Approved</option><option value="contacted">Contacted</option><option value="completed">Completed</option><option value="rejected">Rejected</option></select></div></header><div class="table-wrap"><table class="case-table support-table"><thead><tr><th>Request</th><th>Contact</th><th>Category</th><th>Location</th><th>Status</th><th>Action</th></tr></thead><tbody id="supportRows"><tr><td colspan="6" class="empty">Loading support requests...</td></tr></tbody></table></div></section>
+
+    <div class="dashboard-grid">
+      <div>
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">CASE CONTROL</span>
+              <h2>Raw Citizen & Sensor Reports</h2>
+            </div>
+            <small id="paginationLabel"></small>
+          </header>
+          <div class="filters">
+            <input id="searchInput" placeholder="Search ID, location, description..." aria-label="Search cases">
+            <select id="severityFilter" aria-label="Filter severity">
+              <option value="">All severity</option>
+              <option>Critical</option>
+              <option>Severe</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+            <select id="statusFilter" aria-label="Filter status">
+              <option value="">All status</option>
+              <option>Submitted</option>
+              <option>Verified</option>
+              <option>Assigned</option>
+              <option>In Progress</option>
+              <option>Resolved</option>
+            </select>
+            <select id="typeFilter" aria-label="Filter case type">
+              <option value="">All case types</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table class="case-table">
+              <thead>
+                <tr>
+                  <th>Case</th>
+                  <th>Location</th>
+                  <th>Severity</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                </tr>
+              </thead>
+              <tbody id="caseRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">TREND SIGNAL</span>
+              <h2>Case Activity Over Time</h2>
+            </div>
+            <small>Current loaded cases</small>
+          </header>
+          <div class="chart" id="trendChart"></div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">FIELD VIEW</span>
+              <h2>Geospatial Disaster Signals</h2>
+            </div>
+            <small>Every person and active case</small>
+          </header>
+          <div class="map-preview" id="mapPreview"></div>
+        </section>
+      </div>
+
+      <aside>
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">CRITICAL ALERTS</span>
+              <h2>Needs Attention</h2>
+            </div>
+          </header>
+          <div class="alert-list" id="alertList"></div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">MISSING PERSONS</span>
+              <h2>Open Records</h2>
+            </div>
+          </header>
+          <div class="missing-list" id="missingList"></div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <span class="eyebrow">ACCESS CONTROL</span>
+              <h2 id="roleName">Government role</h2>
+            </div>
+          </header>
+          <div class="empty">All data access is logged. Write actions are limited by role and verified on the server.</div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel support-admin-panel">
+      <header class="panel-head">
+        <div>
+          <span class="eyebrow">COMMUNITY RESPONSE</span>
+          <h2>Support & Volunteer Requests <span class="support-badge" id="supportNewBadge">0 new</span></h2>
+        </div>
+        <div class="filters support-filters">
+          <input id="supportSearchInput" placeholder="Search name, phone, request ID..." aria-label="Search support requests">
+          <select id="supportCategoryFilter">
+            <option value="">All categories</option>
+            <option value="financial_donation">Financial</option>
+            <option value="resource_donation">Resources</option>
+            <option value="civic_volunteer">Volunteers</option>
+          </select>
+          <select id="supportStatusFilter">
+            <option value="">All status</option>
+            <option value="pending">Pending</option>
+            <option value="under_review">Under review</option>
+            <option value="approved">Approved</option>
+            <option value="contacted">Contacted</option>
+            <option value="completed">Completed</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </header>
+      <div class="table-wrap">
+        <table class="case-table support-table">
+          <thead>
+            <tr>
+              <th>Request</th>
+              <th>Contact</th>
+              <th>Category</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="supportRows">
+            <tr><td colspan="6" class="empty">Loading support requests...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </main>
+
+  <!-- TOP-3 RESOURCE RECOMMENDATION MODAL -->
+  <div class="modal-backdrop" id="resourceModal" style="display:none;">
+    <div class="modal-dialog">
+      <header class="modal-header">
+        <div>
+          <span class="eyebrow"><i class="fa-solid fa-truck-medical"></i> TOP-3 RESOURCE RECOMMENDATIONS</span>
+          <h3 id="resModalTitle">Dispatch Fleet to Incident</h3>
+        </div>
+        <button class="modal-close" id="closeResourceModal"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal-body" id="resourceModalBody">
+        <div class="empty">Analyzing fleet proximity, capability match, and travel risk...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DUPLICATE DETECTION & MERGE MODAL -->
+  <div class="modal-backdrop" id="duplicateModal" style="display:none;">
+    <div class="modal-dialog">
+      <header class="modal-header">
+        <div>
+          <span class="eyebrow"><i class="fa-solid fa-object-group"></i> DUPLICATE DETECTION & MERGE</span>
+          <h3 id="dupModalTitle">Corroborating Reports Candidate Check</h3>
+        </div>
+        <button class="modal-close" id="closeDuplicateModal"><i class="fa-solid fa-xmark"></i></button>
+      </header>
+      <div class="modal-body" id="duplicateModalBody">
+        <div class="empty">Scanning for duplicate reports within 300m and 30 minutes...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast-container" id="toastContainer"></div>
 </body>
 </html>

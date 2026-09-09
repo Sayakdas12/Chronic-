@@ -24,6 +24,15 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { sendEmail } from "./email-service.js";
 import { consumeVerificationToken, createOtpChallenge, discardOtpChallenge, getOtpConfiguration, verifyOtp } from "./otp-service.js";
+import { incidentRouter } from "./routes/incidents.js";
+import { configureIncidentStore, createIncidentFromReport } from "./services/incident-service.js";
+import { resourceRouter } from "./routes/resources.js";
+import { missionRouter } from "./routes/missions.js";
+import { configureOperationsStore } from "./services/mission-service.js";
+import { syncRouter } from "./routes/sync.js";
+import { configureSyncStore } from "./services/sync-service.js";
+import { generateDistrictBriefing } from "./services/briefing-service.js";
+import { seedWard7Scenario } from "./seed/ward7-scenario.js";
 
 // ============================================================
 // ENVIRONMENT
@@ -190,6 +199,47 @@ app.use(
 );
 
 // ============================================================
+// INCIDENT ROUTER (ChronicAI Canonical Operations)
+// ============================================================
+
+try {
+    configureIncidentStore({ getAdminDatabase, getAdminApp });
+    configureOperationsStore({ getAdminDatabase, getAdminApp });
+    configureSyncStore({ getAdminDatabase, getAdminApp });
+} catch (storeError) {
+    console.warn("Incident / Operations / Sync store initialization note:", storeError.message);
+}
+app.use("/api/incidents", incidentRouter);
+app.use("/api/resources", resourceRouter);
+app.use("/api/missions", missionRouter);
+app.use("/api/sync", syncRouter);
+
+app.get("/api/dashboard/briefing", async (req, res) => {
+    try {
+        const district = req.query.district ? String(req.query.district).trim() : "Ward 7";
+        const result = await generateDistrictBriefing({ district });
+        return res.json(result);
+    } catch (error) {
+        console.error("Failed to generate district briefing:", error);
+        return res.status(500).json({ success: false, error: "Failed to generate briefing", message: error.message });
+    }
+});
+
+app.post("/api/dashboard/seed-ward7", async (req, res) => {
+    try {
+        const stats = await seedWard7Scenario();
+        return res.json({
+            success: true,
+            message: "Ward 7 Flash Flood Disaster Scenario successfully seeded",
+            stats
+        });
+    } catch (error) {
+        console.error("Failed to seed Ward 7 scenario:", error);
+        return res.status(500).json({ success: false, error: "Failed to seed Ward 7 scenario", message: error.message });
+    }
+});
+
+// ============================================================
 // CLEAN TEXT
 // ============================================================
 
@@ -232,10 +282,33 @@ function cleanArray(
 }
 
 // ============================================================
-// READ REPORTS
+// READ REPORTS (Firebase primary + local fallback)
 // ============================================================
 
-function readReports() {
+function isFirebaseReportStoreEnabled() {
+    const hasJson = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+    const hasFile = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_FILE && fs.existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_FILE));
+    return Boolean(
+        process.env.FIREBASE_DATABASE_URL &&
+        (hasJson || hasFile)
+    );
+}
+
+async function readReports() {
+    if (isFirebaseReportStoreEnabled()) {
+        try {
+            const database = getAdminDatabase(getAdminApp());
+            const snapshot = await database.ref("reports").once("value");
+            const value = snapshot.val();
+            if (!value) return [];
+            return Array.isArray(value)
+                ? value.filter(Boolean)
+                : Object.values(value);
+        } catch (error) {
+            console.error("Unable to read reports from Firebase Realtime Database:", error);
+        }
+    }
+
     try {
         const content =
             fs.readFileSync(
@@ -262,10 +335,25 @@ function readReports() {
 }
 
 // ============================================================
-// SAVE REPORTS
+// SAVE REPORTS (Firebase primary + local fallback)
 // ============================================================
 
-function saveReports(reports) {
+async function saveReports(reports) {
+    if (isFirebaseReportStoreEnabled()) {
+        const database = getAdminDatabase(getAdminApp());
+        const updates = {};
+        if (Array.isArray(reports)) {
+            reports.forEach(report => {
+                if (report && report.reportId) {
+                    updates[report.reportId] = report;
+                }
+            });
+        } else if (reports && typeof reports === "object") {
+            Object.assign(updates, reports);
+        }
+        await database.ref("reports").set(updates);
+        return;
+    }
 
     fs.writeFileSync(
         REPORTS_FILE,
@@ -1336,7 +1424,7 @@ app.get("/api/admin/session", requireGovernmentUser, (req, res) => {
 
 app.get("/api/admin/overview", requireGovernmentUser, async (req, res) => {
     try {
-        const reports = readReports();
+        const reports = await readReports();
         const query = cleanText(req.query.q, 200).toLowerCase();
         const severity = cleanText(req.query.severity, 30).toLowerCase();
         const status = cleanText(req.query.status, 40).toLowerCase();
@@ -1865,15 +1953,26 @@ app.post(
 
             };
 
+            let linkedIncident = null;
+            try {
+                linkedIncident = await createIncidentFromReport(report, {
+                    aiAnalysis: normalized,
+                    actor: { id: report.reporter?.phone || "citizen", role: "citizen" }
+                });
+                report.incidentId = linkedIncident.incidentId;
+            } catch (incError) {
+                console.warn("Auto-linking incident failed:", incError.message);
+            }
+
             const reports =
-                readReports();
+                await readReports();
 
             reports.push(report);
 
-            saveReports(reports);
+            await saveReports(reports);
 
             console.log(
-                `New report: ${reportId}`
+                `New report: ${reportId} (Linked Incident: ${report.incidentId || "none"})`
             );
 
             return res.status(201).json({
@@ -1885,6 +1984,8 @@ app.post(
                     "Civic report submitted successfully.",
 
                 reportId,
+
+                incidentId: report.incidentId || null,
 
                 report
 
@@ -1956,7 +2057,7 @@ app.get(
         try {
 
             const reports =
-                readReports();
+                await readReports();
 
             const liveReports =
                 await Promise.all(
@@ -2030,10 +2131,10 @@ app.get(
 
 app.get(
     "/api/reports/:reportId",
-    (req, res) => {
+    async (req, res) => {
 
         const reports =
-            readReports();
+            await readReports();
 
         const report =
             reports.find(
@@ -2074,7 +2175,7 @@ app.patch(
     "/api/reports/:reportId/status",
     requireGovernmentUser,
     requireWriteRole,
-    (req, res) => {
+    async (req, res) => {
 
         try {
 
@@ -2132,7 +2233,7 @@ app.patch(
             }
 
             const reports =
-                readReports();
+                await readReports();
 
             const index =
                 reports.findIndex(
@@ -2232,7 +2333,7 @@ app.patch(
             reports[index] =
                 report;
 
-            saveReports(reports);
+            await saveReports(reports);
 
             return res.json({
 
@@ -2273,12 +2374,12 @@ app.delete(
     "/api/reports/:reportId",
     requireGovernmentUser,
     requireWriteRole,
-    (req, res) => {
+    async (req, res) => {
 
         try {
 
             const reports =
-                readReports();
+                await readReports();
 
             const index =
                 reports.findIndex(
@@ -2303,7 +2404,7 @@ app.delete(
             const [removedReport] =
                 reports.splice(index, 1);
 
-            saveReports(reports);
+            await saveReports(reports);
 
             return res.json({
 
@@ -2343,7 +2444,7 @@ app.delete(
 
 app.post(
     "/api/reports/:reportId/escalate",
-    (req, res) => {
+    async (req, res) => {
 
         try {
 
@@ -2362,7 +2463,7 @@ app.post(
                 "Higher Civic Authority";
 
             const reports =
-                readReports();
+                await readReports();
 
             const index =
                 reports.findIndex(
@@ -2435,7 +2536,7 @@ app.post(
             reports[index] =
                 report;
 
-            saveReports(reports);
+            await saveReports(reports);
 
             return res.json({
 
@@ -2474,10 +2575,10 @@ app.post(
 
 app.get(
     "/api/reports/:reportId/timeline",
-    (req, res) => {
+    async (req, res) => {
 
         const reports =
-            readReports();
+            await readReports();
 
         const report =
             reports.find(
@@ -2521,12 +2622,12 @@ app.get(
 // AUTOMATIC SLA ESCALATION
 // ============================================================
 
-function checkSlaAndEscalate() {
+async function checkSlaAndEscalate() {
 
     try {
 
         const reports =
-            readReports();
+            await readReports();
 
         let changed =
             false;
@@ -2631,7 +2732,7 @@ function checkSlaAndEscalate() {
 
         if (changed) {
 
-            saveReports(
+            await saveReports(
                 reports
             );
         }
@@ -2888,7 +2989,7 @@ app.use(
 // START SERVER
 // ============================================================
 
-if (process.env.CHRONICAI_LISTEN === "true") {
+if (process.env.CHRONICAI_LISTEN === "true" || (!process.env.CHRONICAI_WORKER && process.argv[1]?.endsWith("firebase.js"))) {
     app.listen(
         PORT,
         "0.0.0.0",
