@@ -2994,7 +2994,8 @@ if (process.env.CHRONICAI_LISTEN === "true" || (!process.env.CHRONICAI_WORKER &&
         PORT,
         "0.0.0.0",
         () => {
-            console.log(`ChronicAI listening on http://localhost:${PORT}`);
+            const primaryUrl = process.env.APP_URL || process.env.FRONTEND_URL || `http://localhost:${PORT}`;
+            console.log(`ChronicAI active on ${primaryUrl}`);
         }
     );
 }

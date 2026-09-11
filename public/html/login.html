@@ -4,350 +4,621 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
-  <title>ChronicAI — Citizen Portal Login</title>
+  <title>ChronicAI — Sign In</title>
   
-  <link rel="stylesheet" href="../css/design-tokens.css">
-  <link rel="stylesheet" href="../css/theme-sync.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <script src="../js/theme-manager.js"></script>
 
   <style>
-    /* Civic Institutional Citizen Login */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       display: flex;
+      background-color: #0b1324;
+      color: #0f172a;
+      overflow-x: hidden;
+    }
+
+    .split-layout {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+    }
+
+    /* ============================================================
+       LEFT PANEL - VISUAL BANNER SECTION
+       ============================================================ */
+    .left-panel {
+      flex: 1.1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
       flex-direction: column;
-      background-color: var(--paper);
-      color: var(--ink);
-      background-image: 
-        linear-gradient(to right, rgba(222, 219, 211, 0.45) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(222, 219, 211, 0.45) 1px, transparent 1px);
-      background-size: 32px 32px;
-      margin: 0;
-    }
-
-    /* Official Municipal Top Bar */
-    .civic-topbar {
-      background-color: var(--authority-deep);
-      color: #ffffff;
-      padding: var(--space-3) var(--space-6);
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      border-bottom: 2px solid var(--authority);
+      padding: 40px;
+      background: linear-gradient(135deg, #091a2d 0%, #0e2e50 50%, #051323 100%);
     }
 
-    .civic-brand-seal {
+    .left-panel-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.28;
+      mix-blend-mode: luminosity;
+      transform: scale(1.03);
+      transition: transform 10s ease;
+    }
+
+    .left-panel:hover .left-panel-bg {
+      transform: scale(1.08);
+    }
+
+    .left-panel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(7, 19, 36, 0.75) 0%, rgba(5, 14, 26, 0.92) 100%);
+    }
+
+    .left-panel-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    /* Circular Floating Back Button */
+    .back-button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       display: flex;
       align-items: center;
-      gap: var(--space-3);
-      text-decoration: none;
+      justify-content: center;
       color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .brand-title {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin: 0;
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateX(-3px);
+      border-color: #38bdf8;
+      color: #38bdf8;
     }
 
-    .brand-sub {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: #a3c1e2;
-      display: block;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    /* Left panel bottom text */
+    .left-branding {
+      max-width: 480px;
     }
 
-    .topbar-right-meta {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: #cbd5e1;
-      display: flex;
+    .left-badge {
+      display: inline-flex;
       align-items: center;
-      gap: var(--space-4);
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    /* Main Login Shell */
-    .login-shell {
+    .left-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .left-title span {
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .left-description {
+      color: #94a3b8;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       RIGHT PANEL - FORM SECTION
+       ============================================================ */
+    .right-panel {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .login-container {
-      width: 100%;
-      max-width: 440px;
-    }
-
-    .login-document {
       background: #ffffff;
-      border: 1px solid var(--concrete);
-      border-top: 4px solid var(--authority);
-      box-shadow: var(--shadow-high);
-      padding: var(--space-8);
-      position: relative;
+      padding: 40px 24px;
+      overflow-y: auto;
     }
 
-    .document-header {
-      border-bottom: 1px solid var(--concrete);
-      padding-bottom: var(--space-5);
-      margin-bottom: var(--space-6);
-    }
-
-    .document-ref {
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--authority);
-      font-weight: 600;
-      margin-bottom: var(--space-1);
-      display: block;
-    }
-
-    .document-title {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      color: var(--ink);
-      margin: 0 0 var(--space-2) 0;
-    }
-
-    .document-subtitle {
-      color: var(--ink-muted);
-      font-size: var(--text-sm);
-      margin: 0;
-      line-height: var(--leading-tight);
-    }
-
-    /* Form Fields */
-    .civic-form-group {
-      margin-bottom: var(--space-5);
-    }
-
-    .civic-label {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: var(--space-2);
-    }
-
-    .civic-input-wrap {
-      position: relative;
-    }
-
-    .civic-input {
+    .form-box {
       width: 100%;
-      padding: 11px 12px 11px 38px;
-      font-family: var(--font-sans);
-      font-size: var(--text-base);
-      color: var(--ink);
-      background-color: var(--paper);
-      border: 1px solid var(--concrete-dark);
-      border-radius: var(--radius-sm);
-      box-shadow: inset 1px 1px 2px rgba(16, 24, 32, 0.04);
-      transition: border-color var(--transition-fast), background-color var(--transition-fast);
+      max-width: 420px;
     }
 
-    .civic-input:focus {
-      background-color: #ffffff;
-      border-color: var(--authority);
+    .form-header {
+      margin-bottom: 28px;
     }
 
-    .civic-input-icon {
+    .form-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .form-subtitle {
+      color: #4b5563;
+      font-size: 14px;
+    }
+
+    .form-subtitle a {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .form-subtitle a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+
+    /* 1-Click Demo Quickfill Pill */
+    .demo-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fef3c7;
+      border: 1px dashed #f59e0b;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 24px;
+    }
+
+    .demo-strip-text {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #92400e;
+    }
+
+    .demo-strip-text code {
+      font-weight: 700;
+      background: rgba(245, 158, 11, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .demo-fill-btn {
+      background: #f59e0b;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .demo-fill-btn:hover {
+      background: #d97706;
+      transform: translateY(-1px);
+    }
+
+    /* Fields */
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 13px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #111827;
+      background: #ffffff;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .text-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .password-input {
+      padding-right: 46px;
+    }
+
+    .toggle-pass-btn {
       position: absolute;
-      left: 12px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--ink-faint);
-      font-size: 0.95rem;
-      pointer-events: none;
+      background: none;
+      border: none;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .toggle-pass-btn:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    /* Remember me & Forgot Password */
+    .form-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      font-size: 13px;
+    }
+
+    .remember-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #4b5563;
+      cursor: pointer;
+    }
+
+    .remember-wrap input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #2563eb;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: #2563eb;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
     }
 
     /* Submit Button */
-    .civic-btn-submit {
+    .submit-button {
       width: 100%;
-      padding: 12px var(--space-4);
-      font-family: var(--font-sans);
-      font-size: var(--text-base);
-      font-weight: 600;
-      background-color: var(--authority);
+      background: #000000;
       color: #ffffff;
-      border: 1px solid var(--authority-deep);
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow-mid);
+      border: none;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--space-2);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
-      margin-top: var(--space-6);
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
     }
 
-    .civic-btn-submit:hover:not(:disabled) {
-      background-color: var(--authority-hover);
-      box-shadow: var(--shadow-high);
+    .submit-button:hover:not(:disabled) {
+      background: #1f2937;
       transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     }
 
-    .civic-btn-submit:active:not(:disabled) {
-      background-color: var(--authority-deep);
+    .submit-button:active:not(:disabled) {
       transform: translateY(1px);
-      box-shadow: var(--shadow-low);
     }
 
-    .civic-btn-submit:disabled {
+    .submit-button:disabled {
       opacity: 0.65;
       cursor: not-allowed;
     }
 
-    /* Feedback message */
-    .civic-form-message {
-      margin-top: var(--space-4);
-      font-family: var(--font-mono);
-      font-size: var(--text-sm);
-      min-height: 22px;
+    /* Divider */
+    .or-divider {
+      position: relative;
+      margin: 26px 0;
       text-align: center;
     }
 
-    /* Bottom links */
-    .document-footer {
-      margin-top: var(--space-6);
-      padding-top: var(--space-4);
-      border-top: 1px solid var(--concrete);
+    .or-divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e5e7eb;
+    }
+
+    .or-divider span {
+      position: relative;
+      background: #ffffff;
+      padding: 0 14px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* Social Buttons */
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .social-button {
       display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-      font-size: var(--text-sm);
-      text-align: center;
-    }
-
-    .document-footer a {
-      color: var(--authority);
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .document-footer a:hover {
-      text-decoration: underline;
-    }
-
-    .civic-footnote {
-      margin-top: var(--space-4);
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-      color: var(--ink-faint);
-      text-align: center;
-      display: flex;
-      justify-content: center;
       align-items: center;
-      gap: var(--space-2);
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      background: #ffffff;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .social-button:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+    }
+
+    .social-button svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Message */
+    .form-message {
+      margin-top: 16px;
+      font-size: 13px;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 900px) {
+      .left-panel {
+        display: none;
+      }
+      .right-panel {
+        flex: 1;
+        padding: 40px 20px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Municipal Authority Top Bar -->
-  <header class="civic-topbar">
-    <a href="index.html" class="civic-brand-seal">
-      <span class="seal-mark"><i class="fa-solid fa-landmark"></i></span>
-      <div>
-        <h1 class="brand-title">ChronicAI</h1>
-        <span class="brand-sub">Civic Infrastructure & Public Works</span>
+  <div class="split-layout">
+    
+    <!-- LEFT PANEL: Brand Image & Civic Command Backdrop -->
+    <div class="left-panel">
+      <div class="left-panel-bg"></div>
+      <div class="left-panel-overlay"></div>
+
+      <div class="left-panel-content">
+        <!-- Floating Back Button -->
+        <div>
+          <a href="index.html" class="back-button" title="Return to Public Portal">
+            <i class="fa-solid fa-arrow-left"></i>
+          </a>
+        </div>
+
+        <!-- Branding Copy -->
+        <div class="left-branding">
+          <div class="left-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Civic Command Access</span>
+          </div>
+          <h2 class="left-title">
+            One Platform.<br>
+            <span>Rapid Response.</span>
+          </h2>
+          <p class="left-description">
+            Sign in to coordinate disaster response, report municipal infrastructure issues, and monitor district-level SitRep operations in real-time.
+          </p>
+        </div>
       </div>
-    </a>
-    <div class="topbar-right-meta" style="display: flex; align-items: center; gap: 14px;">
-      <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
-        <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
-          <i class="fa-solid fa-sun"></i> <span>Day</span>
-        </button>
-        <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
-          <i class="fa-solid fa-moon"></i> <span>Night</span>
-        </button>
-      </div>
-      <span><i class="fa-solid fa-shield-halved"></i> Official Record Access</span>
-      <a href="admin-login.html" style="color: #cbd5e1; text-decoration: none;">Authority Portal →</a>
     </div>
-  </header>
 
-  <!-- Login Main Shell -->
-  <main class="login-shell">
-    <div class="login-container">
-      <div class="login-document">
+    <!-- RIGHT PANEL: Sign-In Form Section -->
+    <div class="right-panel">
+      <div class="form-box">
         
-        <header class="document-header">
-          <span class="document-ref">CITIZEN ENTRY RECORD — FORM C-101</span>
-          <h2 class="document-title">Citizen Login</h2>
-          <p class="document-subtitle">Sign in to file infrastructure issues, monitor municipal service status, and track neighborhood repairs.</p>
-        </header>
+        <div class="form-header">
+          <h1 class="form-title">Welcome Back</h1>
+          <p class="form-subtitle">
+            Don't have an account? 
+            <a href="register.html">Sign up</a>
+          </p>
+        </div>
 
+        <!-- 1-Click Demo Credential Quick-Fill -->
+        <div class="demo-strip">
+          <div class="demo-strip-text">
+            <i class="fa-solid fa-bolt" style="color:#d97706;"></i>
+            <span>Demo: <code>demo@localhost</code></span>
+          </div>
+          <button type="button" class="demo-fill-btn" id="demoAutoFillBtn" title="Auto-fill test citizen credentials">
+            Auto-fill
+          </button>
+        </div>
+
+        <!-- Form -->
         <form id="loginForm">
-          <div class="civic-form-group">
-            <label class="civic-label" for="email">Email Address</label>
-            <div class="civic-input-wrap">
-              <i class="fa-solid fa-envelope civic-input-icon"></i>
+          
+          <!-- Email -->
+          <div class="input-group">
+            <label class="input-label" for="email">Email Address</label>
+            <div class="input-wrapper">
               <input
-                class="civic-input"
                 type="email"
                 id="email"
                 placeholder="name@example.com or demo@localhost"
                 autocomplete="username"
+                class="text-input"
                 required
               >
             </div>
           </div>
 
-          <div class="civic-form-group">
-            <label class="civic-label" for="password">Password</label>
-            <div class="civic-input-wrap">
-              <i class="fa-solid fa-lock civic-input-icon"></i>
+          <!-- Password -->
+          <div class="input-group">
+            <label class="input-label" for="password">Password</label>
+            <div class="input-wrapper">
               <input
-                class="civic-input"
                 type="password"
                 id="password"
-                placeholder="Enter password"
+                placeholder="••••••••"
                 autocomplete="current-password"
+                class="text-input password-input"
                 required
               >
+              <button type="button" class="toggle-pass-btn" id="togglePasswordBtn" title="Show/hide password">
+                <i class="fa-solid fa-eye" id="togglePasswordIcon"></i>
+              </button>
             </div>
           </div>
 
-          <button
-            type="submit"
-            class="civic-btn-submit"
-            id="loginButton"
-          >
-            <i class="fa-solid fa-right-to-bracket"></i>
-            <span>Login to ChronicAI</span>
+          <!-- Remember Me + Forgot Password -->
+          <div class="form-options">
+            <label class="remember-wrap">
+              <input type="checkbox" id="rememberMe">
+              <span>Remember me</span>
+            </label>
+            <a href="javascript:void(0)" onclick="alert('Please contact your district administrator for password assistance.')" class="forgot-link">
+              Forgot password?
+            </a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-button" id="loginButton">
+            <span>Sign In</span>
           </button>
         </form>
 
-        <div class="civic-form-message" id="loginMessage" role="alert"></div>
+        <!-- Feedback Message -->
+        <div class="form-message" id="loginMessage" role="alert"></div>
 
-        <footer class="document-footer">
-          <div>
-            Don't have a verified account?
-            <a href="register.html">Register Citizen Record</a>
-          </div>
-          <div>
-            <a href="index.html">← Return to Public Portal</a>
-          </div>
-        </footer>
+        <!-- Divider -->
+        <div class="or-divider">
+          <span>or</span>
+        </div>
 
-      </div>
+        <!-- Social Buttons -->
+        <div class="social-grid">
+          <button type="button" class="social-button" onclick="alert('Google authentication available in live OAuth deployment.')">
+            <svg viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            <span>Google</span>
+          </button>
 
-      <div class="civic-footnote">
-        <i class="fa-solid fa-lock"></i>
-        <span>Authenticated through Municipal Security Protocol. Local demo: demo@localhost</span>
+          <button type="button" class="social-button" onclick="alert('GitHub authentication available in live OAuth deployment.')">
+            <svg fill="#24292f" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            <span>GitHub</span>
+          </button>
+        </div>
+
       </div>
     </div>
-  </main>
+
+  </div>
 
   <script type="module" src="../js/login.js"></script>
+  <script>
+    // 1-Click Demo Auto-fill Hook
+    document.getElementById("demoAutoFillBtn")?.addEventListener("click", () => {
+      const emailEl = document.getElementById("email");
+      const passEl = document.getElementById("password");
+      if (emailEl) emailEl.value = "demo@localhost";
+      if (passEl) passEl.value = "LocalDemo123!";
+      emailEl?.focus();
+    });
+
+    // Password Visibility Toggle Hook
+    document.getElementById("togglePasswordBtn")?.addEventListener("click", () => {
+      const passEl = document.getElementById("password");
+      const iconEl = document.getElementById("togglePasswordIcon");
+      if (passEl) {
+        const isPass = passEl.type === "password";
+        passEl.type = isPass ? "text" : "password";
+        if (iconEl) {
+          iconEl.className = isPass ? "fa-solid fa-eye-slash" : "fa-solid fa-eye";
+        }
+      }
+    });
+  </script>
 </body>
 </html>
