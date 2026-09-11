@@ -687,3 +687,54 @@ footer {
   border-top: 1px solid var(--concrete);
 }
 
+/* --------------------------------------------------------------------------
+   Mobile Responsiveness (max-width: 768px)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .civic-topbar {
+    padding: 12px 14px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .topbar-nav {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .filing-shell {
+    margin: 16px auto 40px;
+    padding: 0 12px;
+  }
+
+  .card {
+    padding: 18px 14px;
+    margin-bottom: 20px;
+  }
+
+  .location-input-wrap {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dimensional-pin-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .action-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .action-row button,
+  .action-row a {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+}
+
+

@@ -43,25 +43,138 @@
         <nav class="civic-nav-container" aria-label="Main Navigation">
           <div class="civic-nav-pill">
             <a href="index.html" class="civic-nav-brand">
-              <span class="seal-mark" style="width:26px;height:26px;font-size:12px;"><i class="fa-solid fa-landmark"></i></span>
+              <span class="seal-mark" style="width:28px;height:28px;font-size:13px;"><i class="fa-solid fa-landmark"></i></span>
               <span>ChronicAI</span>
             </a>
-            <a href="#features" class="civic-nav-link">Live Telemetry</a>
-            <a href="report-problem.html" class="civic-nav-link">Report Incident</a>
-            <a href="#homepageMapTitle" class="civic-nav-link">Disaster Radar</a>
-            <a href="resource-center.html" class="civic-nav-link">Resource Fleet</a>
-            <a href="admin-login.html" class="civic-nav-link" style="color:#fde047;">Authority Portal</a>
-            <div class="civic-theme-segmented-switch" role="group" aria-label="Day and Night mode switcher">
-              <button type="button" class="theme-seg-btn" id="segDayBtn" aria-pressed="false" title="Switch to Day Mode">
-                <i class="fa-solid fa-sun" style="color: #f59e0b;"></i>
-                <span>Day</span>
-              </button>
-              <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-pressed="true" title="Switch to Night Mode">
-                <i class="fa-solid fa-moon" style="color: #38bdf8;"></i>
-                <span>Night</span>
+
+            <!-- Desktop Nav Links (hidden on mobile) -->
+            <div class="civic-nav-links-desktop">
+              <a href="#features" class="civic-nav-link">Live Telemetry</a>
+              <a href="report-problem.html" class="civic-nav-link">Report Incident</a>
+              <a href="#homepageMapTitle" class="civic-nav-link">Disaster Radar</a>
+              <a href="resource-center.html" class="civic-nav-link">Resource Fleet</a>
+              <a href="admin-login.html" class="civic-nav-link nav-highlight">Authority Portal</a>
+            </div>
+
+            <!-- Desktop Actions (hidden on mobile) -->
+            <div class="civic-nav-actions-desktop">
+              <div class="civic-theme-segmented-switch" role="group" aria-label="Day and Night mode switcher">
+                <button type="button" class="theme-seg-btn" id="segDayBtn" aria-pressed="false" title="Switch to Day Mode">
+                  <i class="fa-solid fa-sun" style="color: #f59e0b;"></i>
+                  <span>Day</span>
+                </button>
+                <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-pressed="true" title="Switch to Night Mode">
+                  <i class="fa-solid fa-moon" style="color: #38bdf8;"></i>
+                  <span>Night</span>
+                </button>
+              </div>
+              <a href="login.html" class="civic-nav-auth">Sign In</a>
+            </div>
+
+            <!-- Mobile Navbar Controls (visible on <= 1024px) -->
+            <div class="civic-nav-mobile-controls">
+              <div class="civic-theme-segmented-switch compact-switch" role="group" aria-label="Theme switcher">
+                <button type="button" class="theme-seg-btn" id="segDayBtnMob" aria-pressed="false" title="Day Mode">
+                  <i class="fa-solid fa-sun" style="color: #f59e0b;"></i>
+                </button>
+                <button type="button" class="theme-seg-btn active" id="segNightBtnMob" aria-pressed="true" title="Night Mode">
+                  <i class="fa-solid fa-moon" style="color: #38bdf8;"></i>
+                </button>
+              </div>
+              <button type="button" class="civic-mobile-hamburger" id="civicMobileMenuBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+                <i class="fa-solid fa-bars" id="civicHamburgerIcon"></i>
               </button>
             </div>
-            <a href="login.html" class="civic-nav-auth">Sign In</a>
+          </div>
+
+          <!-- Glassmorphic Full Mobile Navigation Drawer -->
+          <div class="civic-mobile-drawer" id="civicMobileDrawer" aria-hidden="true">
+            <div class="mobile-drawer-header">
+              <div class="drawer-brand">
+                <span class="seal-mark" style="width:28px;height:28px;font-size:13px;"><i class="fa-solid fa-landmark"></i></span>
+                <span>ChronicAI</span>
+              </div>
+              <button type="button" class="mobile-drawer-close" id="civicDrawerCloseBtn" aria-label="Close navigation menu">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="mobile-drawer-banner">
+              <span class="civic-pulse-dot"></span>
+              <span>CIVIC EMERGENCY NETWORK ONLINE</span>
+            </div>
+
+            <div class="mobile-drawer-actions">
+              <a href="report-problem.html" class="mobile-cta-action">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>File Infrastructure Incident</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <div class="mobile-auth-row">
+                <a href="login.html" class="mobile-auth-btn sign-in">Sign In</a>
+                <a href="register.html" class="mobile-auth-btn register">Register</a>
+              </div>
+            </div>
+
+            <div class="mobile-drawer-links">
+              <a href="#features" class="mobile-drawer-link">
+                <div class="link-icon blue"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="link-text">
+                  <strong>Live Telemetry</strong>
+                  <small>Real-time casualty & SitRep statistics</small>
+                </div>
+              </a>
+              <a href="#homepageMapTitle" class="mobile-drawer-link">
+                <div class="link-icon amber"><i class="fa-solid fa-map-location-dot"></i></div>
+                <div class="link-text">
+                  <strong>Disaster Radar</strong>
+                  <small>Live GIS national hazard mesh</small>
+                </div>
+              </a>
+              <a href="resource-center.html" class="mobile-drawer-link">
+                <div class="link-icon green"><i class="fa-solid fa-warehouse"></i></div>
+                <div class="link-text">
+                  <strong>Relief & Resources</strong>
+                  <small>Shelters, medical camps, supply depots</small>
+                </div>
+              </a>
+              <a href="track.html" class="mobile-drawer-link">
+                <div class="link-icon cyan"><i class="fa-solid fa-truck-fast"></i></div>
+                <div class="link-text">
+                  <strong>Rescue Fleet Tracking</strong>
+                  <small>GPS telematics of active responders</small>
+                </div>
+              </a>
+              <a href="missing-persons.html" class="mobile-drawer-link">
+                <div class="link-icon purple"><i class="fa-solid fa-users-viewfinder"></i></div>
+                <div class="link-text">
+                  <strong>Missing Persons Registry</strong>
+                  <small>Search displaced persons & hospital rolls</small>
+                </div>
+              </a>
+              <a href="#start" class="mobile-drawer-link">
+                <div class="link-icon red"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <div class="link-text">
+                  <strong>Support Operations</strong>
+                  <small>Donations, supplies & volunteer corps</small>
+                </div>
+              </a>
+              <a href="admin-login.html" class="mobile-drawer-link admin-link">
+                <div class="link-icon yellow"><i class="fa-solid fa-landmark"></i></div>
+                <div class="link-text">
+                  <strong>Authority Portal</strong>
+                  <small>Incident Commander / EOC Console</small>
+                </div>
+                <i class="fa-solid fa-chevron-right link-chevron"></i>
+              </a>
+            </div>
+
+            <div class="mobile-drawer-footer">
+              <a href="tel:+918013593509" class="mobile-helpline-chip">
+                <i class="fa-solid fa-phone"></i>
+                <span>24/7 Helpline: +91 80135 93509</span>
+              </a>
+            </div>
           </div>
         </nav>
 
@@ -988,6 +1101,44 @@
         document.body.classList.add("signed-in-user");
       }
 
+      // Mobile Navigation Drawer Toggle Logic
+      const mobileMenuBtn = document.getElementById("civicMobileMenuBtn");
+      const mobileDrawer = document.getElementById("civicMobileDrawer");
+      const drawerCloseBtn = document.getElementById("civicDrawerCloseBtn");
+
+      function openDrawer() {
+        if (!mobileDrawer) return;
+        mobileDrawer.classList.add("open");
+        mobileDrawer.setAttribute("aria-hidden", "false");
+        mobileMenuBtn?.setAttribute("aria-expanded", "true");
+        document.body.classList.add("drawer-open");
+      }
+
+      function closeDrawer() {
+        if (!mobileDrawer) return;
+        mobileDrawer.classList.remove("open");
+        mobileDrawer.setAttribute("aria-hidden", "true");
+        mobileMenuBtn?.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("drawer-open");
+      }
+
+      mobileMenuBtn?.addEventListener("click", () => {
+        if (mobileDrawer?.classList.contains("open")) {
+          closeDrawer();
+        } else {
+          openDrawer();
+        }
+      });
+
+      drawerCloseBtn?.addEventListener("click", closeDrawer);
+
+      // Auto close drawer when tapping on navigation anchor links
+      mobileDrawer?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          closeDrawer();
+        });
+      });
+
       const popupMenus = document.querySelectorAll(".help-menu, .support-menu");
 
       document.addEventListener("click", (event) => {
@@ -1001,6 +1152,7 @@
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
           popupMenus.forEach((menu) => menu.removeAttribute("open"));
+          closeDrawer();
         }
       });
     </script>

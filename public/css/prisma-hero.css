@@ -108,11 +108,11 @@
 }
 
 /* --------------------------------------------------------------------------
-   Floating Municipal Capsule Navbar
+   Floating Municipal Capsule Navbar & Mobile Navigation Architecture
    -------------------------------------------------------------------------- */
 .civic-nav-container {
   position: relative;
-  z-index: 30;
+  z-index: 90;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -122,18 +122,19 @@
 .civic-nav-pill {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   background: rgba(6, 17, 33, 0.88);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 9999px;
   border: 1px solid rgba(147, 197, 253, 0.28);
   padding: 8px 20px;
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.12);
   max-width: 95vw;
-  overflow-x: auto;
+  box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
   .civic-nav-pill {
     gap: 24px;
     padding: 10px 32px;
@@ -150,6 +151,20 @@
   font-weight: 700;
   font-size: 16px;
   letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.civic-nav-links-desktop {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.civic-nav-actions-desktop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
 }
 
 .civic-nav-link {
@@ -165,6 +180,11 @@
 .civic-nav-link:hover {
   color: #fde047;
   transform: translateY(-1px);
+}
+
+.civic-nav-link.nav-highlight {
+  color: #fde047;
+  font-weight: 600;
 }
 
 .civic-nav-auth {
@@ -186,6 +206,284 @@
   background: var(--authority-hover);
   box-shadow: 0 6px 18px rgba(56, 189, 248, 0.35);
   transform: translateY(-1px);
+}
+
+/* Mobile Navbar Controls (Hidden on Desktop) */
+.civic-nav-mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.compact-switch {
+  padding: 2px;
+}
+
+.compact-switch .theme-seg-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.civic-mobile-hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(147, 197, 253, 0.12);
+  border: 1px solid rgba(147, 197, 253, 0.28);
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.civic-mobile-hamburger:hover,
+.civic-mobile-hamburger:active {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: #38bdf8;
+  color: #38bdf8;
+}
+
+/* Fullscreen Glassmorphic Mobile Navigation Drawer */
+.civic-mobile-drawer {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
+  background: rgba(3, 8, 18, 0.97);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 32px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.civic-mobile-drawer.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 14px;
+}
+
+.mobile-drawer-header .drawer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display, Georgia, serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.mobile-drawer-close {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-drawer-close:hover,
+.mobile-drawer-close:active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+.mobile-drawer-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.mobile-drawer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mobile-cta-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fde047 0%, #eab308 100%);
+  color: #0f172a;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(234, 179, 8, 0.35);
+}
+
+.mobile-cta-action i:first-child {
+  color: #dc2626;
+  font-size: 16px;
+}
+
+.mobile-auth-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mobile-auth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.mobile-auth-btn.sign-in {
+  background: rgba(14, 36, 68, 0.85);
+  border: 1px solid rgba(147, 197, 253, 0.35);
+  color: #ffffff;
+}
+
+.mobile-auth-btn.register {
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+}
+
+.mobile-drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.mobile-drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  color: #e2e8f0;
+  transition: all 0.15s ease;
+}
+
+.mobile-drawer-link:active,
+.mobile-drawer-link:hover {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.35);
+  transform: translateX(3px);
+}
+
+.mobile-drawer-link .link-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.mobile-drawer-link .link-icon.blue { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.mobile-drawer-link .link-icon.amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+.mobile-drawer-link .link-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+.mobile-drawer-link .link-icon.cyan { background: rgba(6, 182, 212, 0.15); color: #06b6d4; }
+.mobile-drawer-link .link-icon.purple { background: rgba(168, 85, 247, 0.15); color: #a855f7; }
+.mobile-drawer-link .link-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+.mobile-drawer-link .link-icon.yellow { background: rgba(234, 179, 8, 0.15); color: #fde047; }
+
+.mobile-drawer-link .link-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mobile-drawer-link .link-text strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.mobile-drawer-link .link-text small {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.mobile-drawer-link.admin-link {
+  border-color: rgba(253, 224, 71, 0.35);
+  background: rgba(234, 179, 8, 0.08);
+}
+
+.mobile-drawer-link.admin-link .link-chevron {
+  margin-left: auto;
+  font-size: 12px;
+  color: #fde047;
+}
+
+.mobile-drawer-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-helpline-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -2430,3 +2728,678 @@ html[data-theme="light"] body,
 [data-theme="light"] .footer-bottom-link:hover {
   color: #0f172a;
 }
+
+/* ==========================================================================
+   CHRONICAI ULTRA-RESPONSIVE MOBILE ARCHITECTURE (LANDING & ALL COMPONENTS)
+   Tested across iPhone 14/15/16, Android, iPads, and Small Viewports (320px - 1024px)
+   ========================================================================== */
+
+/* 1. Global Viewport & Horizontal Overflow Lock */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body.drawer-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
+.civic-hero-section,
+.civic-hero-frame,
+main.civic-landing-main,
+.civic-stats-section,
+.civic-features-section,
+.civic-cta-section,
+.civic-map-section,
+.civic-footer-13 {
+  max-width: 100%;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+/* 2. Tablet & Small Laptop Viewport (max-width: 1024px) */
+@media (max-width: 1024px) {
+  .civic-nav-links-desktop,
+  .civic-nav-actions-desktop {
+    display: none !important;
+  }
+
+  .civic-nav-mobile-controls {
+    display: flex !important;
+  }
+
+  .civic-nav-container {
+    padding: 12px 16px 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .civic-nav-pill {
+    width: 100%;
+    max-width: 100%;
+    justify-content: space-between;
+    border-radius: 14px;
+    padding: 10px 16px;
+    overflow: visible;
+  }
+
+  .civic-hero-content {
+    padding: 96px 20px 40px;
+  }
+
+  .civic-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+
+/* 3. Mobile Viewport (max-width: 768px) */
+@media (max-width: 768px) {
+  /* Hero Content & Typography */
+  .civic-hero-content {
+    padding: 85px 16px 36px;
+  }
+
+  .civic-status-badge {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 6px 12px;
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.4;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+  }
+
+  .civic-hero-title {
+    font-size: clamp(2rem, 7.8vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .words-pull-up {
+    display: inline;
+  }
+
+  .words-pull-up-item {
+    display: inline;
+    margin-right: 0.16em;
+  }
+
+  .pull-up-asterisk {
+    position: relative;
+    top: -0.15em;
+    right: 0;
+    font-size: 0.5em;
+  }
+
+  .civic-lead-text {
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin-bottom: 22px;
+    max-width: 100%;
+    word-break: break-word;
+  }
+
+  /* Full-Width Mobile Action Buttons */
+  .civic-actions-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .civic-cta-btn {
+    width: 100%;
+    justify-content: space-between;
+    padding: 12px 14px 12px 22px;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  .civic-secondary-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 13.5px;
+    box-sizing: border-box;
+  }
+
+  /* Telemetry HUD Card Touch Optimization */
+  .hud-3d-wrapper {
+    perspective: none !important;
+    transform: none !important;
+  }
+
+  .civic-telemetry-hud {
+    transform: none !important;
+    padding: 16px 14px;
+    border-radius: 12px;
+  }
+
+  .hud-header {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .hud-title {
+    font-size: 11.5px;
+  }
+
+  .hud-counter-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .hud-screen-container {
+    max-height: 220px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .screen-tag-row {
+    gap: 6px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+  }
+
+  .screen-live-badge,
+  .screen-signal-badge {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+
+  .caption-title {
+    font-size: 12px;
+  }
+
+  .caption-sub {
+    font-size: 10px;
+  }
+
+  /* 2x2 Clean Touch Feed Tabs */
+  .hud-feed-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .feed-tab {
+    padding: 8px 6px;
+    font-size: 11px;
+    white-space: normal;
+    justify-content: center;
+    min-height: 38px;
+  }
+
+  .hud-waveform-box {
+    padding: 8px 12px;
+    margin-bottom: 12px;
+  }
+
+  .waveform-label {
+    font-size: 10px;
+  }
+
+  .hud-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .hud-metric-box {
+    padding: 8px 4px;
+  }
+
+  .hud-metric-box strong {
+    font-size: 16px !important;
+  }
+
+  .hud-metric-box span {
+    font-size: 9.5px;
+  }
+
+  .hud-recent-log {
+    font-size: 11px;
+    padding: 10px 12px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .hud-log-row {
+    font-size: 10.5px;
+  }
+
+  .hud-footer-link {
+    font-size: 12px;
+    padding: 10px 12px;
+    justify-content: center;
+  }
+
+  /* 1. Official Telemetry Stats Strip */
+  main.civic-landing-main {
+    padding: 36px 14px 48px;
+  }
+
+  .civic-stats-section {
+    margin-bottom: 44px;
+  }
+
+  .civic-stats-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    border-radius: 14px;
+  }
+
+  /* 5th stat tile spans both columns to eliminate the empty black slot */
+  .civic-stat-tile:nth-child(5) {
+    grid-column: 1 / -1;
+  }
+
+  .civic-stat-tile {
+    padding: 16px 14px 14px;
+    min-height: 105px;
+  }
+
+  .stat-kicker {
+    font-size: 10px;
+  }
+
+  .stat-number {
+    font-size: clamp(1.8rem, 6.5vw, 2.3rem);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  /* 2. Core Municipal Capabilities Grid */
+  .civic-features-section {
+    margin-bottom: 48px;
+  }
+
+  .section-kicker-pill {
+    font-size: 10px;
+    padding: 5px 12px;
+    margin-bottom: 10px;
+  }
+
+  .civic-section-title {
+    font-size: clamp(1.75rem, 6.5vw, 2.3rem);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .civic-section-subtitle {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .civic-capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .capability-card {
+    padding: 20px 16px;
+    border-radius: 12px;
+  }
+
+  .cap-title {
+    font-size: 17.5px;
+  }
+
+  .cap-desc {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .cap-action-link {
+    padding: 8px 0;
+    font-size: 13px;
+  }
+
+  /* 3. Official Civic Support Plate (CTA Band) */
+  .civic-cta-section {
+    margin-bottom: 48px;
+  }
+
+  .civic-support-plate {
+    padding: 24px 16px;
+    border-radius: 16px;
+    gap: 20px;
+  }
+
+  .plate-badge {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .plate-title {
+    font-size: clamp(1.6rem, 5.5vw, 2.1rem);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .plate-desc {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .plate-actions-right {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .btn-support-dropdown,
+  .btn-cta-primary,
+  .btn-cta-outline {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .support-dropdown-list {
+    position: static;
+    width: 100%;
+    min-width: unset;
+    margin-top: 8px;
+    box-sizing: border-box;
+  }
+
+  /* 4. Tactical EOC GIS Disaster Radar Map */
+  .civic-map-section {
+    margin-bottom: 32px;
+  }
+
+  .map-top-bar {
+    padding: 14px 16px;
+    gap: 8px;
+  }
+
+  .radar-title {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+
+  .radar-sub {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .radar-telemetry-badge {
+    font-size: 10px;
+    padding: 5px 12px;
+  }
+
+  .map-canvas-wrapper {
+    height: 380px;
+    position: relative;
+  }
+
+  /* Mobile Legend sits below the map canvas so map is 100% visible */
+  .tactical-map-legend {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid rgba(147, 197, 253, 0.2);
+    padding: 12px 14px;
+    box-sizing: border-box;
+  }
+
+  .legend-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px 10px;
+  }
+
+  .legend-item {
+    font-size: 10px;
+  }
+
+  /* 5. Civic Footer-13 */
+  .footer-hero-banner {
+    height: 180px;
+  }
+
+  .footer-hero-tag {
+    font-size: 9px;
+    padding: 4px 10px;
+    width: 92%;
+    max-width: 310px;
+    white-space: normal;
+    text-align: center;
+    bottom: 16px;
+  }
+
+  .footer-body {
+    padding: 36px 14px 28px;
+  }
+
+  .footer-brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+  }
+
+  .footer-seal-badge {
+    font-size: 9.5px;
+    padding: 4px 10px;
+    white-space: normal;
+    line-height: 1.35;
+    max-width: 100%;
+  }
+
+  .footer-nav-layout {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 14px;
+  }
+
+  .footer-col-title {
+    font-size: 12.5px;
+    margin-bottom: 12px;
+  }
+
+  .footer-nav-link {
+    font-size: 12.5px;
+  }
+
+  .footer-subscribe-col {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .subscribe-input-group {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 0;
+  }
+
+  .subscribe-input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(15, 23, 42, 0.8);
+    padding: 12px 14px;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .subscribe-submit-btn {
+    width: 100%;
+    border-radius: 10px;
+    justify-content: center;
+    padding: 12px;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .footer-bottom-bar {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+    padding-top: 20px;
+  }
+
+  .footer-copyright {
+    font-size: 11.5px;
+    text-align: center;
+  }
+
+  .footer-social-links {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .footer-bottom-links {
+    justify-content: center;
+    gap: 8px 14px;
+    font-size: 11px;
+    flex-wrap: wrap;
+  }
+}
+
+/* 4. Compact Smartphone Viewport (max-width: 480px) */
+@media (max-width: 480px) {
+  .civic-stats-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .civic-hero-title {
+    font-size: clamp(1.85rem, 8.2vw, 2.35rem);
+  }
+
+  .hud-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+  }
+
+  .hud-metric-box strong {
+    font-size: 15px !important;
+  }
+
+  .feed-tab {
+    font-size: 10px;
+    padding: 6px 4px;
+  }
+}
+
+/* 5. Day Mode (Light Theme) Overrides for Mobile Navigation & Drawer */
+[data-theme="light"] .civic-mobile-hamburger {
+  background: rgba(226, 232, 240, 0.9);
+  border-color: rgba(148, 163, 184, 0.4);
+  color: #0f172a;
+}
+
+[data-theme="light"] .civic-mobile-hamburger:hover,
+[data-theme="light"] .civic-mobile-hamburger:active {
+  background: rgba(14, 165, 233, 0.15);
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+[data-theme="light"] .civic-mobile-drawer {
+  background: rgba(248, 250, 252, 0.98);
+  border-left: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .mobile-drawer-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="light"] .mobile-drawer-header .drawer-brand {
+  color: #0f172a;
+}
+
+[data-theme="light"] .mobile-drawer-close {
+  background: rgba(226, 232, 240, 0.8);
+  border-color: #cbd5e1;
+  color: #334155;
+}
+
+[data-theme="light"] .mobile-drawer-close:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #dc2626;
+}
+
+[data-theme="light"] .mobile-drawer-banner {
+  background: #e0f2fe;
+  border-color: #bae6fd;
+  color: #0369a1;
+}
+
+[data-theme="light"] .mobile-auth-btn.sign-in {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+[data-theme="light"] .mobile-auth-btn.register {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+}
+
+[data-theme="light"] .mobile-drawer-link {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #1e293b;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .mobile-drawer-link:active,
+[data-theme="light"] .mobile-drawer-link:hover {
+  background: #f0f9ff;
+  border-color: #7dd3fc;
+}
+
+[data-theme="light"] .mobile-drawer-link .link-text strong {
+  color: #0f172a;
+}
+
+[data-theme="light"] .mobile-drawer-link .link-text small {
+  color: #64748b;
+}
+
+[data-theme="light"] .mobile-drawer-link.admin-link {
+  background: #fefce8;
+  border-color: #fde047;
+}
+
+[data-theme="light"] .mobile-drawer-footer {
+  border-top-color: #e2e8f0;
+}
+
+[data-theme="light"] .mobile-helpline-chip {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+

@@ -46,8 +46,8 @@
 
   function updateToggleButtons(theme) {
     const isLight = theme === 'light';
-    const dayButtons = document.querySelectorAll('#segDayBtn, .btn-theme-day');
-    const nightButtons = document.querySelectorAll('#segNightBtn, .btn-theme-night');
+    const dayButtons = document.querySelectorAll('#segDayBtn, #segDayBtnMob, .btn-theme-day');
+    const nightButtons = document.querySelectorAll('#segNightBtn, #segNightBtnMob, .btn-theme-night');
 
     dayButtons.forEach((btn) => {
       btn.classList.toggle('active', isLight);
@@ -74,12 +74,12 @@
 
   // 3. Document event delegation for segmented switches
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('#segDayBtn, #segNightBtn, .btn-theme-day, .btn-theme-night, #themeToggleBtn');
+    const target = e.target.closest('#segDayBtn, #segDayBtnMob, #segNightBtn, #segNightBtnMob, .btn-theme-day, .btn-theme-night, #themeToggleBtn');
     if (!target) return;
 
-    if (target.id === 'segDayBtn' || target.classList.contains('btn-theme-day')) {
+    if (target.id === 'segDayBtn' || target.id === 'segDayBtnMob' || target.classList.contains('btn-theme-day')) {
       applyTheme('light');
-    } else if (target.id === 'segNightBtn' || target.classList.contains('btn-theme-night')) {
+    } else if (target.id === 'segNightBtn' || target.id === 'segNightBtnMob' || target.classList.contains('btn-theme-night')) {
       applyTheme('dark');
     } else if (target.id === 'themeToggleBtn') {
       window.toggleChronicTheme();
