@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -17,31 +17,19 @@
 
     <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme-manager.js"></script>
 
-    <title>ChronicAI â€” Track Report</title>
+    <title>ChronicAI — Track Report</title>
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- =====================================================
-         FONT AWESOME
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
-
-
-    <!-- =====================================================
-         GLOBAL CSS
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="../css/global.css"
-    >
-
+    <!-- Global CSS & Design Tokens -->
+    <link rel="stylesheet" href="../css/design-tokens.css">
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
     <link rel="stylesheet" href="../css/rescue-tracking.css">
+    <link rel="stylesheet" href="../css/theme-sync.css">
 
 
     <!-- =====================================================
@@ -1610,10 +1598,27 @@
 
 <body>
 
-
-    <!-- =====================================================
-         PAGE
-    ====================================================== -->
+<!-- Official Municipal Top Bar with Day/Night Switch -->
+<header class="civic-topbar">
+    <a href="index.html" class="civic-brand-seal">
+        <span class="seal-mark"><i class="fa-solid fa-landmark"></i></span>
+        <div>
+            <h1 class="brand-title">ChronicAI</h1>
+            <span class="brand-sub">Rescue Operations & Telematics Tracking</span>
+        </div>
+    </a>
+    <div class="topbar-nav">
+        <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+          <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+            <i class="fa-solid fa-sun"></i> <span>Day</span>
+          </button>
+          <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+            <i class="fa-solid fa-moon"></i> <span>Night</span>
+          </button>
+        </div>
+        <a href="index.html">← Return to Portal</a>
+    </div>
+</header>
 
     <main class="track-page">
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -44,12 +44,13 @@
     >
 
 
-    <!-- Global CSS -->
+    <!-- Design Tokens & Global CSS -->
 
-    <link
-        rel="stylesheet"
-        href="../css/global.css"
-    >
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme-manager.js"></script>
+    <link rel="stylesheet" href="../css/design-tokens.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/theme-sync.css">
 
 
     <style>
@@ -549,8 +550,28 @@
 
 <body>
 
+<header class="civic-topbar">
+    <a href="index.html" class="civic-brand-seal">
+        <span class="seal-mark"><i class="fa-solid fa-landmark"></i></span>
+        <div>
+            <h1 class="brand-title">ChronicAI</h1>
+            <span class="brand-sub">Citizen Registration Portal</span>
+        </div>
+    </a>
+    <div class="topbar-nav">
+        <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+          <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+            <i class="fa-solid fa-sun"></i> <span>Day</span>
+          </button>
+          <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+            <i class="fa-solid fa-moon"></i> <span>Night</span>
+          </button>
+        </div>
+        <a href="index.html" style="color: #cbd5e1; text-decoration: none;">← Return to Portal</a>
+    </div>
+</header>
 
-    <div class="register-wrapper">
+    <div class="register-wrapper" style="margin: 40px auto;">
 
 
         <div class="register-card">

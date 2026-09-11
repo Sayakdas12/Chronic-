@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Support disaster relief and volunteer response"><title>ChronicAI | Support & Volunteer</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="../css/global.css"><link rel="stylesheet" href="../css/support.css">
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/theme-manager.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/support.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
 </head>
 <body class="support-page">
-  <header class="support-topbar"><a href="index.html" class="support-brand"><i class="fa-solid fa-shield-heart"></i><span>ChronicAI<small>SUPPORT & VOLUNTEER</small></span></a><a href="index.html" class="support-back"><i class="fa-solid fa-arrow-left"></i> Back to home</a></header>
+  <header class="support-topbar">
+    <a href="index.html" class="support-brand">
+      <i class="fa-solid fa-shield-heart"></i>
+      <span>ChronicAI<small>SUPPORT & VOLUNTEER</small></span>
+    </a>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+        <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+          <i class="fa-solid fa-sun"></i> <span>Day</span>
+        </button>
+        <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+          <i class="fa-solid fa-moon"></i> <span>Night</span>
+        </button>
+      </div>
+      <a href="index.html" class="support-back"><i class="fa-solid fa-arrow-left"></i> Back to home</a>
+    </div>
+  </header>
   <main class="support-shell">
     <section class="support-hero"><span class="support-kicker"><i class="fa-solid fa-hand-holding-heart"></i> COMMUNITY RESPONSE NETWORK</span><h1>Support response efforts.</h1><p>Select a way to assist verified disaster-management work. Submitted information is reviewed by the relevant response team.</p></section>
     <section class="support-options-grid" aria-label="Support options">

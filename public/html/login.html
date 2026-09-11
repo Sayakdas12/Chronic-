@@ -1,300 +1,353 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+  <title>ChronicAI — Citizen Portal Login</title>
+  
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <script src="../js/theme-manager.js"></script>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <style>
+    /* Civic Institutional Citizen Login */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--paper);
+      color: var(--ink);
+      background-image: 
+        linear-gradient(to right, rgba(222, 219, 211, 0.45) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(222, 219, 211, 0.45) 1px, transparent 1px);
+      background-size: 32px 32px;
+      margin: 0;
+    }
 
-    <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+    /* Official Municipal Top Bar */
+    .civic-topbar {
+      background-color: var(--authority-deep);
+      color: #ffffff;
+      padding: var(--space-3) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--authority);
+    }
 
-    <title>ChronicAI â€” Citizen Login</title>
+    .civic-brand-seal {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: #ffffff;
+    }
 
-    <link
-        rel="stylesheet"
-        href="../css/global.css"
-    >
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
 
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    >
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: #a3c1e2;
+      display: block;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
-    <style>
+    .topbar-right-meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(111, 214, 255, 0.38),
-                    transparent 42%
-                ),
-                linear-gradient(
-                    135deg,
-                    #0b5fa5,
-                    #123a78 52%,
-                    #071b3b
-                );
-            padding: 20px;
-        }
+    /* Main Login Shell */
+    .login-shell {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-8) var(--space-4);
+    }
 
-        .login-wrapper {
-            width: 100%;
-            max-width: 460px;
-        }
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+    }
 
-        .login-card {
-            background: rgba(12, 25, 43, 0.92);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
-            backdrop-filter: blur(20px);
-        }
+    .login-document {
+      background: #ffffff;
+      border: 1px solid var(--concrete);
+      border-top: 4px solid var(--authority);
+      box-shadow: var(--shadow-high);
+      padding: var(--space-8);
+      position: relative;
+    }
 
-        .login-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+    .document-header {
+      border-bottom: 1px solid var(--concrete);
+      padding-bottom: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
 
-        .login-logo-icon {
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #00b4ff, #635bff);
-            color: white;
-            font-size: 28px;
-            box-shadow: 0 15px 40px rgba(0,180,255,0.25);
-        }
+    .document-ref {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--authority);
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+      display: block;
+    }
 
-        .login-logo h1 {
-            color: white;
-            margin: 18px 0 5px;
-            font-size: 30px;
-        }
+    .document-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      color: var(--ink);
+      margin: 0 0 var(--space-2) 0;
+    }
 
-        .login-logo p {
-            color: #91a4ba;
-            margin: 0;
-        }
+    .document-subtitle {
+      color: var(--ink-muted);
+      font-size: var(--text-sm);
+      margin: 0;
+      line-height: var(--leading-tight);
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    /* Form Fields */
+    .civic-form-group {
+      margin-bottom: var(--space-5);
+    }
 
-        .form-group label {
-            display: block;
-            color: #dce8f5;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+    .civic-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-2);
+    }
 
-        .input-wrapper {
-            position: relative;
-        }
+    .civic-input-wrap {
+      position: relative;
+    }
 
-        .input-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #71869e;
-        }
+    .civic-input {
+      width: 100%;
+      padding: 11px 12px 11px 38px;
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      color: var(--ink);
+      background-color: var(--paper);
+      border: 1px solid var(--concrete-dark);
+      border-radius: var(--radius-sm);
+      box-shadow: inset 1px 1px 2px rgba(16, 24, 32, 0.04);
+      transition: border-color var(--transition-fast), background-color var(--transition-fast);
+    }
 
-        .input-wrapper input {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 14px 15px 14px 45px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-            color: white;
-            outline: none;
-            font-size: 15px;
-        }
+    .civic-input:focus {
+      background-color: #ffffff;
+      border-color: var(--authority);
+    }
 
-        .input-wrapper input:focus {
-            border-color: #00b4ff;
-            box-shadow: 0 0 0 3px rgba(0,180,255,0.1);
-        }
+    .civic-input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-faint);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
 
-        .login-button {
-            width: 100%;
-            border: none;
-            border-radius: 12px;
-            padding: 15px;
-            background: linear-gradient(135deg, #00b4ff, #635bff);
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+    /* Submit Button */
+    .civic-btn-submit {
+      width: 100%;
+      padding: 12px var(--space-4);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: 600;
+      background-color: var(--authority);
+      color: #ffffff;
+      border: 1px solid var(--authority-deep);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-mid);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+      margin-top: var(--space-6);
+    }
 
-        .login-button:hover {
-            transform: translateY(-1px);
-        }
+    .civic-btn-submit:hover:not(:disabled) {
+      background-color: var(--authority-hover);
+      box-shadow: var(--shadow-high);
+      transform: translateY(-1px);
+    }
 
-        .login-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
+    .civic-btn-submit:active:not(:disabled) {
+      background-color: var(--authority-deep);
+      transform: translateY(1px);
+      box-shadow: var(--shadow-low);
+    }
 
-        .message {
-            margin-top: 18px;
-            text-align: center;
-            min-height: 22px;
-            font-size: 14px;
-        }
+    .civic-btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
 
-        .register-text {
-            text-align: center;
-            margin-top: 25px;
-            color: #91a4ba;
-        }
+    /* Feedback message */
+    .civic-form-message {
+      margin-top: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      min-height: 22px;
+      text-align: center;
+    }
 
-        .register-text a {
-            color: #00b4ff;
-            text-decoration: none;
-            font-weight: 700;
-        }
+    /* Bottom links */
+    .document-footer {
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--concrete);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      font-size: var(--text-sm);
+      text-align: center;
+    }
 
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-top: 18px;
-            color: #71869e;
-            text-decoration: none;
-            font-size: 14px;
-        }
+    .document-footer a {
+      color: var(--authority);
+      font-weight: 600;
+      text-decoration: none;
+    }
 
-    </style>
+    .document-footer a:hover {
+      text-decoration: underline;
+    }
 
+    .civic-footnote {
+      margin-top: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--ink-faint);
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-2);
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Municipal Authority Top Bar -->
+  <header class="civic-topbar">
+    <a href="index.html" class="civic-brand-seal">
+      <span class="seal-mark"><i class="fa-solid fa-landmark"></i></span>
+      <div>
+        <h1 class="brand-title">ChronicAI</h1>
+        <span class="brand-sub">Civic Infrastructure & Public Works</span>
+      </div>
+    </a>
+    <div class="topbar-right-meta" style="display: flex; align-items: center; gap: 14px;">
+      <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+        <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+          <i class="fa-solid fa-sun"></i> <span>Day</span>
+        </button>
+        <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+          <i class="fa-solid fa-moon"></i> <span>Night</span>
+        </button>
+      </div>
+      <span><i class="fa-solid fa-shield-halved"></i> Official Record Access</span>
+      <a href="admin-login.html" style="color: #cbd5e1; text-decoration: none;">Authority Portal →</a>
+    </div>
+  </header>
 
-<div class="login-wrapper">
-
-    <div class="login-card">
-
-        <div class="login-logo">
-
-            <div class="login-logo-icon">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-
-            <h1>ChronicAI</h1>
-
-            <p>Citizen Login</p>
-
-        </div>
-
+  <!-- Login Main Shell -->
+  <main class="login-shell">
+    <div class="login-container">
+      <div class="login-document">
+        
+        <header class="document-header">
+          <span class="document-ref">CITIZEN ENTRY RECORD — FORM C-101</span>
+          <h2 class="document-title">Citizen Login</h2>
+          <p class="document-subtitle">Sign in to file infrastructure issues, monitor municipal service status, and track neighborhood repairs.</p>
+        </header>
 
         <form id="loginForm">
-
-            <div class="form-group">
-
-                <label for="email">
-                    Email Address
-                </label>
-
-                <div class="input-wrapper">
-
-                    <i class="fa-solid fa-envelope"></i>
-
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="Enter your email"
-                        required
-                    >
-
-                </div>
-
+          <div class="civic-form-group">
+            <label class="civic-label" for="email">Email Address</label>
+            <div class="civic-input-wrap">
+              <i class="fa-solid fa-envelope civic-input-icon"></i>
+              <input
+                class="civic-input"
+                type="email"
+                id="email"
+                placeholder="name@example.com or demo@localhost"
+                autocomplete="username"
+                required
+              >
             </div>
+          </div>
 
-
-            <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <div class="input-wrapper">
-
-                    <i class="fa-solid fa-lock"></i>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        required
-                    >
-
-                </div>
-
+          <div class="civic-form-group">
+            <label class="civic-label" for="password">Password</label>
+            <div class="civic-input-wrap">
+              <i class="fa-solid fa-lock civic-input-icon"></i>
+              <input
+                class="civic-input"
+                type="password"
+                id="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+              >
             </div>
+          </div>
 
-
-            <button
-                type="submit"
-                class="login-button"
-                id="loginButton"
-            >
-
-                <i class="fa-solid fa-right-to-bracket"></i>
-
-                Login to ChronicAI
-
-            </button>
-
+          <button
+            type="submit"
+            class="civic-btn-submit"
+            id="loginButton"
+          >
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>Login to ChronicAI</span>
+          </button>
         </form>
 
+        <div class="civic-form-message" id="loginMessage" role="alert"></div>
 
-        <div
-            class="message"
-            id="loginMessage"
-        ></div>
+        <footer class="document-footer">
+          <div>
+            Don't have a verified account?
+            <a href="register.html">Register Citizen Record</a>
+          </div>
+          <div>
+            <a href="index.html">← Return to Public Portal</a>
+          </div>
+        </footer>
 
+      </div>
 
-        <div class="register-text">
-
-            Don't have an account?
-
-            <a href="register.html">
-                Create Account
-            </a>
-
-        </div>
-
-
-        <a
-            href="index.html"
-            class="back-home"
-        >
-
-            â† Back to ChronicAI
-
-        </a>
-
+      <div class="civic-footnote">
+        <i class="fa-solid fa-lock"></i>
+        <span>Authenticated through Municipal Security Protocol. Local demo: demo@localhost</span>
+      </div>
     </div>
+  </main>
 
-</div>
-
-<script type="module" src="../js/login.js"></script>
-
+  <script type="module" src="../js/login.js"></script>
 </body>
-
 </html>

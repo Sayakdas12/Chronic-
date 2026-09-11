@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,13 +6,13 @@
 
 <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
 <script src="../js/auth-guard.js"></script>
+<script src="../js/theme-manager.js"></script>
 
-<title>ChronicAI â€” AI Life Helper</title>
+<title>ChronicAI — AI Life Helper</title>
 
-<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="../css/design-tokens.css">
+<link rel="stylesheet" href="../css/theme-sync.css">
 
 <style>
 
@@ -1723,7 +1723,15 @@ body {
             </div>
 
 
-            <div class="header-actions">
+            <div class="header-actions" style="display: flex; align-items: center; gap: 10px;">
+                <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+                  <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+                    <i class="fa-solid fa-sun"></i> <span>Day</span>
+                  </button>
+                  <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+                    <i class="fa-solid fa-moon"></i> <span>Night</span>
+                  </button>
+                </div>
 
                 <button
                     class="icon-btn"
@@ -1732,15 +1740,6 @@ body {
                 >
                     <i class="fa-solid fa-plus"></i>
                 </button>
-
-                <button
-                    class="icon-btn"
-                    id="themeButton"
-                    title="Theme"
-                >
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-
             </div>
 
         </header>

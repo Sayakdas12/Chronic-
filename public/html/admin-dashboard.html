@@ -7,7 +7,10 @@
   <title>ChronicAI | Government Operations</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="../css/design-tokens.css">
   <link rel="stylesheet" href="../css/admin-dashboard.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
+  <script src="../js/theme-manager.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script type="module" src="../js/admin-dashboard.js"></script>
 </head>
@@ -18,6 +21,14 @@
       <span>ChronicAI <small>GOVERNMENT OPERATIONS & RESPONSE COMMAND</small></span>
     </a>
     <div class="admin-user">
+      <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection" style="margin-right: 12px;">
+        <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+          <i class="fa-solid fa-sun"></i> <span>Day</span>
+        </button>
+        <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+          <i class="fa-solid fa-moon"></i> <span>Night</span>
+        </button>
+      </div>
       <span>Signed in as <strong id="officialName">Government official</strong></span>
       <button class="admin-button" id="logoutButton"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
     </div>

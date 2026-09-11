@@ -1,0 +1,296 @@
+/* ==========================================================================
+   ChronicAI — Design Tokens & Institutional Civic Design System
+   Architecture: Civil engineering blueprints + Government institutional print
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* ------------------------------------------------------------------------
+     1. Named Color Tokens (Defaults to Tactical Night Mode)
+     ------------------------------------------------------------------------ */
+  --ink: #f8fafc;             /* Crisp high-contrast primary text & headers */
+  --ink-muted: #94a3b8;       /* Secondary telemetry & labels */
+  --ink-faint: #64748b;       /* Microcopy, hints & passive borders */
+
+  --authority: #38bdf8;       /* High-visibility municipal cyan/blue */
+  --authority-hover: #0ea5e9; /* Interactive hover on authority buttons */
+  --authority-deep: #040d1a;  /* Deep pressed states, dark consoles, top headers */
+  --authority-faint: rgba(56, 189, 248, 0.15); /* Tinted pill & selection background */
+
+  --signal-amber: #f59e0b;    /* Priority / urgent / warning — reserved */
+  --signal-amber-bg: rgba(245, 158, 11, 0.18); /* Badges in dark mode */
+  --signal-red: #ef4444;      /* Critical severity / life safety — reserved */
+  --signal-red-bg: rgba(239, 68, 68, 0.18); /* Badges in dark mode */
+  --verified-green: #22c55e;  /* Resolved / verified civic states */
+  --verified-green-bg: rgba(34, 197, 94, 0.18);
+
+  --paper: #07111f;           /* Deep obsidian/navy command paper tone */
+  --paper-card: #0c1d36;      /* High-tech tactical card sheet */
+  --paper-tint: #102646;      /* Elevated structural background */
+  --concrete: rgba(148, 163, 184, 0.18); /* Hairline engineering dividers */
+  --concrete-dark: rgba(148, 163, 184, 0.32); /* High-contrast borders & input outlines */
+  /* ------------------------------------------------------------------------
+     2. Typography System (Major Third 1.25 Type Scale)
+     ------------------------------------------------------------------------ */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --text-xs: 0.8rem;          /* 12.8px */
+  --text-sm: 0.875rem;        /* 14px */
+  --text-base: 1rem;          /* 16px */
+  --text-md: 1.125rem;        /* 18px */
+  --text-lg: 1.25rem;         /* 20px */
+  --text-xl: 1.563rem;        /* 25px */
+  --text-2xl: 1.953rem;       /* 31.25px */
+  --text-3xl: 2.441rem;       /* 39px */
+  --text-4xl: 3.052rem;       /* 48.8px */
+
+  --leading-display: 1.15;
+  --leading-heading: 1.25;
+  --leading-body: 1.55;
+  --leading-tight: 1.35;
+
+  /* ------------------------------------------------------------------------
+     3. Directional Architectural Shadow Scale
+     (Hard, short, directional shadows — NO soft SaaS blurred clouds)
+     ------------------------------------------------------------------------ */
+  --shadow-low: 2px 3px 0 rgba(16, 24, 32, 0.08);
+  --shadow-mid: 3px 4px 0 rgba(16, 24, 32, 0.12);
+  --shadow-high: 4px 6px 0 rgba(16, 24, 32, 0.16);
+  --shadow-elevated: 6px 9px 0 rgba(16, 24, 32, 0.22);
+  --shadow-border: 0 0 0 1px var(--concrete);
+
+  /* ------------------------------------------------------------------------
+     4. Spacing Scale (4px Base Grid)
+     ------------------------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ------------------------------------------------------------------------
+     5. Dimensional Radii & Borders
+     (Clean, restrained corners — avoiding over-rounded bubble cards)
+     ------------------------------------------------------------------------ */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-pill: 9999px;
+
+  /* ------------------------------------------------------------------------
+     6. Transitions
+     ------------------------------------------------------------------------ */
+  --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-standard: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Day Mode / Light Theme Institutional Tokens
+   -------------------------------------------------------------------------- */
+html[data-theme="light"],
+[data-theme="light"] {
+  --ink: #0f172a;             /* Near-black navy primary text & headers */
+  --ink-muted: #475569;       /* Secondary text & labels */
+  --ink-faint: #64748b;       /* Microcopy, hints & passive borders */
+
+  --authority: #1e3a8a;       /* Deep institutional civic blue */
+  --authority-hover: #1e40af; /* Interactive hover on authority buttons */
+  --authority-deep: #0f172a;  /* Pressed states, dark consoles, top headers */
+  --authority-faint: #e0f2fe; /* Tinted pill & selection background */
+
+  --signal-amber: #d97706;    /* Priority / urgent / warning */
+  --signal-amber-bg: #fef3c7; /* Light amber background for badges */
+  --signal-red: #b91c1c;      /* Critical severity / life safety */
+  --signal-red-bg: #fee2e2;   /* Light red background for critical alerts */
+  --verified-green: #15803d;  /* Resolved / verified civic states */
+  --verified-green-bg: #dcfce7;
+
+  --paper: #f8fafc;           /* Authentic civic document daylight tone */
+  --paper-card: #ffffff;      /* Clean contrast sheet */
+  --paper-tint: #f1f5f9;      /* Elevated structural background */
+  --concrete: #e2e8f0;        /* Hairline engineering dividers & borders */
+  --concrete-dark: #cbd5e1;   /* High-contrast borders & input outlines */
+}
+
+/* --------------------------------------------------------------------------
+   Explicit Night Mode Institutional Tokens
+   -------------------------------------------------------------------------- */
+html[data-theme="dark"],
+[data-theme="dark"] {
+  --ink: #f8fafc;
+  --ink-muted: #94a3b8;
+  --ink-faint: #64748b;
+
+  --authority: #38bdf8;
+  --authority-hover: #0ea5e9;
+  --authority-deep: #040d1a;
+  --authority-faint: rgba(56, 189, 248, 0.15);
+
+  --signal-amber: #f59e0b;
+  --signal-amber-bg: rgba(245, 158, 11, 0.18);
+  --signal-red: #ef4444;
+  --signal-red-bg: rgba(239, 68, 68, 0.18);
+  --verified-green: #22c55e;
+  --verified-green-bg: rgba(34, 197, 94, 0.18);
+
+  --paper: #07111f;
+  --paper-card: #0c1d36;
+  --paper-tint: #102646;
+  --concrete: rgba(148, 163, 184, 0.18);
+  --concrete-dark: rgba(148, 163, 184, 0.32);
+}
+
+/* ==========================================================================
+   Base Document Defaults
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  line-height: var(--leading-display);
+  font-weight: 700;
+  margin-top: 0;
+}
+
+code, pre, .mono-data, [data-mono] {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1;
+}
+
+/* ==========================================================================
+   Civic Typography Utility Elements
+   ========================================================================== */
+.seal-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--authority);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-low);
+  font-size: 1.25rem;
+}
+
+.record-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--concrete);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.record-badge.badge-critical {
+  background: var(--signal-red-bg);
+  border-color: #fca5a5;
+  color: var(--signal-red);
+}
+
+.record-badge.badge-urgent {
+  background: var(--signal-amber-bg);
+  border-color: #fde68a;
+  color: var(--signal-amber);
+}
+
+.record-badge.badge-verified {
+  background: var(--verified-green-bg);
+  border-color: #86efac;
+  color: var(--verified-green);
+}
+
+/* ==========================================================================
+   Standard Civic Action Buttons
+   ========================================================================== */
+.btn-civic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 10px 20px;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-civic-primary {
+  background-color: var(--authority);
+  color: #ffffff;
+  border: 1px solid var(--authority-deep);
+  box-shadow: var(--shadow-mid);
+}
+
+.btn-civic-primary:hover {
+  background-color: var(--authority-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-high);
+}
+
+.btn-civic-primary:active {
+  background-color: var(--authority-deep);
+  transform: translateY(1px);
+  box-shadow: var(--shadow-low);
+}
+
+.btn-civic-outline {
+  background-color: transparent;
+  color: var(--ink);
+  border: 1px solid var(--concrete-dark);
+  box-shadow: var(--shadow-low);
+}
+
+.btn-civic-outline:hover {
+  background-color: var(--paper-tint);
+  border-color: var(--ink);
+}
+
+/* Focus styles for keyboard accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--authority);
+  outline-offset: 2px;
+}

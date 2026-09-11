@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,11 +19,11 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
-    <link
-        rel="icon"
-        type="image/svg+xml"
-        href="../icons/icon.svg"
-    >
+    <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+    <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme-manager.js"></script>
+    <link rel="stylesheet" href="../css/design-tokens.css">
+    <link rel="stylesheet" href="../css/theme-sync.css">
     <style>
 
         /* =====================================================
@@ -1463,6 +1463,15 @@
         </a>
 
     </nav>
+
+    <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection" style="margin-left: auto; margin-right: 12px;">
+      <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+        <i class="fa-solid fa-sun"></i> <span>Day</span>
+      </button>
+      <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+        <i class="fa-solid fa-moon"></i> <span>Night</span>
+      </button>
+    </div>
 
 
     <button

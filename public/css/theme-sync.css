@@ -1,0 +1,746 @@
+/* ==========================================================================
+   ChronicAI — Universal Theme Synchronization Stylesheet (theme-sync.css)
+   Supports: Day Mode ([data-theme="light"]) & Night Mode ([data-theme="dark"])
+   Covers: All navigation headers, forms, cards, tables, maps, and modals
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Segmented Theme Switcher Component (Reusable Across All Headers)
+   -------------------------------------------------------------------------- */
+.civic-theme-segmented-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(147, 197, 253, 0.25);
+  border-radius: 9999px;
+  padding: 3px;
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  vertical-align: middle;
+  user-select: none;
+}
+
+.theme-seg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.theme-seg-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.theme-seg-btn.active {
+  color: #030812;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#segDayBtn.active {
+  background: linear-gradient(135deg, #fef08a 0%, #facc15 100%);
+  color: #713f12;
+}
+
+#segNightBtn.active {
+  background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  color: #ffffff;
+}
+
+/* Day Mode styling for the Segmented Switcher */
+[data-theme="light"] .civic-theme-segmented-switch {
+  background: rgba(226, 232, 240, 0.85);
+  border-color: rgba(148, 163, 184, 0.4);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .theme-seg-btn {
+  color: #475569;
+}
+
+[data-theme="light"] .theme-seg-btn:hover {
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="light"] #segDayBtn.active {
+  background: #ffffff;
+  color: #b45309;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+[data-theme="light"] #segNightBtn.active {
+  background: #1e293b;
+  color: #38bdf8;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   2. Shared Navigation Headers in Day Mode
+   -------------------------------------------------------------------------- */
+[data-theme="light"] .civic-topbar,
+[data-theme="light"] .admin-topbar,
+[data-theme="light"] .rc-header,
+[data-theme="light"] .mp-header,
+[data-theme="light"] .request-header,
+[data-theme="light"] .support-topbar,
+[data-theme="light"] .auth-topbar,
+[data-theme="light"] header.civic-topbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .brand-title,
+[data-theme="light"] .admin-brand span,
+[data-theme="light"] .rc-brand-text strong,
+[data-theme="light"] .mp-brand strong,
+[data-theme="light"] .request-brand strong,
+[data-theme="light"] .support-brand span,
+[data-theme="light"] .auth-brand h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .brand-sub,
+[data-theme="light"] .admin-brand small,
+[data-theme="light"] .rc-brand-text span,
+[data-theme="light"] .mp-brand small,
+[data-theme="light"] .request-brand small,
+[data-theme="light"] .support-brand small,
+[data-theme="light"] .auth-brand span {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .topbar-nav a,
+[data-theme="light"] .topbar-nav span,
+[data-theme="light"] .admin-user,
+[data-theme="light"] .rc-nav a,
+[data-theme="light"] .mp-back,
+[data-theme="light"] .back-link,
+[data-theme="light"] .support-back,
+[data-theme="light"] .auth-back {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .topbar-nav a:hover,
+[data-theme="light"] .rc-nav a:hover,
+[data-theme="light"] .mp-back:hover,
+[data-theme="light"] .back-link:hover,
+[data-theme="light"] .support-back:hover,
+[data-theme="light"] .auth-back:hover {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .rc-nav a.active {
+  color: #0284c7 !important;
+  background: #e0f2fe !important;
+  border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Incident Reporting Flow (report-problem.html, complaint.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.filing-page,
+[data-theme="light"] .filing-shell {
+  color: #0f172a;
+}
+
+[data-theme="light"] .filing-preamble {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .filing-preamble h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .filing-preamble p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .filing-preamble .form-id {
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .steps {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+[data-theme="light"] .step {
+  color: #64748b;
+  border-bottom-color: transparent;
+}
+
+[data-theme="light"] .step.active {
+  color: #0f172a;
+  border-bottom-color: #0284c7;
+  background: #ffffff;
+}
+
+[data-theme="light"] .step-number {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+[data-theme="light"] .step.active .step-number {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+[data-theme="light"] .filing-card,
+[data-theme="light"] .report-card,
+[data-theme="light"] .triage-card,
+[data-theme="light"] .form-section {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .filing-card h2,
+[data-theme="light"] .filing-card h3,
+[data-theme="light"] .report-card h2,
+[data-theme="light"] .report-card h3 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .filing-card label,
+[data-theme="light"] .report-card label {
+  color: #334155 !important;
+}
+
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="number"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="tel"],
+[data-theme="light"] input[type="password"],
+[data-theme="light"] select,
+[data-theme="light"] textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+[data-theme="light"] .upload-dropzone,
+[data-theme="light"] .file-drop-area {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .upload-dropzone:hover {
+  background: #f1f5f9 !important;
+  border-color: #0284c7 !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Rescue Tracking & Status (track.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] .track-page {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .track-glow {
+  opacity: 0.15;
+}
+
+[data-theme="light"] .track-hero h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .track-hero p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .track-search-card,
+[data-theme="light"] .track-card,
+[data-theme="light"] .report-timeline,
+[data-theme="light"] .report-info-item,
+[data-theme="light"] .track-map-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .report-timeline h3,
+[data-theme="light"] .timeline-event strong {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .timeline-event {
+  background: #f8fafc !important;
+  border-left-color: #0284c7 !important;
+}
+
+[data-theme="light"] .timeline-event span {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .timeline-event small {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .track-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Offline Resource Center (resource-center.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.rc-page,
+[data-theme="light"] .rc-main {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .rc-hero-section {
+  background: linear-gradient(180deg, #f1f5f9 0%, #f8fafc 100%) !important;
+}
+
+[data-theme="light"] .rc-hero-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .rc-hero-subtitle {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .rc-stat-box,
+[data-theme="light"] .rc-resource-card,
+[data-theme="light"] .rc-filter-bar,
+[data-theme="light"] .rc-map-panel {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .rc-card-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .rc-card-location,
+[data-theme="light"] .rc-card-meta {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .rc-filter-btn {
+  background: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] .rc-filter-btn.active {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. EOC Government Situation Room (admin-dashboard.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.admin-page {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .admin-heading h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .admin-heading p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .admin-shell .panel,
+[data-theme="light"] .sitrep-panel,
+[data-theme="light"] .metric-tile,
+[data-theme="light"] .incident-table-wrap,
+[data-theme="light"] .dispatch-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .sitrep-head {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .sitrep-head h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .sitrep-body p,
+[data-theme="light"] .sitrep-section-title {
+  color: #334155 !important;
+}
+
+[data-theme="light"] table.admin-table th {
+  background: #f1f5f9 !important;
+  color: #334155 !important;
+  border-bottom: 2px solid #cbd5e1 !important;
+}
+
+[data-theme="light"] table.admin-table td {
+  color: #0f172a !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] table.admin-table tr:hover td {
+  background: #f8fafc !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. Civil Missing Persons Registry (missing-persons.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] .mp-shell {
+  color: #0f172a;
+}
+
+[data-theme="light"] .mp-hero h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .mp-hero p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .mp-toolbar {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="light"] .mp-toolbar input,
+[data-theme="light"] .mp-toolbar select {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .mp-results-panel,
+[data-theme="light"] .map-panel,
+[data-theme="light"] .my-reports-section,
+[data-theme="light"] .admin-section {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .section-heading h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .person-card {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .person-card:hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="light"] .person-card h3 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .person-card p,
+[data-theme="light"] .person-card small {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .action-card {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+}
+
+[data-theme="light"] .action-card:hover {
+  border-color: #0284c7 !important;
+  background: #f8fafc !important;
+}
+
+[data-theme="light"] .action-card strong {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .action-card small {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .mp-modal .modal-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15) !important;
+}
+
+[data-theme="light"] .mp-modal .modal-card h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .mp-modal .modal-card label {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .mp-modal .modal-card input,
+[data-theme="light"] .mp-modal .modal-card textarea {
+  background: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. Citizen & Authority Login / Register (login.html, register.html, admin-login.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.login-page,
+[data-theme="light"] body.register-page,
+[data-theme="light"] body.admin-login-page {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .login-card,
+[data-theme="light"] .register-card,
+[data-theme="light"] .auth-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 16px 48px rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .login-card h2,
+[data-theme="light"] .register-card h2,
+[data-theme="light"] .auth-card h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .login-card p,
+[data-theme="light"] .register-card p,
+[data-theme="light"] .auth-card p {
+  color: #475569 !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. Emergency Assistance Request (request.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] .request-shell {
+  color: #0f172a;
+}
+
+[data-theme="light"] .request-intro h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .request-intro p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .request-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .card-heading h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .help-type {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+[data-theme="light"] .help-type:hover {
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* --------------------------------------------------------------------------
+   10. Pre-Disaster Risk Dashboard (risk-dashboard.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.risk-page {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] body.risk-page header {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] body.risk-page .card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.04) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] body.risk-page .card h2,
+[data-theme="light"] body.risk-page .panel-head h2 {
+  color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   11. Community Support & Volunteer (support.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body.support-page {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .support-hero h1 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .support-hero p {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .support-card,
+[data-theme="light"] .support-form-panel,
+[data-theme="light"] .support-success {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.05) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .support-card h2,
+[data-theme="light"] .support-form-heading h2,
+[data-theme="light"] .support-success h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .support-card p,
+[data-theme="light"] .support-form-heading p,
+[data-theme="light"] .support-success p {
+  color: #475569 !important;
+}
+
+/* --------------------------------------------------------------------------
+   12. SafeJourney (journey.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] .app,
+[data-theme="light"] .main {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .sidebar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-right: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .sidebar .brand-text h2 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .sidebar .brand-text p {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .nav-item {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .nav-item:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .nav-item.active {
+  background: #e0f2fe !important;
+  color: #0284c7 !important;
+}
+
+[data-theme="light"] .header {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .page-title {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .card,
+[data-theme="light"] .journey-card,
+[data-theme="light"] .id-card,
+[data-theme="light"] .summary-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-theme="light"] .text-input {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* --------------------------------------------------------------------------
+   13. Life Helper (life-helper.html)
+   -------------------------------------------------------------------------- */
+[data-theme="light"] body {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .message-bubble {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="light"] .message.user .message-bubble {
+  background: #e0f2fe !important;
+  color: #0369a1 !important;
+}
+
+[data-theme="light"] .input-container {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+[data-theme="light"] .chat-input {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .chat-input::placeholder {
+  color: #94a3b8 !important;
+}
+

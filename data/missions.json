@@ -1,5 +1,1377 @@
 [
   {
+    "id": "MSN-QR9MQH",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789112028559,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789112028585,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789112028559,
+    "updatedAt": 1789112028585
+  },
+  {
+    "id": "MSN-4NMUIA",
+    "incidentId": "INC-2026-DWPTPZ",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789112024887,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789112024920,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789112024887,
+    "updatedAt": 1789112024920
+  },
+  {
+    "id": "MSN-US8EAC",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789112024677,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789112024694,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789112024713,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789112024677,
+    "updatedAt": 1789112024713
+  },
+  {
+    "id": "MSN-MJT831",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789110623050,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789110623068,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789110623050,
+    "updatedAt": 1789110623068
+  },
+  {
+    "id": "MSN-UU264E",
+    "incidentId": "INC-2026-KKWHUM",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789110619719,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789110619747,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789110619719,
+    "updatedAt": 1789110619748
+  },
+  {
+    "id": "MSN-PG3FO2",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789110619517,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789110619535,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789110619557,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789110619517,
+    "updatedAt": 1789110619557
+  },
+  {
+    "id": "MSN-JVO134",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789109771868,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789109771890,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789109771868,
+    "updatedAt": 1789109771890
+  },
+  {
+    "id": "MSN-X558P4",
+    "incidentId": "INC-2026-QJP14T",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789109768739,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789109768767,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789109768739,
+    "updatedAt": 1789109768767
+  },
+  {
+    "id": "MSN-4GBWP7",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789109768529,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789109768550,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789109768570,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789109768529,
+    "updatedAt": 1789109768570
+  },
+  {
+    "id": "MSN-K0RZDX",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789108917185,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789108917204,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789108917185,
+    "updatedAt": 1789108917204
+  },
+  {
+    "id": "MSN-TVL464",
+    "incidentId": "INC-2026-19W4RU",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789108913883,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789108913909,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789108913883,
+    "updatedAt": 1789108913909
+  },
+  {
+    "id": "MSN-O8U2NR",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789108913656,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789108913703,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789108913728,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789108913656,
+    "updatedAt": 1789108913728
+  },
+  {
+    "id": "MSN-88C1P4",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789108506005,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789108506026,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789108506005,
+    "updatedAt": 1789108506026
+  },
+  {
+    "id": "MSN-VJV4N9",
+    "incidentId": "INC-2026-5UYD3Q",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789108503071,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789108503098,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789108503071,
+    "updatedAt": 1789108503098
+  },
+  {
+    "id": "MSN-AJKC88",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789108502840,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789108502863,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789108502886,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789108502840,
+    "updatedAt": 1789108502886
+  },
+  {
+    "id": "MSN-UXWGGY",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789107899586,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789107899600,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789107899586,
+    "updatedAt": 1789107899600
+  },
+  {
+    "id": "MSN-1D37DL",
+    "incidentId": "INC-2026-DKW9E1",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789107896571,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789107896597,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789107896571,
+    "updatedAt": 1789107896597
+  },
+  {
+    "id": "MSN-IKOZ7M",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789107896369,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789107896386,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789107896404,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789107896369,
+    "updatedAt": 1789107896404
+  },
+  {
+    "id": "MSN-CMKC7Y",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789106928460,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789106928475,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789106928460,
+    "updatedAt": 1789106928475
+  },
+  {
+    "id": "MSN-0MQ9FL",
+    "incidentId": "INC-2026-G89GAE",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789106926359,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789106926377,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789106926359,
+    "updatedAt": 1789106926377
+  },
+  {
+    "id": "MSN-370TCA",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789106926232,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789106926245,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789106926257,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789106926232,
+    "updatedAt": 1789106926257
+  },
+  {
+    "id": "MSN-VDC18R",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789106224224,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789106224239,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789106224224,
+    "updatedAt": 1789106224239
+  },
+  {
+    "id": "MSN-UWJMKY",
+    "incidentId": "INC-2026-4NXSIW",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789106222011,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789106222029,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789106222011,
+    "updatedAt": 1789106222029
+  },
+  {
+    "id": "MSN-7V6L9C",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789106221890,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789106221900,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789106221912,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789106221890,
+    "updatedAt": 1789106221912
+  },
+  {
+    "id": "MSN-LXI3WF",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789104848383,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789104848409,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789104848383,
+    "updatedAt": 1789104848409
+  },
+  {
+    "id": "MSN-68FPNS",
+    "incidentId": "INC-2026-2UHSPO",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789104843915,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789104843940,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789104843915,
+    "updatedAt": 1789104843940
+  },
+  {
+    "id": "MSN-6NJ717",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789104843684,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789104843705,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789104843724,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789104843684,
+    "updatedAt": 1789104843724
+  },
+  {
+    "id": "MSN-DNXH3L",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789042691597,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789042691633,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789042691597,
+    "updatedAt": 1789042691633
+  },
+  {
+    "id": "MSN-S72BXL",
+    "incidentId": "INC-2026-HMTRYT",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789042689232,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789042689251,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789042689232,
+    "updatedAt": 1789042689251
+  },
+  {
+    "id": "MSN-JGLYF7",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789042689091,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789042689104,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789042689117,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789042689091,
+    "updatedAt": 1789042689117
+  },
+  {
+    "id": "MSN-K0652K",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789027072619,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789027072633,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789027072619,
+    "updatedAt": 1789027072633
+  },
+  {
+    "id": "MSN-37FYLY",
+    "incidentId": "INC-2026-VUV5AB",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789027069131,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789027069155,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789027069131,
+    "updatedAt": 1789027069155
+  },
+  {
+    "id": "MSN-3GF4JR",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789027068933,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789027068947,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789027068968,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789027068933,
+    "updatedAt": 1789027068968
+  },
+  {
+    "id": "MSN-ODW8IX",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789026460967,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789026460978,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789026460967,
+    "updatedAt": 1789026460978
+  },
+  {
+    "id": "MSN-CD2Q08",
+    "incidentId": "INC-2026-PZTPF0",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789026459045,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789026459059,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789026459045,
+    "updatedAt": 1789026459059
+  },
+  {
+    "id": "MSN-HRBONA",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789026458944,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789026458951,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789026458963,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789026458944,
+    "updatedAt": 1789026458963
+  },
+  {
+    "id": "MSN-LAPX7T",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789024176876,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789024176886,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789024176876,
+    "updatedAt": 1789024176886
+  },
+  {
+    "id": "MSN-GJOOG7",
+    "incidentId": "INC-2026-WZ597G",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789024174715,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789024174730,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789024174715,
+    "updatedAt": 1789024174730
+  },
+  {
+    "id": "MSN-ASYSLX",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789024174594,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789024174603,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789024174612,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789024174594,
+    "updatedAt": 1789024174612
+  },
+  {
+    "id": "MSN-0DM8QD",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789021890341,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789021890348,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789021890341,
+    "updatedAt": 1789021890348
+  },
+  {
+    "id": "MSN-IPK4ME",
+    "incidentId": "INC-2026-CMDAPH",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789021888589,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789021888599,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789021888589,
+    "updatedAt": 1789021888599
+  },
+  {
+    "id": "MSN-6PAXMF",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789021888499,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789021888505,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789021888513,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789021888499,
+    "updatedAt": 1789021888513
+  },
+  {
     "id": "MSN-8SSQ6T",
     "incidentId": "INC-SYNC-001",
     "resourceId": "res_sync_amb",
@@ -798,7 +2170,7 @@
         "type": "MISSION_DISPATCHED",
         "status": "ASSIGNED",
         "actor": "Officer Sharma",
-        "timestamp": 1788955732675,
+        "timestamp": 1789112026255,
         "notes": "Dispatched to Elder Care Haven. Water depth ~3.5 ft at gate. Avoid River Road Underpass."
       },
       {
@@ -806,12 +2178,12 @@
         "status": "ARRIVED",
         "previousStatus": "ASSIGNED",
         "actor": "Responder Amit",
-        "timestamp": 1788955012675,
+        "timestamp": 1789111306255,
         "notes": "Arrived at nursing facility. First 4 patients stabilized for transfer."
       }
     ],
-    "createdAt": 1788955732675,
-    "updatedAt": 1788955732675
+    "createdAt": 1789112026255,
+    "updatedAt": 1789112026255
   },
   {
     "id": "MSN-8AZ19S",

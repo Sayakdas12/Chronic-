@@ -471,8 +471,19 @@ function renderMap(signals) {
     mappedSignals.forEach((signal) => {
         const point = [Number(signal.latitude), Number(signal.longitude)];
         bounds.push(point);
-        const color = signal.type === "critical" ? "#df5365" : signal.type === "needs-help" ? "#438fd0" : signal.type === "missing-person" ? "#8b62c7" : signal.type === "emergency" ? "#ed9a32" : "#4c91a0";
-        L.circleMarker(point, { radius: 8, color: "#ffffff", weight: 2, fillColor: color, fillOpacity: 0.95 }).addTo(locationMap).bindPopup(`<strong>${escapeHTML(signal.label)}</strong><br>${escapeHTML(signal.title)}<br><small>${escapeHTML(signal.location)} · ${escapeHTML(signal.status)}</small>`);
+        const color = signal.type === "critical" ? "#B91C1C" : signal.type === "emergency" ? "#D97706" : signal.type === "needs-help" ? "#1B3A6B" : signal.type === "missing-person" ? "#7c3aed" : "#15803D";
+        const scale = signal.type === "critical" ? 1.25 : signal.type === "emergency" ? 1.15 : 1.0;
+        const pinIcon = L.divIcon({
+            className: "dimensional-pin-wrap",
+            html: `<div class="dimensional-map-pin" style="transform: scale(${scale});">
+                     <div class="pin-head" style="background-color: ${color};"></div>
+                     <div class="pin-stem"></div>
+                   </div>`,
+            iconSize: [22, 28],
+            iconAnchor: [11, 26],
+            popupAnchor: [0, -24]
+        });
+        L.marker(point, { icon: pinIcon }).addTo(locationMap).bindPopup(`<strong>${escapeHTML(signal.label)}</strong><br>${escapeHTML(signal.title)}<br><small>${escapeHTML(signal.location)} · ${escapeHTML(signal.status)}</small>`);
     });
     if (bounds.length === 1) locationMap.setView(bounds[0], 13);
     if (bounds.length > 1) locationMap.fitBounds(bounds, { padding: [24, 24] });

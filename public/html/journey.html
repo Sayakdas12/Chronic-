@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,21 +22,14 @@
 
     <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme-manager.js"></script>
 
     <title>SafeJourney | Live Journey</title>
 
-
-    <!-- =====================================================
-         LEAFLET CSS
-         ===================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""
-    >
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+    <link rel="stylesheet" href="../css/design-tokens.css">
     <link rel="stylesheet" href="../css/emergency-map.css">
+    <link rel="stylesheet" href="../css/theme-sync.css">
 
 
     <!-- =====================================================
@@ -2548,6 +2541,15 @@
 
             </div>
 
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+                <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+                  <i class="fa-solid fa-sun"></i> <span>Day</span>
+                </button>
+                <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+                  <i class="fa-solid fa-moon"></i> <span>Night</span>
+                </button>
+              </div>
 
             <div
                 class="connection-pill"
@@ -2559,6 +2561,7 @@
                 </span>
 
             </div>
+          </div>
 
         </header>
 

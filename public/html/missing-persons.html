@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -7,12 +7,31 @@
   <title>ChronicAI | Missing Persons</title>
   <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
   <script src="../js/auth-guard.js"></script>
+  <script src="../js/theme-manager.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="../css/design-tokens.css">
   <link rel="stylesheet" href="../css/missing-persons.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
 </head>
 <body>
-  <header class="mp-header"><a class="mp-brand" href="index.html"><span class="mp-brand-mark"><i class="fa-solid fa-shield-heart"></i></span><span><strong>ChronicAI</strong><small>MISSING PERSONS</small></span></a><a class="mp-back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Home</a></header>
+  <header class="mp-header">
+    <a class="mp-brand" href="index.html">
+      <span class="mp-brand-mark"><i class="fa-solid fa-shield-heart"></i></span>
+      <span><strong>ChronicAI</strong><small>MISSING PERSONS</small></span>
+    </a>
+    <div style="display: flex; align-items: center; gap: 14px;">
+      <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+        <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+          <i class="fa-solid fa-sun"></i> <span>Day</span>
+        </button>
+        <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+          <i class="fa-solid fa-moon"></i> <span>Night</span>
+        </button>
+      </div>
+      <a class="mp-back" href="index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+    </div>
+  </header>
   <main class="mp-shell">
     <section class="mp-hero"><span class="eyebrow"><i class="fa-solid fa-people-group"></i> COMMUNITY RESPONSE</span><h1>Help bring someone <span>home.</span></h1><p>Search verified alerts, report a missing person, and share useful information securely with response teams.</p></section>
     <section class="mp-toolbar" aria-label="Search missing persons">

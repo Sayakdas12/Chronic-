@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,155 +6,298 @@
     <meta name="description" content="ChronicAI - Post-disaster management" />
     <meta name="theme-color" content="#091a2d" />
     <script src="../js/auth-guard.js"></script>
+    <script src="../js/theme-manager.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/design-tokens.css" />
     <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/prisma-hero.css" />
+    <link rel="stylesheet" href="../css/theme-sync.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-    <title>ChronicAI | Post-Disaster Management</title>
+    <title>ChronicAI | Civic Infrastructure & Disaster Response</title>
   </head>
   <body>
-    <header class="topbar">
-      <div class="container nav-wrap">
-        <div class="brand" aria-label="ChronicAI home">
-          <div class="brand-mark">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          <div class="brand-copy">
-            <span class="brand-name">ChronicAI</span>
-            <small>Post-Disaster Management</small>
-          </div>
-        </div>
 
-        <nav class="main-nav" aria-label="Main navigation">
-          <a class="nav-link active" href="index.html">Home</a>
-          <a class="nav-link" href="index.html#features">Dashboard</a>
-          <a class="nav-link" href="#features">Features</a>
-          <a class="nav-link" href="resource-center.html">Resources</a>
+    <!-- =========================================================
+         CHRONICAI CIVIC & DISASTER OPERATIONS HERO
+         ========================================================= -->
+    <section class="civic-hero-section">
+      <div class="civic-hero-frame">
+        
+        <!-- Dynamic Synchronized Background Image Backdrop -->
+        <div class="hero-bg-backdrop" id="heroBgBackdrop">
+          <div class="hero-bg-layer active" id="heroBgLayer1" style="background-image: url('../images/hero-command-center.jpg');"></div>
+          <div class="hero-bg-layer inactive" id="heroBgLayer2"></div>
+        </div>
+        <div class="hero-video-vignette"></div>
+
+        <!-- Blueprint Grid, Topo Lines & Scanline Overlays -->
+        <div class="civic-grid-mesh"></div>
+        <div class="civic-topo-lines"></div>
+        <div class="civic-scanlines"></div>
+        <div class="civic-radar-sweep"></div>
+
+        <!-- Floating Municipal Capsule Navbar -->
+        <nav class="civic-nav-container" aria-label="Main Navigation">
+          <div class="civic-nav-pill">
+            <a href="index.html" class="civic-nav-brand">
+              <span class="seal-mark" style="width:26px;height:26px;font-size:12px;"><i class="fa-solid fa-landmark"></i></span>
+              <span>ChronicAI</span>
+            </a>
+            <a href="#features" class="civic-nav-link">Live Telemetry</a>
+            <a href="report-problem.html" class="civic-nav-link">Report Incident</a>
+            <a href="#homepageMapTitle" class="civic-nav-link">Disaster Radar</a>
+            <a href="resource-center.html" class="civic-nav-link">Resource Fleet</a>
+            <a href="admin-login.html" class="civic-nav-link" style="color:#fde047;">Authority Portal</a>
+            <div class="civic-theme-segmented-switch" role="group" aria-label="Day and Night mode switcher">
+              <button type="button" class="theme-seg-btn" id="segDayBtn" aria-pressed="false" title="Switch to Day Mode">
+                <i class="fa-solid fa-sun" style="color: #f59e0b;"></i>
+                <span>Day</span>
+              </button>
+              <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-pressed="true" title="Switch to Night Mode">
+                <i class="fa-solid fa-moon" style="color: #38bdf8;"></i>
+                <span>Night</span>
+              </button>
+            </div>
+            <a href="login.html" class="civic-nav-auth">Sign In</a>
+          </div>
         </nav>
 
-        <div class="header-actions">
-          <a class="header-login" href="login.html">Log In</a>
-          <a class="header-cta" href="register.html">Create Account</a>
-        </div>
-      </div>
-    </header>
+        <!-- Hero Main Layout -->
+        <div class="civic-hero-content">
+          <div class="civic-hero-grid">
+            
+            <!-- Left Column: WordsPullUp Title & Actions -->
+            <div>
+              <span class="civic-status-badge">
+                <span class="civic-pulse-dot"></span>
+                AUTONOMOUS CIVIC TRIAGE & EMERGENCY RESPONSE NETWORK
+              </span>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-layout">
-          <div class="hero-copy">
-            <h1>
-              One Platform.<br />
-              Coordinated Response.<br />
-              Safer <span>Communities.</span>
-            </h1>
-            <p>
-              ChronicAI connects residents, emergency teams, and authorities to coordinate faster assistance and recovery efforts.
-            </p>
+              <h1 class="civic-hero-title">
+                <span class="words-pull-up">
+                  <span class="words-pull-up-item" style="--w-idx: 0;">Rapid</span>
+                  <span class="words-pull-up-item" style="--w-idx: 1;">Civic</span>
+                  <span class="words-pull-up-item" style="--w-idx: 2;">Response.</span><br />
+                  <span class="words-pull-up-item" style="--w-idx: 3;">Coordinated</span>
+                  <span class="words-pull-up-item" style="--w-idx: 4;">Relief.<span class="pull-up-asterisk">*</span></span>
+                </span>
+              </h1>
 
-            <div class="hero-actions">
-              <details class="help-menu">
-                <summary class="btn btn-primary">
-                  <span class="icon-box"><i class="fa-solid fa-headset"></i></span>
-                  <span>REQUEST ASSISTANCE</span>
-                </summary>
-                <div class="help-menu-options">
-                  <a
-                    href="tel:+918013593509"
-                    class="help-menu-option"
-                    aria-label="Call for help at 8013593509"
-                  >
-                    <i class="fa-solid fa-phone"></i>
-                    <span>
-                      <strong>Call for help</strong>
-                      <small>8013593509</small>
-                    </span>
-                  </a>
-                  <a href="life-helper.html" class="help-menu-option">
-                    <i class="fa-solid fa-robot"></i>
-                    <span>
-                      <strong>Chat with AI agent</strong>
-                      <small>Get guided assistance</small>
-                    </span>
-                  </a>
+              <p class="civic-lead-text">
+                Connecting citizens, field inspection crews, and municipal emergency directors. Autonomously analyzes infrastructure decay, calculates disaster urgency, and dispatches verified resources in real time.
+              </p>
+
+              <div class="civic-actions-group">
+                <a href="report-problem.html" class="civic-cta-btn">
+                  <span>File Infrastructure Incident</span>
+                  <span class="civic-arrow-badge">
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </span>
+                </a>
+
+                <a href="admin-login.html" class="civic-secondary-btn">
+                  <i class="fa-solid fa-landmark"></i>
+                  <span>Authority Command Console</span>
+                </a>
+
+                <a href="tel:+918013593509" class="civic-secondary-btn" title="Emergency Hotline">
+                  <i class="fa-solid fa-phone"></i>
+                  <span>24/7 Helpline</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Column: Live EOC Telemetry HUD with 3D Holographic Tilt -->
+            <div class="hud-3d-wrapper">
+              <div class="civic-telemetry-hud" id="telemetryHudCard">
+                <div class="hud-header">
+                  <span class="hud-title">
+                    <i class="fa-solid fa-satellite-dish" style="color: #f59e0b;"></i>
+                    DISTRICT EOC SITREP · WARD 7
+                  </span>
+                  <span class="hud-counter-badge">
+                    <span class="civic-pulse-dot" style="background-color: #ef4444; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8);"></span>
+                    ACTIVE RESPONSE
+                  </span>
                 </div>
-              </details>
-              <a href="report-problem.html" class="btn btn-secondary">
-                <span class="icon-box"><i class="fa-regular fa-clipboard"></i></span>
-                <span>REPORT INCIDENT</span>
-              </a>
-              <a href="admin-login.html" class="btn btn-government">
-                <span class="icon-box"><i class="fa-solid fa-landmark"></i></span>
-                <span>GOVERNMENT PORTAL</span>
-              </a>
+
+                <!-- Featured Tactical Surveillance Picture Display -->
+                <div class="hud-screen-container">
+                  <img
+                    id="hudFeaturedImg"
+                    src="../images/hero-command-center.jpg"
+                    alt="Autonomous Civic Disaster Command Center"
+                    class="hud-screen-img"
+                  />
+                  <div class="hud-screen-overlay">
+                    <div class="screen-tag-row">
+                      <span class="screen-live-badge" id="screenLiveBadge">
+                        <span class="civic-pulse-dot" style="background-color: #ef4444; width: 6px; height: 6px;"></span>
+                        SURVEILLANCE FEED 01
+                      </span>
+                      <span class="screen-signal-badge">4K ENCRYPTED</span>
+                    </div>
+                    <div class="screen-caption-row" id="screenCaption">
+                      <span class="caption-title" id="captionTitle">Central Operations Room</span>
+                      <span class="caption-sub" id="captionSub">Ward 7 Incident Triage & Dispatch Desk</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Interactive Multi-Angle Feed Switcher -->
+                <div class="hud-feed-tabs" role="tablist" aria-label="Surveillance feed selector">
+                  <button type="button" class="feed-tab active" data-img="../images/hero-command-center.jpg" data-title="Central Operations Room" data-sub="Ward 7 Incident Triage & Dispatch Desk" data-feed="FEED 01">
+                    <i class="fa-solid fa-desktop"></i> EOC Desk
+                  </button>
+                  <button type="button" class="feed-tab" data-img="../images/WhatsApp Image 2026-09-04 at 11.18.41 PM.jpeg" data-title="Ground Rescue Crew" data-sub="First Responders on Structural Collapse Site" data-feed="FEED 02">
+                    <i class="fa-solid fa-helmet-safety"></i> Field Rescue
+                  </button>
+                  <button type="button" class="feed-tab" data-img="../images/track.jpeg" data-title="Multi-Agency Radar" data-sub="Police, Ambulance, Fire & Rescue Network" data-feed="FEED 03">
+                    <i class="fa-solid fa-truck-medical"></i> Fleet Radar
+                  </button>
+                  <button type="button" class="feed-tab" data-img="../images/report problem background.jpeg" data-title="Citizen Mobile Triage" data-sub="AI Validation & Municipal Escalation Pipeline" data-feed="FEED 04">
+                    <i class="fa-solid fa-mobile-screen"></i> Citizen Feed
+                  </button>
+                </div>
+
+                <!-- Live Neural Audio / Telemetry Waveform -->
+                <div class="hud-waveform-box">
+                  <span class="waveform-label"><i class="fa-solid fa-brain" style="color: #38bdf8; margin-right: 6px;"></i> AI DISPATCH MESH STREAM</span>
+                  <div class="waveform-bars">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                  </div>
+                </div>
+
+                <div class="hud-metrics-grid">
+                  <div class="hud-metric-box">
+                    <strong style="color: #ef4444;">P1</strong>
+                    <span>Urgent Triage</span>
+                  </div>
+                  <div class="hud-metric-box">
+                    <strong style="color: #60a5fa;">14</strong>
+                    <span>Fleet Units</span>
+                  </div>
+                  <div class="hud-metric-box">
+                    <strong style="color: #34d399;">&lt; 4.2m</strong>
+                    <span>Triage Latency</span>
+                  </div>
+                </div>
+
+                <div class="hud-recent-log">
+                  <div class="hud-log-row">
+                    <span style="color: #94a3b8;">MONITORING SECTOR:</span>
+                    <span style="color: #ffffff; font-weight: bold;">Ward 7 Floodplain</span>
+                  </div>
+                  <div class="hud-log-row">
+                    <span style="color: #94a3b8;">DISPATCH PROTOCOL:</span>
+                    <span style="color: #34d399;">IDEMPOTENT · SYNCED</span>
+                  </div>
+                  <div class="hud-log-row">
+                    <span style="color: #94a3b8;">GIS INTEGRATION:</span>
+                    <span style="color: #93c5fd;">LEAFLET LIVE MESH</span>
+                  </div>
+                  <div class="hud-log-row">
+                    <span style="color: #94a3b8;">SURVEILLANCE FEED:</span>
+                    <span style="color: #fde047;">ONLINE · 4K LIVE</span>
+                  </div>
+                </div>
+
+                <a href="admin-login.html" class="hud-footer-link">
+                  <span>Open Government Operations Room</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
             </div>
 
-            <div class="safety-note">
-              <span class="shield"><i class="fa-solid fa-shield-heart"></i></span>
-              Safety information and response support are available.
-            </div>
-          </div>
-
-          <div class="hero-visual">
-            <div class="alert-card">
-              <div class="alert-head">
-                <div class="alert-icon"><i class="fa-solid fa-cloud-showers-heavy"></i></div>
-                <span class="alert-status"><i class="fa-solid fa-circle"></i> ACTIVE ALERT</span>
-              </div>
-              <div class="alert-content">
-                <span class="alert-kicker">DISASTER RISK WATCH</span>
-                <h3>Active Emergency</h3>
-                <p>Flood Recovery Operation</p>
-                <small><i class="fa-solid fa-location-dot"></i> West Bengal, India</small>
-              </div>
-              <div class="alert-metrics">
-                <div><strong>68</strong><span>Risk score</span></div>
-                <div><strong>HIGH</strong><span>Severity</span></div>
-                <div><strong>6–12h</strong><span>Risk window</span></div>
-              </div>
-              <div class="alert-footer"><i class="fa-solid fa-shield-halved"></i> Stay alert. Stay safe.</div>
-              <a class="view-btn" href="risk-dashboard.html">Open Risk Dashboard <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
           </div>
         </div>
 
-        <div class="container stats-row" id="features">
-          <div class="stat-item">
-            <div class="stat-icon people"><i class="fa-solid fa-users"></i></div>
-            <div class="stat-copy">
-              <strong data-stat="affected">0</strong>
-              <span>People Affected</span>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         CHRONICAI OFFICIAL CIVIC & DISASTER PLATFORM SECTIONS
+         ========================================================= -->
+    <main class="civic-landing-main">
+
+      <!-- 1. Official Telemetry Stats Strip -->
+      <section class="civic-stats-section" id="features">
+        <div class="civic-container">
+          <div class="civic-stats-strip">
+            
+            <!-- Stat 1: Incident Triage -->
+            <div class="civic-stat-tile">
+              <div class="stat-tile-header">
+                <span class="stat-pulse-dot amber"></span>
+                <span class="stat-kicker">INCIDENT TRIAGE</span>
+                <i class="fa-solid fa-triangle-exclamation stat-ghost-icon"></i>
+              </div>
+              <div class="stat-main-metric">
+                <strong data-stat="affected" class="stat-number">0</strong>
+              </div>
+              <span class="stat-label">People Affected & Flagged</span>
             </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon rescue"><i class="fa-solid fa-truck-medical"></i></div>
-            <div class="stat-copy">
-              <strong data-stat="rescue">0</strong>
-              <span>Rescue Operations</span>
+
+            <!-- Stat 2: Active Missions -->
+            <div class="civic-stat-tile">
+              <div class="stat-tile-header">
+                <span class="stat-pulse-dot red"></span>
+                <span class="stat-kicker">ACTIVE MISSIONS</span>
+                <i class="fa-solid fa-truck-medical stat-ghost-icon"></i>
+              </div>
+              <div class="stat-main-metric">
+                <strong data-stat="rescue" class="stat-number">0</strong>
+              </div>
+              <span class="stat-label">Rescue Operations Dispatched</span>
             </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon shelter"><i class="fa-solid fa-house-chimney"></i></div>
-            <div class="stat-copy">
-              <strong data-stat="shelters">0</strong>
-              <span>Relief Shelters</span>
+
+            <!-- Stat 3: Relief Shelters -->
+            <div class="civic-stat-tile">
+              <div class="stat-tile-header">
+                <span class="stat-pulse-dot green"></span>
+                <span class="stat-kicker">RELIEF BASES</span>
+                <i class="fa-solid fa-house-chimney stat-ghost-icon"></i>
+              </div>
+              <div class="stat-main-metric">
+                <strong data-stat="shelters" class="stat-number">0</strong>
+              </div>
+              <span class="stat-label">Operational Relief Shelters</span>
             </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon medical"><i class="fa-solid fa-plus"></i></div>
-            <div class="stat-copy">
-              <strong data-stat="medical">0</strong>
-              <span>Medical Camps</span>
+
+            <!-- Stat 4: Field Medical Units -->
+            <div class="civic-stat-tile">
+              <div class="stat-tile-header">
+                <span class="stat-pulse-dot cyan"></span>
+                <span class="stat-kicker">HEALTH CORRIDOR</span>
+                <i class="fa-solid fa-kit-medical stat-ghost-icon"></i>
+              </div>
+              <div class="stat-main-metric">
+                <strong data-stat="medical" class="stat-number">0</strong>
+              </div>
+              <span class="stat-label">Emergency Medical Camps</span>
             </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon package"><i class="fa-solid fa-box-open"></i></div>
-            <div class="stat-copy">
-              <strong data-stat="packages">0</strong>
-              <span>Relief Packages Distributed</span>
+
+            <!-- Stat 5: Supply Chain -->
+            <div class="civic-stat-tile">
+              <div class="stat-tile-header">
+                <span class="stat-pulse-dot purple"></span>
+                <span class="stat-kicker">SUPPLY CHAIN</span>
+                <i class="fa-solid fa-box-open stat-ghost-icon"></i>
+              </div>
+              <div class="stat-main-metric">
+                <strong data-stat="packages" class="stat-number">0</strong>
+              </div>
+              <span class="stat-label">Relief Rations Distributed</span>
             </div>
+
           </div>
         </div>
 
@@ -183,20 +326,11 @@
                 const element = statMap[key];
                 if (element) {
                   element.textContent = formatNumber(value);
-                  element.style.color = '#1d2c3e';
-                  element.style.fontWeight = '800';
-                  const label = element.closest('.stat-copy')?.querySelector('span');
-                  if (label) {
-                    label.style.color = '#5a6d82';
-                  }
                 }
               });
             };
 
-            const readStatus = (report) => {
-              const status = String(report?.status || '').toLowerCase();
-              return status;
-            };
+            const readStatus = (report) => String(report?.status || '').toLowerCase();
 
             const safeReports = (payload) => {
               if (Array.isArray(payload)) return payload;
@@ -207,10 +341,7 @@
 
             fetch('/api/reports', { cache: 'no-store' })
               .then(async (response) => {
-                if (!response.ok) {
-                  throw new Error(`HTTP ${response.status}`);
-                }
-
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const payload = await response.json();
                 const reports = safeReports(payload);
 
@@ -239,112 +370,387 @@
         </script>
       </section>
 
-      <section class="feature-grid-section">
-        <div class="container feature-grid">
-          <div class="feature-card danger">
-            <div class="feature-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-            <h3>Report an Incident</h3>
-            <p>Submit details about damage, disruption, or urgent issues with location and photos.</p>
-            <a href="report-problem.html">Submit Report <i class="fa-solid fa-arrow-right"></i></a>
+      <!-- 2. Core Municipal Capabilities Matrix -->
+      <section class="civic-features-section" id="capabilities">
+        <div class="civic-container">
+          
+          <div class="civic-section-header">
+            <div class="section-kicker-pill">
+              <span class="civic-pulse-dot" style="background-color: #38bdf8;"></span>
+              AUTONOMOUS CIVIC TRIAGE MATRIX
+            </div>
+            <h2 class="civic-section-title">Engineered for Rapid Response & Official Governance</h2>
+            <p class="civic-section-subtitle">
+              Connecting citizen field signals directly into automated AI severity analysis and idempotent municipal dispatch.
+            </p>
           </div>
 
-          <div class="feature-card purple">
-            <div class="feature-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
-            <h3>Request Assistance</h3>
-            <p>Submit an assistance request for medical, food, rescue, shelter, and other urgent needs.</p>
-              <a href="request.html">Submit Request <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
+          <div class="civic-capabilities-grid">
+            
+            <!-- Card 1: Incident Reporting -->
+            <div class="capability-card tier-critical">
+              <div>
+                <div class="cap-header">
+                  <span class="cap-badge"><i class="fa-solid fa-file-lines"></i> FORM INC-F01</span>
+                  <span class="cap-tag tier-red">SEV-1 TRIAGE</span>
+                </div>
+                <div class="cap-icon-box red">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h3 class="cap-title">Report an Incident</h3>
+                <p class="cap-desc">
+                  Capture geotagged infrastructure damage, flood breaches, road washouts, and building fractures with real-time AI severity triage and officer escalation.
+                </p>
+              </div>
+              <a href="report-problem.html" class="cap-action-link">
+                <span>Submit Incident Filing</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
 
-          <div class="feature-card pink">
-            <div class="feature-icon"><i class="fa-solid fa-kit-medical"></i></div>
-            <h3>Relief & Resources</h3>
-            <p>Find nearby hospitals, shelters, food centers, and essential resources.</p>
-            <a href="resource-center.html">Find Resources <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
+            <!-- Card 2: Emergency Request -->
+            <div class="capability-card tier-high">
+              <div>
+                <div class="cap-header">
+                  <span class="cap-badge"><i class="fa-solid fa-hand-holding-heart"></i> DIRECT RELIEF</span>
+                  <span class="cap-tag tier-amber">LIFE-SAFETY</span>
+                </div>
+                <div class="cap-icon-box amber">
+                  <i class="fa-solid fa-hand-holding-medical"></i>
+                </div>
+                <h3 class="cap-title">Request Assistance</h3>
+                <p class="cap-desc">
+                  Emergency aid channel for individuals trapped in inundation sectors, requiring immediate evacuation, clean water, or critical medical response.
+                </p>
+              </div>
+              <a href="request.html" class="cap-action-link">
+                <span>Request Emergency Aid</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
 
-          <div class="feature-card gold">
-            <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
-            <h3>Rescue Tracking</h3>
-            <p>Track rescue operations and assigned teams in real-time.</p>
-            <a href="track.html">Track Now <i class="fa-solid fa-arrow-right"></i></a>
-          </div>
+            <!-- Card 3: Relief & Resources -->
+            <div class="capability-card tier-verified">
+              <div>
+                <div class="cap-header">
+                  <span class="cap-badge"><i class="fa-solid fa-warehouse"></i> LOGISTICS FLEET</span>
+                  <span class="cap-tag tier-green">VERIFIED STOCKS</span>
+                </div>
+                <div class="cap-icon-box green">
+                  <i class="fa-solid fa-kit-medical"></i>
+                </div>
+                <h3 class="cap-title">Relief & Resources</h3>
+                <p class="cap-desc">
+                  Live verified inventory of designated municipal shelters, medical camps, food kitchens, and potable water distribution depots across districts.
+                </p>
+              </div>
+              <a href="resource-center.html" class="cap-action-link">
+                <span>View Resource Inventory</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
 
-          <div class="feature-card cyan">
-            <div class="feature-icon"><i class="fa-solid fa-user-group"></i></div>
-            <h3>Missing Persons</h3>
-            <p>Search and report missing persons in your area.</p>
-            <a href="missing-persons.html">Search Now <i class="fa-solid fa-arrow-right"></i></a>
+            <!-- Card 4: Rescue Tracking -->
+            <div class="capability-card tier-fleet">
+              <div>
+                <div class="cap-header">
+                  <span class="cap-badge"><i class="fa-solid fa-satellite-dish"></i> TELEMATICS</span>
+                  <span class="cap-tag tier-cyan">IDEMPOTENT SYNC</span>
+                </div>
+                <div class="cap-icon-box cyan">
+                  <i class="fa-solid fa-truck-fast"></i>
+                </div>
+                <h3 class="cap-title">Rescue Fleet Tracking</h3>
+                <p class="cap-desc">
+                  Real-time GPS telematics and operational state tracking of dispatched ambulances, rescue boats, NDRF squads, and heavy engineering vehicles.
+                </p>
+              </div>
+              <a href="track.html" class="cap-action-link">
+                <span>Track Active Units</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+
+            <!-- Card 5: Missing Persons -->
+            <div class="capability-card tier-registry">
+              <div>
+                <div class="cap-header">
+                  <span class="cap-badge"><i class="fa-solid fa-id-card"></i> CIVIL REGISTRY</span>
+                  <span class="cap-tag tier-purple">CROSS-MATCHED</span>
+                </div>
+                <div class="cap-icon-box purple">
+                  <i class="fa-solid fa-user-group"></i>
+                </div>
+                <h3 class="cap-title">Missing Persons Registry</h3>
+                <p class="cap-desc">
+                  Search and register missing individuals displaced by disasters. Cross-referenced autonomously with hospital admissions and shelter check-in rolls.
+                </p>
+              </div>
+              <a href="missing-persons.html" class="cap-action-link">
+                <span>Search Registry</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            </div>
+
           </div>
         </div>
       </section>
 
-      <section class="cta-band" id="start">
-        <div class="container cta-wrap">
-          <div class="cta-brand">
-            <div class="cta-icon"><i class="fa-solid fa-heart"></i></div>
-            <div>
-              <h3>Support Response Efforts</h3>
-              <p>Every report matters. Timely action improves response and recovery outcomes.</p>
+      <!-- 3. Official Civic Support Plate -->
+      <section class="civic-cta-section" id="start">
+        <div class="civic-container">
+          <div class="civic-support-plate">
+            <div class="plate-blueprint-grid"></div>
+
+            <div class="plate-content-left">
+              <div class="plate-badge">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                OFFICIAL CITIZEN PARTICIPATION & RELIEF PIPELINE
+              </div>
+              <h2 class="plate-title">Support Emergency Response Efforts</h2>
+              <p class="plate-desc">
+                Every verified report accelerates municipal intervention. Join emergency relief funds, contribute certified medical supplies, or register with the authorized volunteer corps.
+              </p>
+            </div>
+
+            <div class="plate-actions-right">
+              <details class="civic-support-menu">
+                <summary class="btn-support-dropdown">
+                  <i class="fa-solid fa-hand-holding-dollar" style="color: #38bdf8;"></i>
+                  <span>Direct Support Actions</span>
+                  <i class="fa-solid fa-chevron-down" style="font-size: 11px; opacity: 0.7;"></i>
+                </summary>
+                <div class="support-dropdown-list">
+                  <a href="support.html?category=financial_donation" class="dropdown-item">
+                    <i class="fa-solid fa-hand-holding-dollar" style="color: #34d399;"></i>
+                    <div>
+                      <strong>Donate Relief Funds</strong>
+                      <small>Direct municipal disaster relief fund</small>
+                    </div>
+                  </a>
+                  <a href="support.html?category=resource_donation" class="dropdown-item">
+                    <i class="fa-solid fa-box-open" style="color: #38bdf8;"></i>
+                    <div>
+                      <strong>Supply Essential Goods</strong>
+                      <small>Food, clean water, blankets, medical</small>
+                    </div>
+                  </a>
+                  <a href="support.html?category=civic_volunteer" class="dropdown-item">
+                    <i class="fa-solid fa-people-carry-box" style="color: #f59e0b;"></i>
+                    <div>
+                      <strong>Volunteer for Field Response</strong>
+                      <small>Join credentialed civic response corps</small>
+                    </div>
+                  </a>
+                </div>
+              </details>
+
+              <a href="register.html" class="btn-cta-primary">
+                <span>Create Citizen Account</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </a>
+
+              <a href="admin-login.html" class="btn-cta-outline">
+                <i class="fa-solid fa-landmark" style="color: #fde047; margin-right: 6px;"></i>
+                <span>Authority Console</span>
+              </a>
             </div>
           </div>
-          <div class="cta-actions">
-            <details class="support-menu">
-              <summary class="cta-button support-button">Give Support <span aria-hidden="true">&#8594;</span></summary>
-              <div class="support-options">
-                <a href="support.html?category=financial_donation" class="support-option">
-                  <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
-                  <span>
-                    <strong>Donate Funds</strong>
-                    <small>Help provide urgent relief</small>
-                  </span>
-                </a>
-                <a href="support.html?category=resource_donation" class="support-option">
-                  <i class="fa-solid fa-box-open" aria-hidden="true"></i>
-                  <span>
-                    <strong>Donate Resources</strong>
-                    <small>Food, water, medicine, clothes</small>
-                  </span>
-                </a>
-                <a href="support.html?category=civic_volunteer" class="support-option">
-                  <i class="fa-solid fa-people-carry-box" aria-hidden="true"></i>
-                  <span>
-                    <strong>Volunteer</strong>
-                    <small>Join the relief response</small>
-                  </span>
-                </a>
+        </div>
+      </section>
+
+      <!-- 4. Tactical EOC GIS Disaster Radar Map -->
+      <section class="civic-map-section" aria-labelledby="homepageMapTitle">
+        <div class="civic-container">
+          <div class="map-command-frame">
+            
+            <div class="map-top-bar">
+              <div class="map-bar-left">
+                <div class="map-radar-indicator">
+                  <span class="civic-pulse-dot" style="background-color: #ef4444;"></span>
+                  <span class="radar-title">NATIONAL DISASTER RADAR · GIS LIVE MESH</span>
+                </div>
+                <p class="radar-sub" id="homepageMapTitle">Active report incidents, verified situation telemetry, and meteorological risk projections across India.</p>
               </div>
-            </details>
-            <a href="register.html" class="cta-button">Create Account</a>
-            <a href="login.html" class="cta-login">Already have an account? Log in</a>
+
+              <div class="map-bar-right">
+                <span class="radar-telemetry-badge" id="homepageMapStatus">
+                  <i class="fa-solid fa-satellite" style="color: #38bdf8;"></i>
+                  <span>Connecting to national telemetry network...</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="map-canvas-wrapper">
+              <div id="homepageDisasterMap" class="tactical-disaster-map" aria-label="Live disaster radar map"></div>
+
+              <div class="tactical-map-legend" aria-label="Disaster symbols legend">
+                <div class="legend-header">
+                  <i class="fa-solid fa-layer-group" style="color: #38bdf8;"></i>
+                  <span>TELEMETRY SIGNALS</span>
+                </div>
+                <div class="legend-items-grid">
+                  <span class="legend-item"><i class="fa-solid fa-water" style="color: #38bdf8;"></i> Flood Alert</span>
+                  <span class="legend-item"><i class="fa-solid fa-mountain" style="color: #f59e0b;"></i> Landslide</span>
+                  <span class="legend-item"><i class="fa-solid fa-hurricane" style="color: #a855f7;"></i> Cyclone</span>
+                  <span class="legend-item"><i class="fa-solid fa-house-crack" style="color: #ef4444;"></i> Earthquake</span>
+                  <span class="legend-item"><i class="fa-solid fa-temperature-high" style="color: #f97316;"></i> Extreme Heat</span>
+                  <span class="legend-item"><i class="fa-solid fa-wind" style="color: #60a5fa;"></i> Severe Wind</span>
+                  <span class="legend-item"><i class="fa-solid fa-chart-line" style="color: #eab308;"></i> Forecast Risk</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
+
     </main>
 
-    <section class="map-bottom-action" aria-labelledby="homepageMapTitle">
-      <div class="container">
-        <div class="map-bottom-heading">
-          <div>
-            <span class="map-kicker"><i class="fa-solid fa-satellite-dish"></i> LIVE RESPONSE DATA</span>
-            <h2 id="homepageMapTitle">Live Disaster Map</h2>
-            <p>Current report locations and response signals from the ChronicAI network.</p>
-          </div>
+    <!-- =========================================================
+         CHRONICAI FOOTER-13: CINEMATIC CIVIC & DISASTER FOOTER
+         ========================================================= -->
+    <footer class="civic-footer-13" aria-label="Site Footer">
+      <!-- Full-Width Panoramic Hero Landscape with Seamless Bi-Directional Melting Fade -->
+      <div class="footer-hero-banner">
+        <img 
+          src="../images/footer-civic-night.jpg" 
+          alt="ChronicAI Multi-Agency Twilight Emergency Operations Landscape" 
+          class="footer-hero-img footer-img-night"
+        />
+        <img 
+          src="../images/footer-civic-day.jpg" 
+          alt="ChronicAI Daytime Civic Resilience Landscape" 
+          class="footer-hero-img footer-img-day"
+        />
+        <div class="footer-hero-mask"></div>
+        <div class="footer-hero-tag">
+          <span class="civic-pulse-dot"></span>
+          <span>NATIONWIDE RESILIENCE · 24/7 LIVE RESPONSE INFRASTRUCTURE</span>
         </div>
-        <div id="homepageDisasterMap" class="homepage-disaster-map" aria-label="Live disaster map">
-          <div class="map-disaster-legend" aria-label="Disaster symbol legend">
-            <strong>DISASTER SYMBOLS</strong>
-            <span><i class="fa-solid fa-hurricane cyclone-symbol"></i> Cyclone</span>
-            <span><i class="fa-solid fa-mountain landslide-symbol"></i> Landslide</span>
-            <span><i class="fa-solid fa-water flood-symbol"></i> Flood</span>
-            <span><i class="fa-solid fa-house-crack earthquake-symbol"></i> Earthquake</span>
-            <span><i class="fa-solid fa-temperature-high heat-symbol"></i> Extreme heat</span>
-            <span><i class="fa-solid fa-wind wind-symbol"></i> Severe wind</span>
-            <span><i class="fa-solid fa-chart-line estimated-symbol"></i> Estimated risk</span>
-          </div>
-        </div>
-        <p id="homepageMapStatus" class="homepage-map-status">Loading live disaster locations...</p>
       </div>
-    </section>
+
+      <!-- Main Footer Body (Deep Obsidian Base) -->
+      <div class="footer-body">
+        <div class="civic-container">
+          <div class="footer-main-grid">
+            
+            <!-- Brand & Tagline Row -->
+            <div class="footer-brand-row">
+              <a href="index.html" class="footer-brand-logo">
+                <span class="seal-mark" style="width:34px;height:34px;font-size:16px;"><i class="fa-solid fa-landmark"></i></span>
+                <span class="brand-text">ChronicAI</span>
+              </a>
+              <span class="footer-seal-badge">
+                <i class="fa-solid fa-shield-halved" style="color: #38bdf8;"></i>
+                AUTONOMOUS CIVIC TRIAGE & EMERGENCY RESPONSE NETWORK
+              </span>
+            </div>
+
+            <!-- Navigation Columns & Subscribe Form -->
+            <div class="footer-nav-layout">
+              <!-- Col 1: Operations -->
+              <div class="footer-col">
+                <h4 class="footer-col-title">Operations</h4>
+                <ul class="footer-link-list">
+                  <li><a href="admin-login.html" class="footer-nav-link">EOC Command Desk</a></li>
+                  <li><a href="#homepageMapTitle" class="footer-nav-link">Live Disaster Radar</a></li>
+                  <li><a href="resource-center.html" class="footer-nav-link">Resource Fleet</a></li>
+                  <li><a href="track.html" class="footer-nav-link">Rescue Operations</a></li>
+                  <li><a href="missing-persons.html" class="footer-nav-link">Missing Persons Triage</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 2: Intelligence -->
+              <div class="footer-col">
+                <h4 class="footer-col-title">Intelligence</h4>
+                <ul class="footer-link-list">
+                  <li><a href="#features" class="footer-nav-link">AI Damage Assessment</a></li>
+                  <li><a href="#features" class="footer-nav-link">P1-P4 Urgency Engine</a></li>
+                  <li><a href="#features" class="footer-nav-link">Duplicate Clustering</a></li>
+                  <li><a href="#features" class="footer-nav-link">Offline Field Sync</a></li>
+                  <li><a href="#features" class="footer-nav-link">Spatial Telemetry</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 3: Citizen Services -->
+              <div class="footer-col">
+                <h4 class="footer-col-title">Citizen Services</h4>
+                <ul class="footer-link-list">
+                  <li><a href="report-problem.html" class="footer-nav-link">Report Incident</a></li>
+                  <li><a href="track.html" class="footer-nav-link">Track Complaint Status</a></li>
+                  <li><a href="request.html" class="footer-nav-link">Request Emergency Aid</a></li>
+                  <li><a href="resource-center.html" class="footer-nav-link">Relief Shelters Map</a></li>
+                  <li><a href="login.html" class="footer-nav-link">Citizen Account</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 4: Protocols & Legal -->
+              <div class="footer-col">
+                <h4 class="footer-col-title">Protocols</h4>
+                <ul class="footer-link-list">
+                  <li><a href="#" class="footer-nav-link">Open Government API</a></li>
+                  <li><a href="#" class="footer-nav-link">Idempotent Audit Logs</a></li>
+                  <li><a href="#" class="footer-nav-link">Privacy & Anonymity</a></li>
+                  <li><a href="#" class="footer-nav-link">Security Disclosures</a></li>
+                  <li><a href="#" class="footer-nav-link">Ethics & Verification</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 5: Contact Us & Real-Time Alert Subscription Form -->
+              <div class="footer-subscribe-col">
+                <h4 class="footer-col-title">Emergency Alerts</h4>
+                <form class="footer-subscribe-form" id="footerSubscribeForm" onsubmit="event.preventDefault(); const em = this.email.value; alert('Subscription registered for emergency SitReps: ' + em); this.reset();">
+                  <div class="subscribe-input-group">
+                    <label for="footer-email-input" class="sr-only">Email address</label>
+                    <input 
+                      id="footer-email-input" 
+                      name="email" 
+                      type="email" 
+                      required 
+                      placeholder="Enter citizen or officer email" 
+                      class="subscribe-input"
+                    />
+                    <button type="submit" class="subscribe-submit-btn" aria-label="Subscribe to alerts">
+                      <span>Subscribe</span>
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                  </div>
+                  <p class="subscribe-tagline">
+                    Receive verified municipal alerts, flash flood warnings, and crisis sitreps directly.
+                  </p>
+                </form>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Bottom Meta Bar: Copyright, Socials, Legal Links -->
+          <div class="footer-bottom-bar">
+            <p class="footer-copyright">
+              &copy; 2026 ChronicAI Systems Inc. All rights reserved. Authorized civic infrastructure & emergency response network.
+            </p>
+
+            <div class="footer-social-links" aria-label="Social media links">
+              <a href="#" class="footer-social-btn" aria-label="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" class="footer-social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" class="footer-social-btn" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+              <a href="#" class="footer-social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+
+            <div class="footer-bottom-links">
+              <a href="#" class="footer-bottom-link">Privacy Policy</a>
+              <a href="#" class="footer-bottom-link">Terms of Service</a>
+              <a href="#" class="footer-bottom-link">Cookie Preferences</a>
+              <a href="#" class="footer-bottom-link">Audit Transparency</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script>
@@ -353,9 +759,38 @@
         const statusElement = document.getElementById("homepageMapStatus");
         if (!mapElement || typeof L === "undefined") return;
 
-        const indiaBounds = [[6, 68], [37, 97]];
-        const map = L.map(mapElement, { scrollWheelZoom: false }).fitBounds(indiaBounds);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 18 }).addTo(map);
+        const indiaBounds = [[7.5, 68], [36.5, 96.5]];
+        const map = L.map(mapElement, { scrollWheelZoom: false }).fitBounds(indiaBounds, { padding: [30, 30] });
+
+        let currentTileLayers = [];
+        function setMapTheme(theme) {
+          currentTileLayers.forEach((layer) => {
+            if (map.hasLayer(layer)) map.removeLayer(layer);
+          });
+          currentTileLayers = [];
+
+          if (theme === "light") {
+            const baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 18
+            }).addTo(map);
+            currentTileLayers = [baseLayer];
+          } else {
+            const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
+              attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+              maxZoom: 16
+            }).addTo(map);
+            const refLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", {
+              attribution: "",
+              maxZoom: 16
+            }).addTo(map);
+            currentTileLayers = [baseLayer, refLayer];
+          }
+        }
+
+        const initialTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        setMapTheme(initialTheme);
+        window.setDisasterMapTheme = setMapTheme;
 
         const inIndia = (latitude, longitude) => latitude >= 6 && latitude <= 37 && longitude >= 68 && longitude <= 97;
         const safe = (value) => String(value ?? "").replace(/[&<>\"']/g, "");
@@ -392,7 +827,162 @@
         }).catch(() => { if (statusElement) statusElement.textContent = "Live India disaster data is temporarily unavailable."; });
       })();
     </script>
-    <script ></script>
+
+    <!-- Day / Night Mode Interactive Controller -->
+    <script>
+      (() => {
+        function updateToggleState(theme) {
+          const isLight = theme === "light";
+          const segDayBtn = document.getElementById("segDayBtn");
+          const segNightBtn = document.getElementById("segNightBtn");
+
+          if (segDayBtn) {
+            segDayBtn.classList.toggle("active", isLight);
+            segDayBtn.setAttribute("aria-pressed", isLight ? "true" : "false");
+          }
+          if (segNightBtn) {
+            segNightBtn.classList.toggle("active", !isLight);
+            segNightBtn.setAttribute("aria-pressed", !isLight ? "true" : "false");
+          }
+        }
+
+        function setTheme(theme) {
+          document.documentElement.setAttribute("data-theme", theme);
+          try {
+            localStorage.setItem("chronicai-theme", theme);
+          } catch (e) {}
+          updateToggleState(theme);
+          if (typeof window.setDisasterMapTheme === "function") {
+            window.setDisasterMapTheme(theme);
+          }
+        }
+
+        window.setChronicTheme = setTheme;
+
+        const activeTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        updateToggleState(activeTheme);
+
+        // Click delegation for navbar Day/Night switch
+        document.addEventListener("click", (e) => {
+          const target = e.target.closest("#segDayBtn, #segNightBtn");
+          if (!target) return;
+          if (target.id === "segDayBtn") {
+            setTheme("light");
+          } else if (target.id === "segNightBtn") {
+            setTheme("dark");
+          }
+        });
+
+        // Ensure state sync once DOM is fully parsed
+        window.addEventListener("DOMContentLoaded", () => {
+          updateToggleState(document.documentElement.getAttribute("data-theme") || "dark");
+        });
+      })();
+    </script>
+    
+    <!-- Tactical Surveillance Feed Switcher & HUD Interaction -->
+    <script>
+      (function () {
+        const featuredImg = document.getElementById("hudFeaturedImg");
+        const captionTitle = document.getElementById("captionTitle");
+        const captionSub = document.getElementById("captionSub");
+        const liveBadge = document.getElementById("screenLiveBadge");
+        const tabs = document.querySelectorAll(".feed-tab");
+        const hudCard = document.getElementById("telemetryHudCard");
+
+        // Feed Tab Switching with smooth fade
+        let currentIndex = 0;
+        let autoCycleTimer = null;
+
+        // Dual-Layer Synchronized Hero Background Engine
+        const layer1 = document.getElementById("heroBgLayer1");
+        const layer2 = document.getElementById("heroBgLayer2");
+        let activeLayer = 1;
+
+        function updateBackground(newSrc) {
+          if (!layer1 || !layer2 || !newSrc) return;
+          if (activeLayer === 1) {
+            layer2.style.backgroundImage = `url('${newSrc}')`;
+            layer2.classList.remove("inactive");
+            layer2.classList.add("active");
+            layer1.classList.remove("active");
+            layer1.classList.add("inactive");
+            activeLayer = 2;
+          } else {
+            layer1.style.backgroundImage = `url('${newSrc}')`;
+            layer1.classList.remove("inactive");
+            layer1.classList.add("active");
+            layer2.classList.remove("active");
+            layer2.classList.add("inactive");
+            activeLayer = 1;
+          }
+        }
+
+        function switchFeed(tab) {
+          if (!tab || !featuredImg) return;
+          tabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+
+          const newSrc = tab.getAttribute("data-img");
+          const newTitle = tab.getAttribute("data-title");
+          const newSub = tab.getAttribute("data-sub");
+          const newFeed = tab.getAttribute("data-feed");
+
+          // Synchronize hero background with selected feed image
+          updateBackground(newSrc);
+
+          // Update front picture with smooth fade
+          featuredImg.style.opacity = "0.2";
+          setTimeout(() => {
+            featuredImg.src = newSrc;
+            if (captionTitle) captionTitle.textContent = newTitle;
+            if (captionSub) captionSub.textContent = newSub;
+            if (liveBadge) {
+              liveBadge.innerHTML = `<span class="civic-pulse-dot" style="background-color: #ef4444; width: 6px; height: 6px;"></span> SURVEILLANCE ${newFeed}`;
+            }
+            featuredImg.style.opacity = "1";
+          }, 150);
+        }
+
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => {
+            currentIndex = index;
+            clearInterval(autoCycleTimer);
+            switchFeed(tab);
+            startAutoCycle();
+          });
+        });
+
+        function startAutoCycle() {
+          autoCycleTimer = setInterval(() => {
+            currentIndex = (currentIndex + 1) % tabs.length;
+            switchFeed(tabs[currentIndex]);
+          }, 6500);
+        }
+        startAutoCycle();
+
+        // 3D Card Tilt Physics for Telemetry HUD
+        if (hudCard) {
+          window.addEventListener("mousemove", (e) => {
+            const rect = hudCard.getBoundingClientRect();
+            const cardCenterX = rect.left + rect.width / 2;
+            const cardCenterY = rect.top + rect.height / 2;
+
+            const deltaX = (e.clientX - cardCenterX) / (window.innerWidth / 2);
+            const deltaY = (e.clientY - cardCenterY) / (window.innerHeight / 2);
+
+            const rotY = (deltaX * 8).toFixed(2);
+            const rotX = (-deltaY * 8).toFixed(2);
+
+            hudCard.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+          });
+
+          window.addEventListener("mouseleave", () => {
+            hudCard.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)";
+          });
+        }
+      })();
+    </script>
     <script>
       if (localStorage.getItem("chronicAILoggedIn") === "true") {
         document.body.classList.add("signed-in-user");

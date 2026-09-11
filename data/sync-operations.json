@@ -691,5 +691,1083 @@
       "roadName": "Barrackpore Highway Km 14"
     },
     "updatedAt": 1788955735102
+  },
+  {
+    "id": "op_sync_1789021890346",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-0DM8QD",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789021890346,
+    "serverReceivedAt": 1789021890346,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-0DM8QD",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789021890358
+  },
+  {
+    "id": "op_rescue_1789021890368",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789021890368,
+    "serverReceivedAt": 1789021890368,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789021890375
+  },
+  {
+    "id": "op_b1_1789021890382",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789021890408,
+    "serverReceivedAt": 1789021890408,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789021890414
+  },
+  {
+    "id": "op_b2_1789021890382",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789021890415,
+    "serverReceivedAt": 1789021890415,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789021890416",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789021890423
+  },
+  {
+    "id": "op_sync_1789024176883",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-LAPX7T",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789024176884,
+    "serverReceivedAt": 1789024176884,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-LAPX7T",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789024176897
+  },
+  {
+    "id": "op_rescue_1789024176907",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789024176907,
+    "serverReceivedAt": 1789024176907,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789024176914
+  },
+  {
+    "id": "op_b1_1789024176925",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789024176961,
+    "serverReceivedAt": 1789024176961,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789024176971
+  },
+  {
+    "id": "op_b2_1789024176925",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789024176972,
+    "serverReceivedAt": 1789024176972,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789024176972",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789024176980
+  },
+  {
+    "id": "op_sync_1789026460976",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-ODW8IX",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789026460977,
+    "serverReceivedAt": 1789026460977,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-ODW8IX",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789026460989
+  },
+  {
+    "id": "op_rescue_1789026460997",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789026460997,
+    "serverReceivedAt": 1789026460997,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789026461003
+  },
+  {
+    "id": "op_b1_1789026461012",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789026461043,
+    "serverReceivedAt": 1789026461043,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789026461051
+  },
+  {
+    "id": "op_b2_1789026461012",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789026461052,
+    "serverReceivedAt": 1789026461052,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789026461052",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789026461060
+  },
+  {
+    "id": "op_sync_1789027072629",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-K0652K",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789027072630,
+    "serverReceivedAt": 1789027072630,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-K0652K",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789027072648
+  },
+  {
+    "id": "op_rescue_1789027072656",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789027072656,
+    "serverReceivedAt": 1789027072656,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789027072665
+  },
+  {
+    "id": "op_b1_1789027072675",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789027072721,
+    "serverReceivedAt": 1789027072721,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789027072730
+  },
+  {
+    "id": "op_b2_1789027072675",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789027072731,
+    "serverReceivedAt": 1789027072731,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789027072732",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789027072743
+  },
+  {
+    "id": "op_sync_1789042691606",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-DNXH3L",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789042691606,
+    "serverReceivedAt": 1789042691606,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-DNXH3L",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789042691643
+  },
+  {
+    "id": "op_rescue_1789042691652",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789042691652,
+    "serverReceivedAt": 1789042691652,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789042691659
+  },
+  {
+    "id": "op_b1_1789042691668",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789042691706,
+    "serverReceivedAt": 1789042691706,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789042691714
+  },
+  {
+    "id": "op_b2_1789042691668",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789042691715,
+    "serverReceivedAt": 1789042691715,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789042691716",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789042691729
+  },
+  {
+    "id": "op_sync_1789104848399",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-LXI3WF",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789104848400,
+    "serverReceivedAt": 1789104848400,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-LXI3WF",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789104848430
+  },
+  {
+    "id": "op_rescue_1789104848449",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789104848449,
+    "serverReceivedAt": 1789104848449,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789104848469
+  },
+  {
+    "id": "op_b1_1789104848486",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789104848552,
+    "serverReceivedAt": 1789104848552,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789104848568
+  },
+  {
+    "id": "op_b2_1789104848486",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789104848571,
+    "serverReceivedAt": 1789104848571,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789104848572",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789104848589
+  },
+  {
+    "id": "op_sync_1789106224233",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-VDC18R",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789106224233,
+    "serverReceivedAt": 1789106224233,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-VDC18R",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789106224249
+  },
+  {
+    "id": "op_rescue_1789106224258",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789106224258,
+    "serverReceivedAt": 1789106224258,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789106224266
+  },
+  {
+    "id": "op_b1_1789106224277",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789106224311,
+    "serverReceivedAt": 1789106224311,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789106224321
+  },
+  {
+    "id": "op_b2_1789106224277",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789106224322,
+    "serverReceivedAt": 1789106224322,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789106224323",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789106224332
+  },
+  {
+    "id": "op_sync_1789106928469",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-CMKC7Y",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789106928470,
+    "serverReceivedAt": 1789106928470,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-CMKC7Y",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789106928485
+  },
+  {
+    "id": "op_rescue_1789106928493",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789106928493,
+    "serverReceivedAt": 1789106928493,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789106928502
+  },
+  {
+    "id": "op_b1_1789106928512",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789106928544,
+    "serverReceivedAt": 1789106928544,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789106928554
+  },
+  {
+    "id": "op_b2_1789106928512",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789106928556,
+    "serverReceivedAt": 1789106928556,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789106928556",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789106928567
+  },
+  {
+    "id": "op_sync_1789107899596",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-UXWGGY",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789107899596,
+    "serverReceivedAt": 1789107899596,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-UXWGGY",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789107899610
+  },
+  {
+    "id": "op_rescue_1789107899619",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789107899619,
+    "serverReceivedAt": 1789107899619,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789107899630
+  },
+  {
+    "id": "op_b1_1789107899641",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789107899679,
+    "serverReceivedAt": 1789107899679,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789107899688
+  },
+  {
+    "id": "op_b2_1789107899641",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789107899689,
+    "serverReceivedAt": 1789107899689,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789107899690",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789107899700
+  },
+  {
+    "id": "op_sync_1789108506018",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-88C1P4",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789108506019,
+    "serverReceivedAt": 1789108506019,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-88C1P4",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789108506041
+  },
+  {
+    "id": "op_rescue_1789108506055",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789108506055,
+    "serverReceivedAt": 1789108506055,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789108506070
+  },
+  {
+    "id": "op_b1_1789108506084",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789108506130,
+    "serverReceivedAt": 1789108506130,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789108506142
+  },
+  {
+    "id": "op_b2_1789108506084",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789108506144,
+    "serverReceivedAt": 1789108506144,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789108506145",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789108506159
+  },
+  {
+    "id": "op_sync_1789108917199",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-K0RZDX",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789108917199,
+    "serverReceivedAt": 1789108917199,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-K0RZDX",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789108917223
+  },
+  {
+    "id": "op_rescue_1789108917235",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789108917235,
+    "serverReceivedAt": 1789108917235,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789108917251
+  },
+  {
+    "id": "op_b1_1789108917268",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789108917329,
+    "serverReceivedAt": 1789108917329,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789108917348
+  },
+  {
+    "id": "op_b2_1789108917268",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789108917350,
+    "serverReceivedAt": 1789108917350,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789108917351",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789108917366
+  },
+  {
+    "id": "op_sync_1789109771885",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-JVO134",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789109771886,
+    "serverReceivedAt": 1789109771886,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-JVO134",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789109771906
+  },
+  {
+    "id": "op_rescue_1789109771921",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789109771921,
+    "serverReceivedAt": 1789109771921,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789109771934
+  },
+  {
+    "id": "op_b1_1789109771949",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789109771996,
+    "serverReceivedAt": 1789109771996,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789109772009
+  },
+  {
+    "id": "op_b2_1789109771949",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789109772011,
+    "serverReceivedAt": 1789109772011,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789109772012",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789109772026
+  },
+  {
+    "id": "op_sync_1789110623064",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-MJT831",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789110623065,
+    "serverReceivedAt": 1789110623065,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-MJT831",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789110623083
+  },
+  {
+    "id": "op_rescue_1789110623097",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789110623097,
+    "serverReceivedAt": 1789110623097,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789110623111
+  },
+  {
+    "id": "op_b1_1789110623129",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789110623189,
+    "serverReceivedAt": 1789110623189,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789110623207
+  },
+  {
+    "id": "op_b2_1789110623129",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789110623208,
+    "serverReceivedAt": 1789110623208,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789110623209",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789110623226
+  },
+  {
+    "id": "op_sync_1789112028581",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-QR9MQH",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789112028582,
+    "serverReceivedAt": 1789112028582,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-QR9MQH",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789112028610
+  },
+  {
+    "id": "op_rescue_1789112028627",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789112028627,
+    "serverReceivedAt": 1789112028627,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789112028648
+  },
+  {
+    "id": "op_b1_1789112028671",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789112028727,
+    "serverReceivedAt": 1789112028727,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789112028745
+  },
+  {
+    "id": "op_b2_1789112028671",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789112028748,
+    "serverReceivedAt": 1789112028748,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789112028750",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789112028771
   }
 ]
