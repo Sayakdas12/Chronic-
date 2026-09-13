@@ -17,6 +17,7 @@ const button = document.getElementById("loginButton");
 const message = document.getElementById("loginMessage");
 const emailInput = document.getElementById("adminEmail");
 const passwordInput = document.getElementById("adminPassword");
+const sihTestButton = document.getElementById("sihTestButton");
 const localAdminMode = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const localAdminEmail = "admin@chronic";
 const localAdminPassword = "chronic";
@@ -40,6 +41,28 @@ async function verifyGovernmentSession(user) {
     if (!response.ok) throw new Error(data.error || "Government access denied.");
     sessionStorage.setItem("governmentSession", "active");
     window.location.replace("admin-dashboard.html");
+}
+
+if (sihTestButton) {
+    sihTestButton.hidden = false;
+    sihTestButton.addEventListener("click", async () => {
+        sihTestButton.disabled = true;
+        message.textContent = "Opening SIH testing command console...";
+        try {
+            const response = await fetch("/api/admin/sih-session", {
+                method: "POST",
+                headers: { "X-SIH-Demo": "true", Accept: "application/json" }
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || "SIH testing mode is not enabled on this deployment.");
+            sessionStorage.setItem("sihDemoSession", "active");
+            sessionStorage.setItem("governmentSession", "active");
+            window.location.replace("admin-dashboard.html");
+        } catch (error) {
+            message.textContent = error.message || "Unable to open the local testing console.";
+            sihTestButton.disabled = false;
+        }
+    });
 }
 
 onAuthStateChanged(auth, async (user) => {

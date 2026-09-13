@@ -1,11 +1,13 @@
 ﻿import { get, push, ref, remove, set } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 import { auth, database } from "./firebase-client.js";
+import { getSavedLocation, saveLocation as saveSharedLocation, requestLocation as requestSavedLocation, subscribeToLocationUpdates } from "./location-manager.js";
 
 const items = ["Drinking water", "Food", "First-aid kit", "Flashlight and batteries", "Power bank", "Important documents", "Emergency contacts", "Medicines"];
 const $ = (id) => document.getElementById(id);
 const escape = (value) => String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[character]));
 const storedLocations = JSON.parse(localStorage.getItem("riskWatchLocations") || "[]").filter((location) => typeof location === "string");
-const state = { location: localStorage.getItem("riskWatchLocation") || "Kolkata, West Bengal", coordinates: null, radiusKm: Number(localStorage.getItem("riskWatchRadiusKm")) || 50, checked: JSON.parse(localStorage.getItem("riskWatchChecklist") || "[]"), locations: storedLocations.slice(-5), snapshot: null };
+const savedLocation = getSavedLocation();
+  const state = { location: savedLocation ? "Saved location" : localStorage.getItem("riskWatchLocation") || "Kolkata, West Bengal", coordinates: savedLocation ? { latitude: savedLocation.latitude, longitude: savedLocation.longitude } : null, radiusKm: Number(localStorage.getItem("riskWatchRadiusKm")) || 50, checked: JSON.parse(localStorage.getItem("riskWatchChecklist") || "[]"), locations: storedLocations.slice(-5), snapshot: null };
 localStorage.setItem("riskWatchLocations", JSON.stringify(state.locations));
 let refreshTimer;
 let requestSequence = 0;
@@ -13,16 +15,76 @@ let activeRequestController = null;
 let locationRequestInProgress = false;
 function toast(message) { $("toast").textContent = message; $("toast").classList.add("show"); setTimeout(() => $("toast").classList.remove("show"), 2400); }
 function levelClass(level) { return String(level).toLowerCase().replace(" ", "-"); }
+function renderAdvisory(snapshot) {
+  const levelWeight = { critical: 4, severe: 4, high: 3, moderate: 2, low: 1 };
+  const risk = (snapshot.risks || []).filter((item) => item.probability !== null && item.level !== "Data unavailable").sort((first, second) => (levelWeight[String(second.level).toLowerCase()] || 0) - (levelWeight[String(first.level).toLowerCase()] || 0) || Number(second.probability) - Number(first.probability))[0];
+  $("advisoryKicker").textContent = `${risk ? "ACTIVE ADVISORY" : "LIVE STATUS"} · ${snapshot.location}`;
+  $("advisoryTitle").textContent = risk ? `${risk.type} may require attention` : "No active advisory from live providers";
+  $("advisoryWindow").textContent = risk?.window || "No current warning window";
+  $("advisoryProbability").textContent = risk?.probability === null || risk?.probability === undefined ? "Unavailable" : `${risk.probability}%`;
+}
 function render(snapshot) {
-  state.snapshot = snapshot; $("locationName").textContent = snapshot.location; $("overallScore").textContent = snapshot.score; $("riskLevel").textContent = `${snapshot.level} risk`; $("scoreSummary").textContent = snapshot.summary; $("confidenceValue").textContent = `${snapshot.confidence}%`; $("updatedAt").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); $("scoreRing").style.background = `radial-gradient(circle,var(--panel) 58%,transparent 60%),conic-gradient(var(--amber) 0 ${snapshot.score}%,rgba(255,255,255,.08) ${snapshot.score}%)`;
+  state.snapshot = snapshot; $("locationName").textContent = snapshot.location; renderAdvisory(snapshot); $("overallScore").textContent = snapshot.score; $("riskLevel").textContent = `${snapshot.level} risk`; $("scoreSummary").textContent = snapshot.summary; $("confidenceValue").textContent = `${snapshot.confidence}%`; $("updatedAt").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); $("scoreRing").style.background = `radial-gradient(circle,var(--panel) 58%,transparent 60%),conic-gradient(var(--amber) 0 ${snapshot.score}%,rgba(255,255,255,.08) ${snapshot.score}%)`;
   $("riskCards").innerHTML = snapshot.risks.map((risk) => `<article class="risk-card"><div><i class="fa-solid ${risk.icon}"></i><span class="badge ${levelClass(risk.level)}">${escape(risk.level)}</span></div><h3>${escape(risk.type)}</h3><p>${escape(risk.factors)}</p><small><b>${risk.probability === null ? "Unavailable" : `${risk.probability}%`}</b> probability  -  ${escape(risk.window)}</small><small>Trend <em class="${risk.trend === "Increasing" ? "up" : "stable"}">${escape(risk.trend)}</em></small></article>`).join("");
   $("actionList").innerHTML = ["Move valuables and electrical items to higher areas.", "Avoid flooded roads, bridges, and flowing water.", "Charge phones and keep emergency contacts ready.", "Monitor verified government warnings and evacuation orders."].map((item) => `<li><i class="fa-solid fa-check"></i>${item}</li>`).join(""); $("historyList").innerHTML = `<div class="history"><span>Live provider observations</span><b>${snapshot.sources.length} sources</b></div><div class="history"><span>Earthquake activity within 500 km</span><b>USGS</b></div>`;
-  $("liveMode").textContent = snapshot.mode === "live" ? "Live provider data" : "Data unavailable"; $("liveMode").className = snapshot.mode === "live" ? "live" : "offline"; $("weatherTemperature").textContent = snapshot.weather.temperature === null ? "Unavailable" : `${snapshot.weather.temperature.toFixed(1)}Â°`; $("weatherHumidity").textContent = snapshot.weather.humidity === null ? "Unavailable" : `${snapshot.weather.humidity}%`; $("weatherWind").textContent = snapshot.weather.windSpeed === null ? "Unavailable" : `${snapshot.weather.windSpeed.toFixed(0)} km/h`; $("weatherPressure").textContent = snapshot.weather.pressure === null ? "Unavailable" : `${snapshot.weather.pressure.toFixed(0)} hPa`; renderSituations(snapshot); renderLocations(); renderChecklist();
+  $("liveMode").textContent = snapshot.mode === "live" ? "Live provider data" : "Data unavailable"; $("liveMode").className = snapshot.mode === "live" ? "live" : "offline"; $("weatherTemperature").textContent = snapshot.weather.temperature === null ? "Unavailable" : `${snapshot.weather.temperature.toFixed(1)}Â°`; $("weatherHumidity").textContent = snapshot.weather.humidity === null ? "Unavailable" : `${snapshot.weather.humidity}%`; $("weatherWind").textContent = snapshot.weather.windSpeed === null ? "Unavailable" : `${snapshot.weather.windSpeed.toFixed(0)} km/h`; $("weatherPressure").textContent = snapshot.weather.pressure === null ? "Unavailable" : `${snapshot.weather.pressure.toFixed(0)} hPa`; renderLeafletSituations(snapshot); renderLocations(); renderChecklist();
 }
 function setLocationStatus(message, type = "") { const status = $("locationStatus"); status.className = `location-status visible ${type}`; status.innerHTML = type === "loading" ? `<span class="spinner" aria-hidden="true"></span>${escape(message)}` : `${type === "success" ? "âœ“ " : type === "error" ? "! " : ""}${escape(message)}`; }
 function renderSituations(snapshot) { const situations = snapshot.situations || []; const summary = $("situationSummary"); summary.textContent = situations.length ? `${situations.length} nearby situation${situations.length === 1 ? "" : "s"} detected within ${snapshot.radiusKm} km.` : `No significant disaster signals detected within ${snapshot.radiusKm} km.`; summary.className = `situation-summary ${situations.length ? "has-risk" : "clear"}`; const map = $("situationMap"); map.innerHTML = `<span class="pin user"><i class="fa-solid fa-location-dot"></i> You</span>`; situations.forEach((signal, index) => { const latitudeDelta = (signal.latitude - snapshot.coordinates.latitude) / (snapshot.radiusKm / 111); const longitudeDelta = (signal.longitude - snapshot.coordinates.longitude) / (snapshot.radiusKm / (111 * Math.cos(snapshot.coordinates.latitude * Math.PI / 180))); const jitterX = ((index % 3) - 1) * 7; const jitterY = (Math.floor(index / 3) % 3 - 1) * 7; const left = Math.max(8, Math.min(92, 50 + longitudeDelta * 38 + jitterX)); const top = Math.max(12, Math.min(88, 50 - latitudeDelta * 38 + jitterY)); const severity = String(signal.severity).toLowerCase(); const marker = document.createElement("button"); marker.className = `signal-marker ${severity}`; marker.type = "button"; marker.style.left = `${left}%`; marker.style.top = `${top}%`; marker.title = `${signal.type}  -  ${signal.severity}  -  ${signal.distanceKm} km`; marker.innerHTML = `<i class="fa-solid ${escape(signal.icon)}"></i><span class="sr-only">${escape(signal.type)} ${escape(signal.severity)}</span>`; marker.dataset.signalIndex = index; map.appendChild(marker); }); $("nearbySignals").innerHTML = situations.length ? situations.map((signal, index) => `<article class="nearby-signal" data-signal-index="${index}" tabindex="0"><i class="fa-solid ${escape(signal.icon)}"></i><div><strong>${escape(signal.type)}</strong><small>${escape(signal.status)}  -  ${escape(signal.distanceKm)} km  -  ${escape(signal.affectedArea)}</small><small>Updated ${signal.startTime ? new Date(signal.startTime).toLocaleString() : "time unavailable"}  -  ${escape(signal.source)}</small></div><b class="signal-severity">${escape(signal.severity)}</b></article>`).join("") : ""; }
-function clearLocationData() { $("overallScore").textContent = "--"; $("riskLevel").textContent = "Loading live data"; $("scoreSummary").textContent = "Updating for the selected location."; $("confidenceValue").textContent = "--"; $("updatedAt").textContent = "updating"; $("riskCards").innerHTML = ""; $("historyList").innerHTML = ""; $("weatherTemperature").textContent = "--"; $("weatherHumidity").textContent = "--"; $("weatherWind").textContent = "--"; $("weatherPressure").textContent = "--"; $("situationSummary").textContent = "Updating nearby situation data..."; $("situationSummary").className = "situation-summary"; $("situationMap").innerHTML = ""; $("nearbySignals").innerHTML = ""; }
-function setActiveLocation(location, coordinates = null, statusMessage = "") { if (activeRequestController) activeRequestController.abort(); state.location = location; state.coordinates = coordinates; localStorage.setItem("riskWatchLocation", location); $("locationName").textContent = location; clearLocationData(); $("locationStatus").className = "location-status"; renderLocations(); if (statusMessage) setLocationStatus(statusMessage, "loading"); return load(); }
+let situationLeafletMap;
+let situationMarkerLayer;
+let situationSnapshot;
+
+function renderLeafletSituations(snapshot) {
+  const container = $("situationMap");
+  const center = snapshot.coordinates || state.coordinates;
+  if (!container || !center || typeof L === "undefined") return;
+  if (!situationLeafletMap) {
+    situationLeafletMap = L.map(container, { zoomControl: true, attributionControl: true }).setView([center.latitude, center.longitude], 11);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "&copy; OpenStreetMap" }).addTo(situationLeafletMap);
+    situationMarkerLayer = L.layerGroup().addTo(situationLeafletMap);
+    situationLeafletMap.on("zoomend", () => { if (situationSnapshot) renderLeafletSituations(situationSnapshot); });
+  } else {
+    situationLeafletMap.setView([center.latitude, center.longitude], situationLeafletMap.getZoom(), { animate: false });
+    situationLeafletMap.invalidateSize();
+    situationMarkerLayer.clearLayers();
+  }
+  const userIcon = L.divIcon({ className: "risk-user-marker", html: "<span><i class='fa-solid fa-location-dot'></i></span>", iconSize: [28, 28], iconAnchor: [14, 14] });
+  L.marker([center.latitude, center.longitude], { icon: userIcon, title: "Saved location" }).bindPopup("<strong>Your saved location</strong><br><small>Risk data is centered here.</small>").addTo(situationMarkerLayer);
+  situationSnapshot = snapshot;
+  const groupedSignals = new Map();
+  (snapshot.situations || []).forEach((signal) => {
+    const latitude = Number(signal.latitude);
+    const longitude = Number(signal.longitude);
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return;
+    const key = `${latitude.toFixed(4)}:${longitude.toFixed(4)}`;
+    if (!groupedSignals.has(key)) groupedSignals.set(key, { latitude, longitude, signals: [] });
+    groupedSignals.get(key).signals.push(signal);
+  });
+  groupedSignals.forEach(({ latitude, longitude, signals }) => {
+    const degreesPerPixel = 360 / (256 * 2 ** situationLeafletMap.getZoom());
+    const spacing = 26 * degreesPerPixel;
+    signals.forEach((signal, index) => {
+      const severity = String(signal.severity || "moderate").toLowerCase();
+      const horizontalOffset = (index - (signals.length - 1) / 2) * spacing;
+      const icon = L.divIcon({ className: `risk-signal-marker ${severity}`, html: `<span><i class="fa-solid ${escape(signal.icon || "fa-triangle-exclamation")}"></i></span>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+      const marker = L.marker([latitude, longitude + horizontalOffset], { icon, title: signal.type || "Risk signal" });
+      marker.bindPopup(`<strong>${escape(signal.type || "Risk signal")}</strong><br><small>${escape(signal.severity || "Unknown")} · ${escape(signal.distanceKm ?? "")} km away</small><br>${escape(signal.risk || signal.status || "Follow official guidance.")}`).addTo(situationMarkerLayer);
+      L.polyline([[latitude, longitude], [latitude, longitude + horizontalOffset]], { color: severity === "severe" || severity === "critical" ? "#ff7180" : "#f6bd66", weight: 1, opacity: .45, dashArray: "2 3" }).addTo(situationMarkerLayer);
+    });
+  });
+  const elevatedRisks = (snapshot.risks || []).filter((risk) => Number(risk.probability) > 50);
+  elevatedRisks.forEach((risk, index) => {
+    const degreesPerPixel = 360 / (256 * 2 ** situationLeafletMap.getZoom());
+    const offset = (index - (elevatedRisks.length - 1) / 2) * 32 * degreesPerPixel;
+    const severity = String(risk.level || "high").toLowerCase().replace(/\s+/g, "-");
+    const icon = L.divIcon({ className: `risk-signal-marker ${severity} forecast-marker`, html: `<span><i class="fa-solid ${escape(risk.icon || "fa-triangle-exclamation")}"></i><b>${escape(risk.probability)}%</b></span>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+    L.marker([center.latitude, center.longitude + offset], { icon, title: `${risk.type}: ${risk.probability}% probability` }).bindPopup(`<strong>${escape(risk.type)} forecast</strong><br><small>Probability ${escape(risk.probability)}% · ${escape(risk.window || "Live forecast")}</small><br>${escape(risk.factors || "Elevated risk signal from live providers.")}`).addTo(situationMarkerLayer);
+  });
+}
+
+function clearLocationData() { $("overallScore").textContent = "--"; $("riskLevel").textContent = "Loading live data"; $("scoreSummary").textContent = "Updating for the selected location."; $("confidenceValue").textContent = "--"; $("updatedAt").textContent = "updating"; $("riskCards").innerHTML = ""; $("historyList").innerHTML = ""; $("weatherTemperature").textContent = "--"; $("weatherHumidity").textContent = "--"; $("weatherWind").textContent = "--"; $("weatherPressure").textContent = "--"; $("situationSummary").textContent = "Updating nearby situation data..."; $("situationSummary").className = "situation-summary"; if (situationMarkerLayer) situationMarkerLayer.clearLayers(); $("nearbySignals").innerHTML = ""; }
+function setActiveLocation(location, coordinates = null, statusMessage = "") { if (activeRequestController) activeRequestController.abort(); state.location = location; state.coordinates = coordinates; if (coordinates) saveSharedLocation(coordinates, "risk-dashboard"); localStorage.setItem("riskWatchLocation", location); $("locationName").textContent = location; clearLocationData(); $("locationStatus").className = "location-status"; renderLocations(); if (statusMessage) setLocationStatus(statusMessage, "loading"); return load(); }
 async function load() { const requestId = ++requestSequence; if (activeRequestController) activeRequestController.abort(); activeRequestController = new AbortController(); const controller = activeRequestController; $("refreshButton").disabled = true; try { const locationQuery = state.coordinates ? `lat=${encodeURIComponent(state.coordinates.latitude)}&lon=${encodeURIComponent(state.coordinates.longitude)}` : `q=${encodeURIComponent(state.location)}`; const response = await fetch(`/api/risk?${locationQuery}&radius=${state.radiusKm}`, { cache: "no-store", signal: controller.signal }); const snapshot = await response.json(); if (requestId !== requestSequence) return; if (!response.ok || !snapshot.success) throw new Error(snapshot.error || "Live risk data currently unavailable."); render(snapshot); } catch (error) { if (error.name === "AbortError" || requestId !== requestSequence) return; $("liveMode").textContent = "Data currently unavailable"; $("liveMode").className = "offline"; toast(error.message); } finally { if (requestId === requestSequence) { $("refreshButton").disabled = false; activeRequestController = null; } } }
 function renderLocations() { const all = [state.location, ...state.locations.filter((item) => item !== state.location)]; $("savedLocations").innerHTML = all.map((location, index) => `<div class="saved" role="button" tabindex="0" title="Show live data for ${escape(location)}"><span><b>${escape(location)}</b><small>${index ? "Monitored location  -  click to view live data" : "Current focus  -  alerts off"}</small></span>${index ? `<button data-remove="${escape(location)}" aria-label="Remove ${escape(location)}">x</button>` : ""}</div>`).join(""); }
 function renderChecklist() { $("checkCount").textContent = `${state.checked.length}/${items.length}`; $("checklist").innerHTML = items.map((item, index) => `<label class="check ${state.checked.includes(index) ? "done" : ""}"><input type="checkbox" data-check="${index}" ${state.checked.includes(index) ? "checked" : ""}>${item}</label>`).join(""); }

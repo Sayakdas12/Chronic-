@@ -96,23 +96,30 @@ mediaInput.addEventListener("change", async () => {
 	mediaName.textContent = file ? `${file.name} selected` : "";
 });
 
-document.getElementById("locationButton").addEventListener("click", () => {
-	if (!navigator.geolocation) {
-		locationStatus.textContent = "Location is not available in this browser.";
-		return;
+async function applySavedLocation() {
+	const { getSavedLocation } = await import("./location-manager.js");
+	const saved = getSavedLocation();
+	if (!saved) return;
+	approvedCoordinates = saved;
+	locationInput.value = `Saved location (${saved.latitude.toFixed(5)}, ${saved.longitude.toFixed(5)})`;
+	locationStatus.textContent = "Using your saved location. Choose Use My Location to update it.";
+}
+
+async function updateRequestLocation() {
+	try {
+		const { requestLocation } = await import("./location-manager.js");
+		locationStatus.textContent = "Updating your saved location...";
+		const saved = await requestLocation({ source: "request-form-update" });
+		approvedCoordinates = saved;
+		locationInput.value = `Current location (${saved.latitude.toFixed(5)}, ${saved.longitude.toFixed(5)})`;
+		locationStatus.textContent = "Location updated for routing.";
+	} catch {
+		locationStatus.textContent = "Location update failed. Enter it manually.";
 	}
-	locationStatus.textContent = "Finding your current location...";
-	navigator.geolocation.getCurrentPosition(
-		position => {
-			const { latitude, longitude } = position.coords;
-			approvedCoordinates = { latitude, longitude, accuracy: position.coords.accuracy || null };
-			locationInput.value = `Current location (${latitude.toFixed(5)}, ${longitude.toFixed(5)})`;
-			locationStatus.textContent = "Location captured for routing.";
-		},
-		() => { locationStatus.textContent = "Location permission was not granted. Enter it manually."; },
-		{ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-	);
-});
+}
+
+document.getElementById("locationButton").addEventListener("click", updateRequestLocation);
+void applySavedLocation();
 
 async function createEmergencyRequest(reportId) {
 	if (!approvedCoordinates) return null;
@@ -184,6 +191,9 @@ form.addEventListener("submit", async event => {
 		if (!response.ok || !result.success) throw new Error(result.error || "AI analysis failed.");
 		requestDraft = {
 			helpType: selectedHelpType(), description, location,
+			latitude: approvedCoordinates?.latitude ?? null,
+			longitude: approvedCoordinates?.longitude ?? null,
+			accuracy: approvedCoordinates?.accuracy ?? null,
 			mediaName: mediaInput.files?.[0]?.name || "",
 			analysis: result.analysis, image: imageData,
 			reporterName: localStorage.getItem("chronicAIUserName") || "Citizen",

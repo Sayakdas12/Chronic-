@@ -18,6 +18,7 @@
     <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
     <script src="../js/auth-guard.js"></script>
     <script src="../js/theme-manager.js"></script>
+    <script src="../js/offline-app.js"></script>
 
     <title>ChronicAI — Track Report</title>
 
@@ -131,8 +132,8 @@
 
             background:
                 linear-gradient(
-                    rgba(4,14,19,.86),
-                    rgba(6,15,19,.9)
+                    rgba(5, 11, 20, 0.82),
+                    rgba(5, 11, 20, 0.9)
                 ),
                 url("../images/track.jpeg") center / cover fixed no-repeat,
                 radial-gradient(
@@ -153,8 +154,101 @@
                 var(--track-bg);
 
             padding:
-                120px 20px 70px;
+                84px 20px 70px;
 
+        }
+
+        .civic-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 18px 18px 0;
+        }
+
+        .civic-brand-seal {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #f4f8ff;
+        }
+
+        .seal-mark {
+            width: 46px;
+            height: 46px;
+            display: inline-block;
+            object-fit: contain;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.18), rgba(37, 99, 235, 0.22));
+            border: 1px solid rgba(125, 211, 252, 0.55);
+            box-shadow: 0 10px 22px rgba(14, 165, 233, 0.18);
+            padding: 4px;
+        }
+
+        .brand-title {
+            margin: 0;
+            font-size: 1.05rem;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            font-weight: 800;
+        }
+
+        .brand-sub {
+            display: block;
+            margin-top: 3px;
+            color: rgba(226, 232, 240, 0.82);
+            font-size: 0.76rem;
+            letter-spacing: 0.02em;
+        }
+
+        .topbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .topbar-nav > a {
+            color: #e2f2ff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .civic-theme-segmented-switch {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.68);
+            border: 1px solid rgba(147, 197, 253, 0.35);
+            border-radius: 999px;
+            padding: 5px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .theme-seg-btn {
+            border: 0;
+            background: transparent;
+            color: #dbeafe;
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s ease;
+        }
+
+        .theme-seg-btn.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.92), rgba(14, 116, 144, 0.92));
+            color: #f8fdff;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.28);
         }
 
 
@@ -276,10 +370,11 @@
 
         .track-hero {
 
-            text-align: center;
+            text-align: left;
 
-            margin-bottom:
-                38px;
+            max-width: 1280px;
+            margin: 26px auto 38px;
+            padding: 12px 4px 0;
 
             animation:
                 trackFadeUp 0.8s ease both;
@@ -289,11 +384,10 @@
 
         .track-icon {
 
-            width: 72px;
-            height: 72px;
+            width: 56px;
+            height: 56px;
 
-            margin:
-                0 auto 20px;
+            margin: 0 0 18px;
 
             display: flex;
 
@@ -301,28 +395,28 @@
 
             justify-content: center;
 
-            border-radius: 22px;
+            border-radius: 16px;
 
             background:
                 linear-gradient(
                     135deg,
-                    rgba(79, 140, 255, 0.20),
-                    rgba(139, 92, 246, 0.18)
+                    rgba(14, 165, 233, 0.18),
+                    rgba(37, 99, 235, 0.26)
                 );
 
             border:
                 1px solid
-                rgba(120, 150, 255, 0.24);
+                rgba(125, 211, 252, 0.45);
 
             box-shadow:
-                0 0 40px
-                rgba(79, 140, 255, 0.18);
+                0 12px 28px
+                rgba(14, 165, 233, 0.18);
 
             color:
-                var(--track-cyan);
+                #dbeafe;
 
             font-size:
-                28px;
+                22px;
 
             animation:
                 iconFloat 4s ease-in-out infinite;
@@ -359,28 +453,30 @@
 
             font-size:
                 clamp(
-                    2rem,
-                    5vw,
-                    3.2rem
+                    3rem,
+                    7vw,
+                    6rem
                 );
 
-            font-weight:
-                800;
-
+            line-height: 0.94;
             letter-spacing:
-                -0.04em;
+                -0.06em;
+            font-weight:
+                900;
 
         }
 
 
         .track-hero h1 span {
 
+            display: block;
+            margin-top: 6px;
             background:
                 linear-gradient(
                     90deg,
-                    var(--track-blue),
-                    var(--track-cyan),
-                    var(--track-purple)
+                    #9edcff,
+                    #66d9ff,
+                    #8ad3ff
                 );
 
             -webkit-background-clip:
@@ -401,16 +497,16 @@
                 650px;
 
             margin:
-                15px auto 0;
+                18px 0 0;
 
             color:
-                var(--track-muted);
+                rgba(226, 232, 240, 0.82);
 
             line-height:
-                1.7;
+                1.6;
 
             font-size:
-                15px;
+                1.08rem;
 
         }
 
@@ -1601,7 +1697,7 @@
 <!-- Official Municipal Top Bar with Day/Night Switch -->
 <header class="civic-topbar">
     <a href="index.html" class="civic-brand-seal">
-        <span class="seal-mark"><i class="fa-solid fa-landmark"></i></span>
+        <img class="seal-mark" src="../images/goverment%20logo.png" alt="Government of India emblem" />
         <div>
             <h1 class="brand-title">ChronicAI</h1>
             <span class="brand-sub">Rescue Operations & Telematics Tracking</span>
@@ -1681,7 +1777,7 @@
                         <h2 id="rescueTrackingTitle">Live Rescue Tracking</h2>
                         <p>See permitted emergency resources responding near your approved or current location.</p>
                     </div>
-                    <div class="rescue-connection-pill" id="rescueConnectionStatus"><span></span> Connecting to live tracking</div>
+                    <div><div class="rescue-connection-pill" id="rescueConnectionStatus"><span></span> Connecting to live tracking</div><div id="responderTrackingControls" hidden><button id="startVehicleTracking" type="button">Start GPS tracking</button><button id="stopVehicleTracking" type="button">Stop tracking</button><small id="vehicleTrackingStatus"></small></div></div>
                 </div>
                 <div class="rescue-toolbar">
                     <label class="rescue-location-input"><span>Tracking location</span><div><i class="fa-solid fa-location-crosshairs"></i><input id="rescueLocationInput" type="search" placeholder="Use GPS or search a location" autocomplete="off"><button id="rescueLocationButton" type="button">Use current location</button></div></label>

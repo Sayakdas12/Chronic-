@@ -49,10 +49,11 @@
       }
     },
     "rescueVehicles": {
-      ".read": "auth != null",
+      ".read": "auth != null && root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator', 'viewer']",
       "$vehicleId": {
+        ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator', 'viewer'] || (data.child('assignedIncidentId').exists() && root.child('emergencyRequests').child(data.child('assignedIncidentId').val()).child('userId').val() === auth.uid))",
         ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() in ['admin', 'super_admin', 'government_officer', 'rescue_coordinator']",
-        ".validate": "newData.hasChildren(['agency','type','latitude','longitude','status','lastUpdated']) && newData.child('agency').isString() && newData.child('type').isString() && newData.child('latitude').isNumber() && newData.child('longitude').isNumber() && newData.child('status').val() in ['AVAILABLE','ASSIGNED','EN_ROUTE','ON_EMERGENCY_MISSION','ARRIVED','COMPLETED','OFFLINE']"
+        ".validate": "newData.hasChildren(['agency','type','latitude','longitude','status','lastUpdated']) && newData.child('agency').isString() && newData.child('type').isString() && newData.child('latitude').isNumber() && newData.child('longitude').isNumber() && newData.child('status').val() in ['AVAILABLE','ASSIGNED','EN_ROUTE','RETURNING','ON_EMERGENCY_MISSION','ARRIVED','COMPLETED','OFFLINE']"
       }
     },
     "emergencyRequests": {

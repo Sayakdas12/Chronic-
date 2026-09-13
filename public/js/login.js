@@ -45,6 +45,8 @@ import {
     database
 } from "./firebase-client.js";
 
+import { ensureInitialLocation } from "./location-manager.js";
+
 // ============================================================
 // GLOBAL STATE
 // ============================================================
@@ -117,6 +119,14 @@ const IS_LOCAL_DEV_HOST =
     ["localhost", "127.0.0.1", "::1"].includes(
         window.location.hostname
     );
+
+async function captureInitialLocation() {
+    try {
+        await ensureInitialLocation();
+    } catch (error) {
+        console.warn("ChronicAI: Initial location was not captured:", error?.message || error);
+    }
+}
 
 // ============================================================
 // LOCAL SESSION KEYS
@@ -3982,6 +3992,8 @@ function setupLoginForm() {
                 "Local demo login successful. Redirecting...";
             loginMessage.style.color = "#4ade80";
 
+            await captureInitialLocation();
+
             const requestedTarget =
                 new URLSearchParams(window.location.search)
                     .get("redirect");
@@ -4019,6 +4031,8 @@ function setupLoginForm() {
             loginMessage.textContent =
                 "Login successful. Redirecting...";
             loginMessage.style.color = "#4ade80";
+
+            await captureInitialLocation();
 
             const requestedTarget =
                 new URLSearchParams(window.location.search)

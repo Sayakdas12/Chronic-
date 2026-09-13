@@ -17,10 +17,16 @@ let currentRole = "viewer";
 let debounceTimer;
 let canonicalDebounceTimer;
 let locationMap;
+let fleetMap;
+let fleetMarkers = new Map();
+let briefingRequest = null;
+let briefingRefreshTimer;
 const localAdminMode = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const sihDemoMode = sessionStorage.getItem("sihDemoSession") === "active";
 
 const $ = (id) => document.getElementById(id);
 const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+const cleanBriefingText = (value) => String(value ?? "").replace(/^\s*#{1,6}\s*/gm, "").replace(/\*{2,}/g, "").replace(/\s{2,}/g, " ").trim();
 
 function showToast(message, type = "info") {
     const container = $("toastContainer");
@@ -37,7 +43,11 @@ function showToast(message, type = "info") {
 }
 
 async function api(path, options = {}) {
-    const headers = localAdminMode ? { Accept: "application/json", "X-Local-Admin": "true", ...options.headers } : { Accept: "application/json", ...options.headers, Authorization: `Bearer ${await currentUser?.getIdToken?.() || ""}` };
+    const headers = sihDemoMode
+        ? { Accept: "application/json", "X-SIH-Demo": "true", ...options.headers }
+        : localAdminMode
+            ? { Accept: "application/json", "X-Local-Admin": "true", ...options.headers }
+            : { Accept: "application/json", ...options.headers, Authorization: `Bearer ${await currentUser?.getIdToken?.() || ""}` };
     const response = await fetch(path, { ...options, headers });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || data.message || `Request failed: ${response.status}`);
@@ -49,16 +59,23 @@ async function api(path, options = {}) {
 // ============================================================
 
 async function loadBriefing() {
+        if (briefingRequest) return briefingRequest;
     const headlineEl = $("sitrepHeadline");
     const threatEl = $("sitrepThreatLevel");
-    try {
-        const data = await api("/api/dashboard/briefing?district=Ward%207");
-        if (!data || !data.briefing) return;
+        const statusEl = $("sitrepLiveStatus");
+        const refreshButton = $("refreshBriefingBtn");
+        if (refreshButton) refreshButton.disabled = true;
+        if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> LIVE · syncing telemetry';
+
+        briefingRequest = (async () => {
+            try {
+                const data = await api(`/api/dashboard/briefing?district=${encodeURIComponent($("sitrepDistrict")?.textContent.trim() || "Ward 7")}`);
+                if (!data?.briefing || !data.metrics) throw new Error("Live briefing data is incomplete.");
 
         const briefing = data.briefing;
         const metrics = data.metrics || {};
 
-        if (headlineEl) headlineEl.textContent = briefing.headline || "Situation Report Active";
+        if (headlineEl) headlineEl.textContent = cleanBriefingText(briefing.headline) || "Situation Report Active";
         if (threatEl) {
             const threat = (briefing.threatLevel || "MONITOR").toLowerCase();
             threatEl.className = `threat-badge ${threat}`;
@@ -73,18 +90,26 @@ async function loadBriefing() {
         if ($("sAmbulanceCount")) $("sAmbulanceCount").textContent = metrics.availableAmbulances ?? 0;
         if ($("sBlockedRoadsCount")) $("sBlockedRoadsCount").textContent = metrics.blockedRoadsCount ?? 0;
 
-        if ($("sitrepSummaryText")) $("sitrepSummaryText").textContent = briefing.situationSummary || "Telemetry aggregated.";
-        if ($("sitrepRouteText")) $("sitrepRouteText").textContent = briefing.routeAdvisory || "All primary evacuation routes passable.";
-        if ($("sitrepCasualtyText")) $("sitrepCasualtyText").textContent = briefing.casualtySitRep || "Triage monitoring ongoing.";
+        if ($("sitrepSummaryText")) $("sitrepSummaryText").textContent = cleanBriefingText(briefing.situationSummary) || "Telemetry aggregated.";
+        if ($("sitrepRouteText")) $("sitrepRouteText").textContent = cleanBriefingText(briefing.routeAdvisory) || "All primary evacuation routes passable.";
+        if ($("sitrepCasualtyText")) $("sitrepCasualtyText").textContent = cleanBriefingText(briefing.casualtySitRep) || "Triage monitoring ongoing.";
 
         const directivesList = $("sitrepDirectivesList");
         if (directivesList && Array.isArray(briefing.tacticalDirectives)) {
-            directivesList.innerHTML = briefing.tacticalDirectives.map((d) => `<li>${escapeHTML(d)}</li>`).join("");
+            directivesList.innerHTML = briefing.tacticalDirectives.map((d) => `<li>${escapeHTML(cleanBriefingText(d))}</li>`).join("");
         }
-    } catch (error) {
+                if (statusEl) statusEl.innerHTML = `<i class="fa-solid fa-circle"></i> LIVE · updated ${new Date(data.timestamp || Date.now()).toLocaleTimeString()}`;
+            } catch (error) {
         console.warn("Failed to load AI briefing:", error);
-        if (headlineEl) headlineEl.textContent = "District SitRep unavailable (retrying...)";
-    }
+                if (statusEl) statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> LIVE · telemetry unavailable';
+                if (headlineEl) headlineEl.textContent = "District SitRep unavailable — retrying automatically";
+                if ($("sitrepSummaryText")) $("sitrepSummaryText").textContent = error.message;
+            } finally {
+                if (refreshButton) refreshButton.disabled = false;
+                briefingRequest = null;
+            }
+        })();
+        return briefingRequest;
 }
 
 // ============================================================
@@ -297,7 +322,7 @@ async function openResourceModal(incidentId, incidentTitle) {
                 btn.disabled = true;
                 btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Dispatching...`;
                 try {
-                    await api("/api/missions/dispatch", {
+                    await api("/api/missions", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -432,13 +457,20 @@ function renderMetrics(stats) {
         ["Civic volunteers", stats.civicVolunteers, "Volunteer registrations"],
         ["Support pending", stats.supportPending, "Awaiting review"],
         ["Support under review", stats.supportUnderReview, "Admin action"],
-        ["Support completed", stats.supportCompleted, "Closed support requests"]
+        ["Support completed", stats.supportCompleted, "Closed support requests"],
+        ["SOS alerts", stats.sosAlertsTotal, "All emergency alerts"],
+        ["Active SOS", stats.activeSosAlerts, "Needs immediate attention"],
+        ["SOS notification rate", `${Number(stats.sosNotificationRate) || 0}%`, "Authority email delivery"],
+        ["Avg SOS response", `${Number(stats.averageSosResponseSeconds) || 0}s`, "Alert to notification"]
     ];
-    $("metricGrid").innerHTML = metrics.map(([label, value, note]) => `<article class="metric"><span>${escapeHTML(label)}</span><strong>${Number(value) || 0}</strong><small>${escapeHTML(note)}</small></article>`).join("");
+    $("metricGrid").innerHTML = metrics.map(([label, value, note]) => `<article class="metric"><span>${escapeHTML(label)}</span><strong>${typeof value === "number" ? (Number.isFinite(value) ? value : 0) : escapeHTML(value)}</strong><small>${escapeHTML(note)}</small></article>`).join("");
 }
 
 function renderAlerts(alerts) {
-    $("alertList").innerHTML = alerts.length ? alerts.map((alert) => `<div class="alert-item"><strong>${escapeHTML(alert.title)}</strong><span>${escapeHTML(alert.location)} · ${escapeHTML(alert.severity)} · ${escapeHTML(alert.status)}</span></div>`).join("") : `<div class="empty">No unresolved critical alerts.</div>`;
+    $("alertList").innerHTML = alerts.length ? alerts.map((alert) => {
+        const isSos = String(alert.id || "").startsWith("SOS-");
+        return `<div class="alert-item${isSos ? " sos-alert" : ""}"><strong>${isSos ? '<i class="fa-solid fa-bell"></i> ' : ""}${escapeHTML(alert.title)}</strong><span>${escapeHTML(alert.location)} · ${escapeHTML(alert.severity)} · ${escapeHTML(alert.status)}</span></div>`;
+    }).join("") : `<div class="empty">No unresolved critical alerts.</div>`;
     const critical = alerts[0];
     $("criticalAlert").innerHTML = critical ? `<i class="fa-solid fa-triangle-exclamation"></i><div><strong>${escapeHTML(critical.title)}</strong><span>${escapeHTML(critical.location)} · ${escapeHTML(critical.severity)} · ${escapeHTML(critical.status)}</span></div>` : `<i class="fa-solid fa-circle-check"></i><div><strong>No critical alerts</strong><span>Current protected case data has no unresolved severe or critical alert.</span></div>`;
 }
@@ -598,6 +630,60 @@ async function deleteReport(event) {
     }
 }
 
+async function loadFleet() {
+    const rows = $("fleetRows");
+    if (!rows) return;
+    try {
+        const data = await api("/api/fleet/vehicles");
+        const vehicles = data.vehicles || [];
+        renderFleetMap(vehicles);
+        rows.innerHTML = vehicles.length ? vehicles.map((vehicle) => {
+            const age = vehicle.lastUpdated ? Math.max(0, Math.round((Date.now() - vehicle.lastUpdated) / 1000)) : null;
+            const stale = age === null || age > 90;
+            const status = stale && vehicle.trackingActive ? "OFFLINE" : vehicle.status || "AVAILABLE";
+            return `<tr><td><strong>${escapeHTML(vehicle.vehicleNumber || vehicle.id)}</strong><small>${escapeHTML(vehicle.type || "Emergency vehicle")}</small></td><td>${escapeHTML(vehicle.agency || "Unavailable")}<small>${escapeHTML(vehicle.driverName || "")}</small></td><td>${vehicle.latitude != null ? `${Number(vehicle.latitude).toFixed(5)}, ${Number(vehicle.longitude).toFixed(5)}` : "Location unavailable"}<small>${age === null ? "No GPS update" : `Updated ${age}s ago`}</small></td><td><span class="pill ${status.toLowerCase()}">${escapeHTML(status.replaceAll("_", " "))}</span></td><td>${escapeHTML(vehicle.assignedIncidentId || "Unassigned")}</td><td><div class="case-action-group"><select data-fleet-status="${escapeHTML(vehicle.id)}" aria-label="Update vehicle status">${["AVAILABLE", "ASSIGNED", "EN_ROUTE", "ARRIVED", "RETURNING", "OFFLINE"].map((option) => `<option ${option === status ? "selected" : ""}>${option}</option>`).join("")}</select><input data-fleet-assignment="${escapeHTML(vehicle.id)}" value="${escapeHTML(vehicle.assignedIncidentId || "")}" placeholder="Incident/SOS ID" aria-label="Assignment"><button class="case-actions" data-fleet-save="${escapeHTML(vehicle.id)}" type="button">Save</button></div></td></tr>`;
+        }).join("") : `<tr><td colspan="6" class="empty">No emergency vehicles registered.</td></tr>`;
+        rows.querySelectorAll("[data-fleet-save]").forEach((button) => button.addEventListener("click", async () => {
+            const id = button.dataset.fleetSave;
+            button.disabled = true;
+            try {
+                await api(`/api/fleet/vehicles/${encodeURIComponent(id)}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: rows.querySelector(`[data-fleet-status="${CSS.escape(id)}"]`).value, assignedIncidentId: rows.querySelector(`[data-fleet-assignment="${CSS.escape(id)}"]`).value.trim() || null }) });
+                showToast("Fleet vehicle updated.", "success");
+                await loadFleet();
+            } catch (error) { showToast(error.message, "error"); } finally { button.disabled = false; }
+        }));
+    } catch (error) { rows.innerHTML = `<tr><td colspan="6" class="empty">Fleet unavailable: ${escapeHTML(error.message)}</td></tr>`; }
+}
+
+function renderFleetMap(vehicles) {
+    const mapElement = $("fleetMap");
+    if (!mapElement || typeof L === "undefined") return;
+    if (!fleetMap) {
+        fleetMap = L.map(mapElement, { scrollWheelZoom: true }).setView([22.5, 88.3], 5);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors", maxZoom: 19 }).addTo(fleetMap);
+    }
+    fleetMarkers.forEach((marker) => marker.remove());
+    fleetMarkers.clear();
+    const bounds = [];
+    vehicles.filter((vehicle) => Number.isFinite(Number(vehicle.latitude)) && Number.isFinite(Number(vehicle.longitude))).forEach((vehicle) => {
+        const point = [Number(vehicle.latitude), Number(vehicle.longitude)];
+        bounds.push(point);
+        const marker = L.marker(point).addTo(fleetMap).bindPopup(`<strong>${escapeHTML(vehicle.vehicleNumber || vehicle.id)}</strong><br>${escapeHTML(vehicle.type || "Emergency vehicle")} · ${escapeHTML(vehicle.status || "OFFLINE")}<br><small>${escapeHTML(vehicle.assignedIncidentId || "Unassigned")} · Last updated ${vehicle.lastUpdated ? new Date(vehicle.lastUpdated).toLocaleTimeString() : "unavailable"}</small>`);
+        fleetMarkers.set(vehicle.id, marker);
+    });
+    if (bounds.length > 1) fleetMap.fitBounds(bounds, { padding: [24, 24] });
+    else if (bounds.length === 1) fleetMap.setView(bounds[0], 13);
+    setTimeout(() => fleetMap.invalidateSize(), 50);
+}
+
+$("fleetVehicleForm")?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const payload = Object.fromEntries(new FormData(form).entries());
+    try { await api("/api/fleet/vehicles", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) }); showToast("Emergency vehicle registered.", "success"); form.reset(); await loadFleet(); } catch (error) { showToast(error.message, "error"); }
+});
+$("fleetRefreshButton")?.addEventListener("click", loadFleet);
+
 // ============================================================
 // INITIALIZATION
 // ============================================================
@@ -606,13 +692,16 @@ async function initialize() {
     await Promise.all([
         loadBriefing(),
         loadCanonicalIncidents(),
-        loadDashboard()
+        loadDashboard(),
+        loadFleet()
     ]);
+    clearInterval(briefingRefreshTimer);
+    briefingRefreshTimer = setInterval(loadBriefing, 30000);
 }
 
 onAuthStateChanged(auth, async (user) => {
     currentUser = user;
-    if (!user && !localAdminMode) {
+    if (!user && !localAdminMode && !sihDemoMode) {
         window.location.replace("admin-login.html");
         return;
     }
@@ -620,7 +709,7 @@ onAuthStateChanged(auth, async (user) => {
         await api("/api/admin/session");
         await initialize();
     } catch {
-        if (!localAdminMode) {
+        if (!localAdminMode && !sihDemoMode) {
             await signOut(auth);
             sessionStorage.removeItem("governmentSession");
             window.location.replace("admin-login.html");

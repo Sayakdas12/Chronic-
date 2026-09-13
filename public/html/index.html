@@ -1,12 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="ChronicAI - Post-disaster management" />
     <meta name="theme-color" content="#091a2d" />
+    <link rel="manifest" href="/manifest.json" />
     <script src="../js/auth-guard.js"></script>
     <script src="../js/theme-manager.js"></script>
+    <script src="../js/offline-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +19,8 @@
     <link rel="stylesheet" href="../css/prisma-hero.css" />
     <link rel="stylesheet" href="../css/theme-sync.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
     <title>ChronicAI | Civic Infrastructure & Disaster Response</title>
   </head>
   <body>
@@ -43,13 +48,13 @@
         <nav class="civic-nav-container" aria-label="Main Navigation">
           <div class="civic-nav-pill">
             <a href="index.html" class="civic-nav-brand">
-              <span class="seal-mark" style="width:28px;height:28px;font-size:13px;"><i class="fa-solid fa-landmark"></i></span>
+              <img class="civic-nav-logo" src="../images/goverment%20logo.png" alt="Disaster Management Government of India" />
               <span>ChronicAI</span>
             </a>
 
             <!-- Desktop Nav Links (hidden on mobile) -->
             <div class="civic-nav-links-desktop">
-              <a href="#features" class="civic-nav-link">Live Telemetry</a>
+              <a href="#live-disaster-updates" class="civic-nav-link">Live Telemetry</a>
               <a href="report-problem.html" class="civic-nav-link">Report Incident</a>
               <a href="#homepageMapTitle" class="civic-nav-link">Disaster Radar</a>
               <a href="resource-center.html" class="civic-nav-link">Resource Fleet</a>
@@ -68,7 +73,11 @@
                   <span>Night</span>
                 </button>
               </div>
-              <a href="login.html" class="civic-nav-auth">Sign In</a>
+              <button type="button" class="civic-logout-btn" id="civicLogoutButton" hidden>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+              </button>
+              <a href="login.html" class="civic-nav-auth" id="civicSignInLink">Sign In</a>
             </div>
 
             <!-- Mobile Navbar Controls (visible on <= 1024px) -->
@@ -91,7 +100,7 @@
           <div class="civic-mobile-drawer" id="civicMobileDrawer" aria-hidden="true">
             <div class="mobile-drawer-header">
               <div class="drawer-brand">
-                <span class="seal-mark" style="width:28px;height:28px;font-size:13px;"><i class="fa-solid fa-landmark"></i></span>
+                <img class="civic-nav-logo" src="../images/goverment%20logo.png" alt="Disaster Management Government of India" />
                 <span>ChronicAI</span>
               </div>
               <button type="button" class="mobile-drawer-close" id="civicDrawerCloseBtn" aria-label="Close navigation menu">
@@ -110,14 +119,22 @@
                 <span>File Infrastructure Incident</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </a>
-              <div class="mobile-auth-row">
-                <a href="login.html" class="mobile-auth-btn sign-in">Sign In</a>
+              <div class="mobile-auth-row" id="mobileAuthRow">
+                <a href="login.html" class="mobile-auth-btn sign-in" id="mobileSignInLink">Sign In</a>
                 <a href="register.html" class="mobile-auth-btn register">Register</a>
               </div>
+              <button type="button" class="mobile-logout-btn" id="mobileLogoutButton" hidden>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+              </button>
+              <button type="button" class="mobile-sos-btn civic-sos-btn" data-sos-action>
+                <i class="fa-solid fa-truck-medical"></i>
+                <span>Send Emergency SOS</span>
+              </button>
             </div>
 
             <div class="mobile-drawer-links">
-              <a href="#features" class="mobile-drawer-link">
+              <a href="#live-disaster-updates" class="mobile-drawer-link">
                 <div class="link-icon blue"><i class="fa-solid fa-chart-line"></i></div>
                 <div class="link-text">
                   <strong>Live Telemetry</strong>
@@ -184,6 +201,10 @@
             
             <!-- Left Column: WordsPullUp Title & Actions -->
             <div>
+              <div class="civic-hero-logo" aria-hidden="true">
+                <img src="../images/goverment%20logo.png" alt="" />
+              </div>
+
               <span class="civic-status-badge">
                 <span class="civic-pulse-dot"></span>
                 AUTONOMOUS CIVIC TRIAGE & EMERGENCY RESPONSE NETWORK
@@ -216,10 +237,15 @@
                   <span>Authority Command Console</span>
                 </a>
 
-                <a href="tel:+918013593509" class="civic-secondary-btn" title="Emergency Hotline">
-                  <i class="fa-solid fa-phone"></i>
-                  <span>24/7 Helpline</span>
-                </a>
+                <button type="button" class="civic-secondary-btn" id="openAssistant" title="Open Civic Assistant">
+                  <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  <span>Ask Assistant</span>
+                </button>
+
+                <button type="button" class="civic-sos-btn" id="civicSosButton" data-sos-action>
+                  <i class="fa-solid fa-truck-medical"></i>
+                  <span>Send SOS</span>
+                </button>
               </div>
             </div>
 
@@ -323,8 +349,8 @@
                   </div>
                 </div>
 
-                <a href="admin-login.html" class="hud-footer-link">
-                  <span>Open Government Operations Room</span>
+                <a href="risk-dashboard.html" class="hud-footer-link risk-dashboard-link">
+                  <span><i class="fa-solid fa-shield-heart"></i> Open Risk Dashboard</span>
                   <i class="fa-solid fa-arrow-right"></i>
                 </a>
               </div>
@@ -341,146 +367,21 @@
          ========================================================= -->
     <main class="civic-landing-main">
 
-      <!-- 1. Official Telemetry Stats Strip -->
-      <section class="civic-stats-section" id="features">
+      <!-- 2. Live India Disaster Updates -->
+      <section class="live-disaster-section" id="live-disaster-updates" aria-labelledby="liveDisasterTitle">
         <div class="civic-container">
-          <div class="civic-stats-strip">
-            
-            <!-- Stat 1: Incident Triage -->
-            <div class="civic-stat-tile">
-              <div class="stat-tile-header">
-                <span class="stat-pulse-dot amber"></span>
-                <span class="stat-kicker">INCIDENT TRIAGE</span>
-                <i class="fa-solid fa-triangle-exclamation stat-ghost-icon"></i>
-              </div>
-              <div class="stat-main-metric">
-                <strong data-stat="affected" class="stat-number">0</strong>
-              </div>
-              <span class="stat-label">People Affected & Flagged</span>
+          <div class="live-disaster-header">
+            <div>
+              <div class="live-disaster-kicker"><span class="live-disaster-pulse"></span> LIVE · INDIA DISASTER UPDATES</div>
+              <h2 id="liveDisasterTitle">Recent authoritative events</h2>
+              <p id="liveDisasterStatus">Connecting to the latest India event feed...</p>
             </div>
-
-            <!-- Stat 2: Active Missions -->
-            <div class="civic-stat-tile">
-              <div class="stat-tile-header">
-                <span class="stat-pulse-dot red"></span>
-                <span class="stat-kicker">ACTIVE MISSIONS</span>
-                <i class="fa-solid fa-truck-medical stat-ghost-icon"></i>
-              </div>
-              <div class="stat-main-metric">
-                <strong data-stat="rescue" class="stat-number">0</strong>
-              </div>
-              <span class="stat-label">Rescue Operations Dispatched</span>
-            </div>
-
-            <!-- Stat 3: Relief Shelters -->
-            <div class="civic-stat-tile">
-              <div class="stat-tile-header">
-                <span class="stat-pulse-dot green"></span>
-                <span class="stat-kicker">RELIEF BASES</span>
-                <i class="fa-solid fa-house-chimney stat-ghost-icon"></i>
-              </div>
-              <div class="stat-main-metric">
-                <strong data-stat="shelters" class="stat-number">0</strong>
-              </div>
-              <span class="stat-label">Operational Relief Shelters</span>
-            </div>
-
-            <!-- Stat 4: Field Medical Units -->
-            <div class="civic-stat-tile">
-              <div class="stat-tile-header">
-                <span class="stat-pulse-dot cyan"></span>
-                <span class="stat-kicker">HEALTH CORRIDOR</span>
-                <i class="fa-solid fa-kit-medical stat-ghost-icon"></i>
-              </div>
-              <div class="stat-main-metric">
-                <strong data-stat="medical" class="stat-number">0</strong>
-              </div>
-              <span class="stat-label">Emergency Medical Camps</span>
-            </div>
-
-            <!-- Stat 5: Supply Chain -->
-            <div class="civic-stat-tile">
-              <div class="stat-tile-header">
-                <span class="stat-pulse-dot purple"></span>
-                <span class="stat-kicker">SUPPLY CHAIN</span>
-                <i class="fa-solid fa-box-open stat-ghost-icon"></i>
-              </div>
-              <div class="stat-main-metric">
-                <strong data-stat="packages" class="stat-number">0</strong>
-              </div>
-              <span class="stat-label">Relief Rations Distributed</span>
-            </div>
-
+            <div class="live-disaster-meta"><span>Source: <a id="liveDisasterSource" href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener">USGS Earthquake Hazards Program</a></span><span>Last updated: <b id="liveDisasterUpdated">waiting</b></span></div>
+          </div>
+          <div class="live-disaster-viewport" id="liveDisasterViewport" tabindex="0" aria-label="Live India disaster updates">
+            <div class="live-disaster-track" id="liveDisasterTrack"><div class="live-disaster-loading">Loading verified India events...</div></div>
           </div>
         </div>
-
-        <script>
-          (() => {
-            const statMap = {
-              affected: document.querySelector('[data-stat="affected"]'),
-              rescue: document.querySelector('[data-stat="rescue"]'),
-              shelters: document.querySelector('[data-stat="shelters"]'),
-              medical: document.querySelector('[data-stat="medical"]'),
-              packages: document.querySelector('[data-stat="packages"]')
-            };
-
-            const formatNumber = (value) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value);
-
-            const fallbackStats = {
-              affected: 2458,
-              rescue: 143,
-              shelters: 68,
-              medical: 24,
-              packages: 5648
-            };
-
-            const updateStats = (values) => {
-              Object.entries(values).forEach(([key, value]) => {
-                const element = statMap[key];
-                if (element) {
-                  element.textContent = formatNumber(value);
-                }
-              });
-            };
-
-            const readStatus = (report) => String(report?.status || '').toLowerCase();
-
-            const safeReports = (payload) => {
-              if (Array.isArray(payload)) return payload;
-              if (Array.isArray(payload?.reports)) return payload.reports;
-              if (Array.isArray(payload?.data)) return payload.data;
-              return [];
-            };
-
-            fetch('/api/reports', { cache: 'no-store' })
-              .then(async (response) => {
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const payload = await response.json();
-                const reports = safeReports(payload);
-
-                const activeCount = reports.filter((report) => !['resolved', 'closed'].includes(readStatus(report))).length;
-                const criticalCount = reports.filter((report) => ['critical', 'severe', 'high'].includes(String(report?.analysis?.severity || report?.priority || '').toLowerCase())).length;
-                const totalReports = reports.length || 1;
-
-                const affectedValue = Math.max(1200, Math.round(totalReports * 148 + activeCount * 42 + criticalCount * 220));
-                const rescueValue = Math.max(18, Math.round(activeCount * 14 + totalReports * 3 + criticalCount * 8));
-                const shelterValue = Math.max(12, Math.round(Math.max(1, Math.ceil((activeCount + totalReports) / 2)) + 10));
-                const medicalValue = Math.max(6, Math.round(totalReports * 2.4 + criticalCount * 3));
-                const packageValue = Math.max(250, Math.round(totalReports * 118 + activeCount * 76 + criticalCount * 94));
-
-                updateStats({
-                  affected: affectedValue,
-                  rescue: rescueValue,
-                  shelters: shelterValue,
-                  medical: medicalValue,
-                  packages: packageValue
-                });
-              })
-              .catch(() => {
-                updateStats(fallbackStats);
-              });
-          })();
-        </script>
       </section>
 
       <!-- 2. Core Municipal Capabilities Matrix -->
@@ -691,13 +592,30 @@
                   <i class="fa-solid fa-satellite" style="color: #38bdf8;"></i>
                   <span>Connecting to national telemetry network...</span>
                 </span>
+                <div class="homepage-location-panel" id="homepageLocationPanel" aria-live="polite">
+                  <div class="homepage-location-copy">
+                    <i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i>
+                    <span id="homepageLocationStatus">Sign in to find resources and critical weather conditions near you.</span>
+                  </div>
+                  <button class="homepage-location-button" id="homepageEnableLocation" type="button">
+                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                    <span>Enable Location</span>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div class="map-canvas-wrapper">
-              <div id="homepageDisasterMap" class="tactical-disaster-map" aria-label="Live disaster radar map"></div>
+            <div class="map-dashboard-body">
+              <div class="map-canvas-wrapper">
+                <div id="homepageDisasterMap" class="tactical-disaster-map" aria-label="Live disaster radar map"></div>
 
-              <div class="tactical-map-legend" aria-label="Disaster symbols legend">
+                <div class="map-weather-card" id="homepageWeatherCard">
+                  <span class="weather-card-icon"><i class="fa-solid fa-cloud-bolt"></i></span>
+                  <span><strong id="homepageWeatherTitle">Live Weather</strong><small id="homepageWeatherSummary">Waiting for location data</small></span>
+                  <strong id="homepageWeatherTemp">--</strong>
+                </div>
+
+                <div class="tactical-map-legend" aria-label="Disaster symbols legend">
                 <div class="legend-header">
                   <i class="fa-solid fa-layer-group" style="color: #38bdf8;"></i>
                   <span>TELEMETRY SIGNALS</span>
@@ -710,8 +628,15 @@
                   <span class="legend-item"><i class="fa-solid fa-temperature-high" style="color: #f97316;"></i> Extreme Heat</span>
                   <span class="legend-item"><i class="fa-solid fa-wind" style="color: #60a5fa;"></i> Severe Wind</span>
                   <span class="legend-item"><i class="fa-solid fa-chart-line" style="color: #eab308;"></i> Forecast Risk</span>
+                  <span class="legend-item"><i class="risk-dot risk-dot-low"></i> Low / Normal</span>
+                  <span class="legend-item"><i class="risk-dot risk-dot-moderate"></i> Moderate</span>
+                  <span class="legend-item"><i class="risk-dot risk-dot-high"></i> High</span>
+                  <span class="legend-item"><i class="risk-dot risk-dot-critical"></i> Critical</span>
+                  <span class="legend-item"><i class="fa-solid fa-location-dot" style="color: #38bdf8;"></i> You are here</span>
+                </div>
                 </div>
               </div>
+
             </div>
 
           </div>
@@ -778,11 +703,11 @@
               <div class="footer-col">
                 <h4 class="footer-col-title">Intelligence</h4>
                 <ul class="footer-link-list">
-                  <li><a href="#features" class="footer-nav-link">AI Damage Assessment</a></li>
-                  <li><a href="#features" class="footer-nav-link">P1-P4 Urgency Engine</a></li>
-                  <li><a href="#features" class="footer-nav-link">Duplicate Clustering</a></li>
-                  <li><a href="#features" class="footer-nav-link">Offline Field Sync</a></li>
-                  <li><a href="#features" class="footer-nav-link">Spatial Telemetry</a></li>
+                  <li><a href="#capabilities" class="footer-nav-link">AI Damage Assessment</a></li>
+                  <li><a href="#capabilities" class="footer-nav-link">P1-P4 Urgency Engine</a></li>
+                  <li><a href="#capabilities" class="footer-nav-link">Duplicate Clustering</a></li>
+                  <li><a href="#capabilities" class="footer-nav-link">Offline Field Sync</a></li>
+                  <li><a href="#capabilities" class="footer-nav-link">Spatial Telemetry</a></li>
                 </ul>
               </div>
 
@@ -865,6 +790,21 @@
       </div>
     </footer>
 
+    <dialog class="civic-assistant-dialog" id="civicAssistantDialog" aria-labelledby="assistantTitle">
+      <div class="civic-assistant-header">
+        <div>
+          <span class="assistant-kicker"><i class="fa-solid fa-circle-nodes"></i> CIVIC AI</span>
+          <h2 id="assistantTitle">Choose an option</h2>
+        </div>
+        <button type="button" class="assistant-close" id="closeAssistant" aria-label="Close assistant"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p class="assistant-intro">Choose a task and I will take you to the right place.</p>
+      <div class="assistant-quick-actions">
+        <a href="life-helper.html"><span>Chronic AI Assistant</span></a>
+        <a href="tel:+918013593509"><span>Call 24/7 Helpline</span></a>
+      </div>
+    </dialog>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script>
       (() => {
@@ -872,8 +812,24 @@
         const statusElement = document.getElementById("homepageMapStatus");
         if (!mapElement || typeof L === "undefined") return;
 
-        const indiaBounds = [[7.5, 68], [36.5, 96.5]];
-        const map = L.map(mapElement, { scrollWheelZoom: false }).fitBounds(indiaBounds, { padding: [30, 30] });
+        const indiaBounds = [[6, 68], [37, 97.5]];
+        const indiaMaxBounds = [[4, 66], [39, 100]];
+        const map = L.map(mapElement, {
+          scrollWheelZoom: true,
+          dragging: true,
+          touchZoom: true,
+          doubleClickZoom: true,
+          keyboard: true,
+          minZoom: 4,
+          maxZoom: 18,
+          maxBounds: indiaMaxBounds,
+          maxBoundsViscosity: 1
+        }).fitBounds(indiaBounds, { padding: [30, 30] });
+        const signalLayer = L.layerGroup().addTo(map);
+        const affectedAreaLayer = L.layerGroup().addTo(map);
+        let liveSnapshot = [];
+        let refreshTimer;
+        window.homepageDisasterMap = map;
 
         let currentTileLayers = [];
         function setMapTheme(theme) {
@@ -883,21 +839,18 @@
           currentTileLayers = [];
 
           if (theme === "light") {
-            const baseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-              maxZoom: 18
+            const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+              attribution: "Tiles &copy; Esri",
+              maxZoom: 18,
+              className: "homepage-map-monochrome"
             }).addTo(map);
             currentTileLayers = [baseLayer];
           } else {
-            const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
-              attribution: "Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-              maxZoom: 16
+            const baseLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+              attribution: "Tiles &copy; Esri",
+              maxZoom: 18
             }).addTo(map);
-            const refLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", {
-              attribution: "",
-              maxZoom: 16
-            }).addTo(map);
-            currentTileLayers = [baseLayer, refLayer];
+            currentTileLayers = [baseLayer];
           }
         }
 
@@ -909,35 +862,91 @@
         const safe = (value) => String(value ?? "").replace(/[&<>\"']/g, "");
         const disasterIcon = (type) => type.toLowerCase().includes("earthquake") ? "fa-house-crack" : type.toLowerCase().includes("flood") || type.toLowerCase().includes("rain") ? "fa-water" : type.toLowerCase().includes("wind") ? "fa-wind" : type.toLowerCase().includes("heat") ? "fa-temperature-high" : type.toLowerCase().includes("cyclone") || type.toLowerCase().includes("hurricane") ? "fa-hurricane" : type.toLowerCase().includes("landslide") ? "fa-mountain" : type.toLowerCase().includes("fire") ? "fa-fire" : "fa-triangle-exclamation";
         const disasterColor = (severity) => severity.toLowerCase().includes("severe") || severity.toLowerCase().includes("high") ? "#ef4f5d" : "#e5a52f";
+        const disasterProbability = (event) => Number(event.probability) || ({ critical: 90, severe: 90, high: 75, moderate: 55, low: 25 }[String(event.severity || "moderate").toLowerCase()] || 50);
+        const liveRiskGrid = [...Array.from({ length: 12 }, (_, index) => {
+          const latitude = 10 + Math.floor(index / 4) * 6;
+          const longitude = 72 + (index % 4) * 7;
+          return { name: `India sector ${index + 1}`, latitude, longitude };
+        }), { name: "North Bengal sector", latitude: 26.3452, longitude: 89.4482 }];
+        const loadRiskSnapshots = () => Promise.all(liveRiskGrid.map((point) => fetch(`/api/risk?lat=${point.latitude}&lon=${point.longitude}&radius=100`, { cache: "no-store" }).then((response) => response.ok ? response.json() : null).then((payload) => ({ ...point, payload })).catch(() => null)));
+        const eventColor = (event) => event.type?.toLowerCase().includes("earthquake") ? "#db6449" : event.type?.toLowerCase().includes("flood") || event.type?.toLowerCase().includes("rain") ? "#278fc4" : event.type?.toLowerCase().includes("cyclone") || event.type?.toLowerCase().includes("wind") ? "#7d59d6" : event.type?.toLowerCase().includes("fire") ? "#e58b25" : "#ef4f5d";
+        const eventRadius = (event) => { const severity = String(event.severity || "moderate").toLowerCase(); return severity === "critical" ? 120000 : severity === "high" ? 80000 : severity === "moderate" ? 45000 : 25000; };
+        const clusterEvents = (events) => {
+          const clusters = [];
+          events.forEach((event) => {
+            const point = L.latLng(Number(event.latitude), Number(event.longitude));
+            const existing = clusters.find((cluster) => map.distance(cluster.center, point) < 3000);
+            if (existing) { existing.events.push(event); existing.center = L.latLng(existing.events.reduce((sum, item) => sum + Number(item.latitude), 0) / existing.events.length, existing.events.reduce((sum, item) => sum + Number(item.longitude), 0) / existing.events.length); }
+            else clusters.push({ center: point, events: [event] });
+          });
+          return clusters;
+        };
+        function renderLiveDisasters(events) {
+          signalLayer.clearLayers();
+          affectedAreaLayer.clearLayers();
+          clusterEvents(events).forEach((cluster) => {
+            const degreesPerPixel = 360 / (256 * 2 ** map.getZoom());
+            cluster.events.forEach((event, index) => {
+              const horizontalOffset = (index - (cluster.events.length - 1) / 2) * 25 * degreesPerPixel;
+              const color = eventColor(event);
+              const marker = L.marker([Number(event.latitude), Number(event.longitude) + horizontalOffset], { icon: L.divIcon({ className: "disaster-map-marker national-probability-marker", html: `<span style="--marker-color:${color}"><i class="fa-solid ${disasterIcon(event.type || "disaster")}"></i></span>`, iconSize: [38, 38], iconAnchor: [19, 19] }) }).addTo(signalLayer);
+              marker.bindTooltip(`${event.type || "Disaster"} · ${event.location || "India"}`, { direction: "top", opacity: .92 });
+              marker.bindPopup(`<strong>${safe(event.title || `${event.type || "Disaster"} alert`)}</strong><br>${safe(event.location || "India")}<br><small>${safe(event.severity || "Live signal")} · Probability ${event.probability ? `${safe(event.probability)}%` : "provider event"}</small><br>${safe(event.measurement || event.factors || event.risk || "Live disaster information")}${event.source ? `<br><small>Source: ${safe(event.source)}</small>` : ""}`);
+            });
+            cluster.events.forEach((event) => L.circle([Number(event.latitude), Number(event.longitude)], { radius: eventRadius(event), color: eventColor(event), fillColor: eventColor(event), fillOpacity: .08, weight: 1, interactive: false }).addTo(affectedAreaLayer));
+          });
+        }
+        async function refreshNationalDisasters() {
+          try {
+            const [response, riskSnapshots] = await Promise.all([fetch("/api/disasters/india", { cache: "no-store" }), loadRiskSnapshots()]);
+            if (!response.ok) throw new Error("Live India disaster feed unavailable");
+            const payload = await response.json();
+            const providerEvents = (payload.events || []).filter((event) => Number.isFinite(Number(event.latitude)) && Number.isFinite(Number(event.longitude)) && inIndia(Number(event.latitude), Number(event.longitude)) && event.timestamp && Date.now() - new Date(event.timestamp).getTime() <= 7 * 24 * 60 * 60 * 1000);
+            const forecastEvents = riskSnapshots.flatMap((snapshot) => (snapshot?.payload?.risks || []).filter((risk) => Number(risk.probability) > 50).map((risk) => ({ ...risk, type: risk.type, title: `${risk.type} forecast`, location: snapshot.name, latitude: snapshot.latitude, longitude: snapshot.longitude, severity: risk.level, probability: Number(risk.probability), timestamp: new Date().toISOString(), measurement: risk.factors, source: "Open-Meteo live forecast" })));
+            liveSnapshot = [...providerEvents, ...forecastEvents];
+            renderLiveDisasters(liveSnapshot);
+            const total = liveSnapshot.length;
+            if (statusElement) statusElement.textContent = total ? `${total} live India disaster signal${total === 1 ? "" : "s"} · updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}` : "No current India disaster signals reported by live providers.";
+          } catch (error) {
+            if (statusElement) statusElement.textContent = "Live India disaster data is temporarily unavailable.";
+          }
+        }
+        refreshNationalDisasters();
+        refreshTimer = window.setInterval(refreshNationalDisasters, 5 * 60 * 1000);
+        map.on("zoomend", () => renderLiveDisasters(liveSnapshot));
+        window.addEventListener("beforeunload", () => clearInterval(refreshTimer), { once: true });
+      })();
+    </script>
+    <script type="module" src="../js/homepage-location.js"></script>
+    <script type="module" src="../js/live-disaster-feed.js"></script>
 
-        Promise.all([
-          fetch("/api/reports", { cache: "no-store" }).then((response) => response.json()),
-          fetch("/api/risk?q=India&radius=100", { cache: "no-store" }).then((response) => response.json())
-        ]).then(([reportPayload, riskPayload]) => {
-          const reports = Array.isArray(reportPayload?.reports) ? reportPayload.reports : [];
-          const mappedReports = reports.filter((report) => inIndia(Number(report.latitude), Number(report.longitude)));
-          const situations = Array.isArray(riskPayload?.situations) ? riskPayload.situations.filter((item) => inIndia(Number(item.latitude), Number(item.longitude))) : [];
-          mappedReports.forEach((report) => {
-            const point = [Number(report.latitude), Number(report.longitude)];
-            L.circleMarker(point, { radius: 8, color: "#fff", weight: 2, fillColor: "#ef4f5d", fillOpacity: 0.9 }).addTo(map).bindPopup(`<strong>${safe(report.analysis?.problem || report.description || "Disaster report")}</strong><br>${safe(report.location || "India")}`);
+    <script>
+      (() => {
+        const dialog = document.getElementById("civicAssistantDialog");
+        const openButton = document.getElementById("openAssistant");
+        const closeButton = document.getElementById("closeAssistant");
+        if (!dialog || !openButton) return;
+        openButton.addEventListener("click", () => {
+          const buttonRect = openButton.getBoundingClientRect();
+          const dialogWidth = Math.min(320, window.innerWidth - 32);
+          const left = Math.max(16, Math.min(buttonRect.left, window.innerWidth - dialogWidth - 16));
+          dialog.style.left = `${left}px`;
+          dialog.style.top = "0px";
+          dialog.show();
+          requestAnimationFrame(() => {
+            const dialogHeight = dialog.getBoundingClientRect().height;
+            const top = buttonRect.top - dialogHeight - 8;
+            dialog.style.top = `${top >= 12 ? top : buttonRect.bottom + 8}px`;
           });
-          situations.forEach((item) => {
-            const point = [Number(item.latitude), Number(item.longitude)];
-            const marker = L.marker(point, { icon: L.divIcon({ className: "disaster-map-marker", html: `<span style="--marker-color:${disasterColor(item.severity)}"><i class="fa-solid ${disasterIcon(item.type)}"></i></span>`, iconSize: [34, 34], iconAnchor: [17, 17] }) }).addTo(map);
-            marker.bindPopup(`<strong>${safe(item.type)}</strong><br>${safe(item.affectedArea || "India")}<br><small>${safe(item.severity)} · ${safe(item.status)}</small>`);
-          });
-          const estimatedRisks = Array.isArray(riskPayload?.risks) ? riskPayload.risks.filter((risk) => ["low", "moderate", "high", "severe"].includes(String(risk.level || "").toLowerCase())) : [];
-          const indiaCenter = [Number(riskPayload?.coordinates?.latitude) || 22.5, Number(riskPayload?.coordinates?.longitude) || 79];
-          estimatedRisks.forEach((risk, index) => {
-            const angle = (index / Math.max(estimatedRisks.length, 1)) * Math.PI * 2;
-            const point = [indiaCenter[0] + Math.sin(angle) * 1.4, indiaCenter[1] + Math.cos(angle) * 1.8];
-            const marker = L.marker(point, { icon: L.divIcon({ className: "estimated-disaster-marker", html: `<span><i class="fa-solid ${disasterIcon(risk.type)}"></i></span>`, iconSize: [30, 30], iconAnchor: [15, 15] }) }).addTo(map);
-            marker.bindPopup(`<strong>Estimated ${safe(risk.type)} risk</strong><br><small>${safe(risk.level)} · ${safe(risk.window || "Forecast window")}</small><br><small>${safe(risk.factors || "Live forecast signal")}</small>`);
-          });
-          const total = mappedReports.length + situations.length;
-          const estimatedLabel = estimatedRisks.length ? ` ${estimatedRisks.length} estimated risk${estimatedRisks.length === 1 ? "" : "s"}` : "";
-          if (statusElement) statusElement.textContent = total || estimatedRisks.length ? `${total} active signal${total === 1 ? "" : "s"} and${estimatedLabel} shown across India.` : "No active or estimated disaster signals are currently available for India.";
-        }).catch(() => { if (statusElement) statusElement.textContent = "Live India disaster data is temporarily unavailable."; });
+        });
+        closeButton?.addEventListener("click", () => dialog.close());
+        document.addEventListener("click", (event) => {
+          if (dialog.open && !dialog.contains(event.target) && !event.target.closest("#openAssistant")) dialog.close();
+        });
+        dialog.addEventListener("click", (event) => {
+          if (event.target === dialog) dialog.close();
+          if (event.target.closest('[data-assistant-action="map"]')) dialog.close();
+        });
       })();
     </script>
 
@@ -1097,9 +1106,37 @@
       })();
     </script>
     <script>
-      if (localStorage.getItem("chronicAILoggedIn") === "true") {
-        document.body.classList.add("signed-in-user");
+      const signInLink = document.getElementById("civicSignInLink");
+      const logoutButton = document.getElementById("civicLogoutButton");
+      const mobileLogoutButton = document.getElementById("mobileLogoutButton");
+      const mobileSignInLink = document.getElementById("mobileSignInLink");
+      const mobileAuthRow = document.getElementById("mobileAuthRow");
+
+      function updateAuthUi() {
+        const loggedIn = localStorage.getItem("chronicAILoggedIn") === "true";
+
+        if (signInLink) signInLink.hidden = loggedIn;
+        if (logoutButton) logoutButton.hidden = !loggedIn;
+        if (mobileSignInLink) mobileSignInLink.parentElement.hidden = loggedIn;
+        if (mobileLogoutButton) mobileLogoutButton.hidden = !loggedIn;
+        if (mobileAuthRow) mobileAuthRow.hidden = loggedIn;
+        if (loggedIn) document.body.classList.add("signed-in-user");
+        else document.body.classList.remove("signed-in-user");
       }
+
+      function logoutFromHome() {
+        localStorage.removeItem("chronicAILoggedIn");
+        localStorage.removeItem("chronicAIUser");
+        localStorage.removeItem("chronicAIUserId");
+        localStorage.removeItem("chronicAIUserEmail");
+        localStorage.removeItem("chronicAIUserName");
+        updateAuthUi();
+        window.location.href = "login.html";
+      }
+
+      logoutButton?.addEventListener("click", logoutFromHome);
+      document.getElementById("mobileLogoutButton")?.addEventListener("click", logoutFromHome);
+      updateAuthUi();
 
       // Mobile Navigation Drawer Toggle Logic
       const mobileMenuBtn = document.getElementById("civicMobileMenuBtn");
@@ -1139,7 +1176,7 @@
         });
       });
 
-      const popupMenus = document.querySelectorAll(".help-menu, .support-menu");
+      const popupMenus = document.querySelectorAll(".help-menu, .support-menu, .civic-support-menu");
 
       document.addEventListener("click", (event) => {
         popupMenus.forEach((menu) => {
@@ -1156,6 +1193,7 @@
         }
       });
     </script>
+    <script src="../js/sos.js"></script>
   </body>
 </html>
 

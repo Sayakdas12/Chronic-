@@ -8,9 +8,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
   <link rel="stylesheet" href="../css/design-tokens.css">
-  <link rel="stylesheet" href="../css/admin-dashboard.css">
+  <link rel="stylesheet" href="../css/admin-dashboard.css?v=20260913">
   <link rel="stylesheet" href="../css/theme-sync.css">
   <script src="../js/theme-manager.js"></script>
+  <script src="../js/offline-app.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script type="module" src="../js/admin-dashboard.js"></script>
 </head>
@@ -59,6 +60,9 @@
           <h2 id="sitrepHeadline"><span class="loading-pulse">Aggregating district telemetry & synthesizing SitRep...</span></h2>
         </div>
         <div class="sitrep-actions-bar">
+          <span class="sitrep-live-status" id="sitrepLiveStatus" aria-live="polite">
+            <i class="fa-solid fa-circle"></i> LIVE · waiting for telemetry
+          </span>
           <span class="threat-badge" id="sitrepThreatLevel">MONITORING</span>
           <button class="sitrep-refresh-btn" id="refreshBriefingBtn" title="Regenerate SitRep">
             <i class="fa-solid fa-arrows-rotate"></i> Regenerate
@@ -284,6 +288,24 @@
         </section>
       </aside>
     </div>
+
+    <section class="panel" id="fleetManagementPanel">
+      <header class="panel-head">
+        <div><span class="eyebrow">LIVE RESPONSE FLEET</span><h2>Register & manage emergency vehicles</h2></div>
+        <button class="btn-action" id="fleetRefreshButton" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+      </header>
+      <form id="fleetVehicleForm" class="filters" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;">
+        <input name="vehicleNumber" required placeholder="Vehicle number" aria-label="Vehicle number">
+        <input name="type" required placeholder="Type: Ambulance" aria-label="Vehicle type">
+        <input name="agency" required placeholder="Department / authority" aria-label="Department">
+        <input name="driverName" placeholder="Responder name" aria-label="Responder name">
+        <input name="contact" placeholder="Contact number" aria-label="Contact number">
+        <input name="responderUid" placeholder="Responder UID (optional)" aria-label="Responder UID">
+        <button class="btn-action btn-verify" type="submit"><i class="fa-solid fa-plus"></i> Register</button>
+      </form>
+      <div id="fleetMap" style="height:320px;margin:14px 0;border:1px solid rgba(120,150,255,.16);border-radius:12px;overflow:hidden;"></div>
+      <div class="table-wrap"><table class="case-table"><thead><tr><th>Vehicle</th><th>Department</th><th>Location</th><th>Status</th><th>Assignment</th><th>Actions</th></tr></thead><tbody id="fleetRows"><tr><td colspan="6" class="empty">Loading live fleet...</td></tr></tbody></table></div>
+    </section>
 
     <section class="panel support-admin-panel">
       <header class="panel-head">

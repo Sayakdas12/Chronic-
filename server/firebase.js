@@ -33,6 +33,7 @@ import { syncRouter } from "./routes/sync.js";
 import { configureSyncStore } from "./services/sync-service.js";
 import { generateDistrictBriefing } from "./services/briefing-service.js";
 import { seedWard7Scenario } from "./seed/ward7-scenario.js";
+import { fetchIndiaDisasterFeed } from "./services/disaster-feed-service.js";
 
 // ============================================================
 // ENVIRONMENT
@@ -64,6 +65,7 @@ export const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const otpRateLimit = new Map();
 const supportRequestRateLimit = new Map();
+const sosRateLimit = new Map();
 const locationGeocodeCache = new Map();
 
 async function geocodeLocation(location) {
@@ -214,6 +216,15 @@ app.use("/api/resources", resourceRouter);
 app.use("/api/missions", missionRouter);
 app.use("/api/sync", syncRouter);
 
+app.get("/api/disasters/india", async (req, res) => {
+    try {
+        return res.json(await fetchIndiaDisasterFeed());
+    } catch (error) {
+        console.error("India disaster feed failed:", error.message);
+        return res.status(503).json({ success: false, error: "India disaster feed temporarily unavailable.", source: "USGS Earthquake Hazards Program" });
+    }
+});
+
 app.get("/api/dashboard/briefing", async (req, res) => {
     try {
         const district = req.query.district ? String(req.query.district).trim() : "Ward 7";
@@ -300,10 +311,11 @@ async function readReports() {
             const database = getAdminDatabase(getAdminApp());
             const snapshot = await database.ref("reports").once("value");
             const value = snapshot.val();
-            if (!value) return [];
-            return Array.isArray(value)
-                ? value.filter(Boolean)
-                : Object.values(value);
+            if (value) {
+                return Array.isArray(value)
+                    ? value.filter(Boolean)
+                    : Object.values(value);
+            }
         } catch (error) {
             console.error("Unable to read reports from Firebase Realtime Database:", error);
         }
@@ -1441,6 +1453,12 @@ app.get("/api/admin/overview", requireGovernmentUser, async (req, res) => {
         const missingPersons = Object.values(missingSnapshot.val() || {});
         const supportSnapshot = await getAdminDatabase(getAdminApp()).ref("supportRequests").once("value");
         const supportRequests = Object.values(supportSnapshot.val() || {});
+        const sosSnapshot = await getAdminDatabase(getAdminApp()).ref("sosAlerts").once("value");
+        const sosAlerts = Object.values(sosSnapshot.val() || {}).sort((first, second) => Number(second.createdAt || 0) - Number(first.createdAt || 0));
+        const notifiedSos = sosAlerts.filter((item) => item.notifiedAt && item.createdAt);
+        const averageSosResponseSeconds = notifiedSos.length
+            ? notifiedSos.reduce((total, item) => total + Math.max(0, Number(item.notifiedAt) - Number(item.createdAt)) / 1000, 0) / notifiedSos.length
+            : 0;
         const stats = {
             totalReports: filtered.length,
             activeEmergencies: count((item) => !["resolved", "closed"].includes(String(item.status).toLowerCase())),
@@ -1457,7 +1475,11 @@ app.get("/api/admin/overview", requireGovernmentUser, async (req, res) => {
             civicVolunteers: supportRequests.filter((item) => item.category === "civic_volunteer").length,
             supportPending: supportRequests.filter((item) => item.status === "pending").length,
             supportUnderReview: supportRequests.filter((item) => item.status === "under_review").length,
-            supportCompleted: supportRequests.filter((item) => item.status === "completed").length
+            supportCompleted: supportRequests.filter((item) => item.status === "completed").length,
+            sosAlertsTotal: sosAlerts.length,
+            activeSosAlerts: sosAlerts.filter((item) => !["RESOLVED", "CLOSED"].includes(String(item.status).toUpperCase())).length,
+            sosNotificationRate: sosAlerts.length ? Math.round((notifiedSos.length / sosAlerts.length) * 100) : 0,
+            averageSosResponseSeconds: Number(averageSosResponseSeconds.toFixed(1))
         };
         const page = Math.max(1, Number(req.query.page) || 1);
         const pageSize = Math.min(100, Math.max(10, Number(req.query.pageSize) || 25));
@@ -1484,13 +1506,25 @@ app.get("/api/admin/overview", requireGovernmentUser, async (req, res) => {
                 const location = person.location || "Location unavailable";
                 const coordinates = person.latitude != null && person.longitude != null ? { latitude: person.latitude, longitude: person.longitude } : await geocodeLocation(location);
                 return { id: person.id || person.personId || `missing-${index + 1}`, label: `Person ${index + 1}`, type: "missing-person", title: person.name || "Missing person", location, status: person.status || "Pending", severity: "Urgent", latitude: coordinates.latitude, longitude: coordinates.longitude };
+            })),
+            ...sosAlerts.slice(0, 100).map((item) => ({
+                id: item.sosId,
+                label: "SOS",
+                type: "emergency",
+                title: `SOS ${item.sosId}`,
+                location: `${Number(item.latitude).toFixed(5)}, ${Number(item.longitude).toFixed(5)}`,
+                status: item.status || "PENDING",
+                severity: "URGENT",
+                latitude: item.latitude,
+                longitude: item.longitude
             }))
         ];
         const alerts = filtered
             .filter((item) => ["critical", "severe", "high"].includes(String(item.analysis?.severity || item.priority).toLowerCase()) && !["resolved", "closed"].includes(String(item.status).toLowerCase()))
             .slice(0, 8)
             .map((item) => ({ id: item.reportId, title: item.analysis?.problem || item.description, location: item.location, severity: item.analysis?.severity || item.priority, status: item.status, createdAt: item.createdAt }));
-        return res.json({ success: true, user: req.governmentUser, stats, reports: pageReports, locationSignals, pagination: { page, pageSize, total: filtered.length, pages: Math.ceil(filtered.length / pageSize) }, missingPersons: missingPersons.slice(0, 100), alerts });
+        const sosNotifications = sosAlerts.slice(0, 8).map((item) => ({ id: item.sosId, title: `SOS ${item.sosId}`, location: `${Number(item.latitude).toFixed(5)}, ${Number(item.longitude).toFixed(5)}`, severity: "URGENT", status: item.status || "PENDING", createdAt: item.createdAt }));
+        return res.json({ success: true, user: req.governmentUser, stats, reports: pageReports, locationSignals, pagination: { page, pageSize, total: filtered.length, pages: Math.ceil(filtered.length / pageSize) }, missingPersons: missingPersons.slice(0, 100), alerts: [...sosNotifications, ...alerts].slice(0, 8), sosAlerts: sosAlerts.slice(0, 50) });
     } catch (error) {
         console.error("Government overview failed:", error.message);
         return res.status(500).json({ success: false, error: "Unable to load government dashboard data." });
@@ -1536,6 +1570,9 @@ app.post(
                     req.body?.location,
                     500
                 );
+
+            const latitude = Number(req.body?.latitude);
+            const longitude = Number(req.body?.longitude);
 
             const reporterName =
                 cleanText(
@@ -1837,6 +1874,10 @@ app.post(
 
                 location,
 
+                latitude: Number.isFinite(latitude) && latitude >= -90 && latitude <= 90 ? latitude : null,
+
+                longitude: Number.isFinite(longitude) && longitude >= -180 && longitude <= 180 ? longitude : null,
+
                 media: {
 
                     name:
@@ -1971,6 +2012,25 @@ app.post(
 
             await saveReports(reports);
 
+            let emailStatus = "not_configured";
+            const notificationTarget = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.GOVERNMENT_ADMIN_EMAIL;
+            if (notificationTarget) {
+                const analysisText = Object.entries(normalized).map(([key, value]) => `${key}: ${supportRequestText(value)}`).join("\n");
+                const reportText = `NEW CHRONICAI DISASTER REPORT\n\nReport ID: ${report.reportId}\nIncident ID: ${report.incidentId || "Not linked"}\nSubmitted: ${createdAt}\nReporter: ${report.reporterName}\nHelp type: ${req.body?.helpType || "Emergency assistance"}\nLocation: ${location}\nCoordinates: ${report.latitude ?? "Unavailable"}, ${report.longitude ?? "Unavailable"}\n\nDescription:\n${description}\n\nAI ANALYSIS:\n${analysisText}\n\nDashboard status: ${report.status}`;
+                try {
+                    await sendEmail({
+                        to: notificationTarget,
+                        subject: `New ChronicAI Disaster Report - ${report.reportId}`,
+                        text: reportText,
+                        html: `<h2>New ChronicAI Disaster Report</h2><pre style="font-family:Arial;white-space:pre-wrap">${reportText.replace(/[&<>]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[character]))}</pre>`
+                    });
+                    emailStatus = "sent";
+                } catch (emailError) {
+                    emailStatus = "failed";
+                    console.warn("Government report notification failed:", emailError.message);
+                }
+            }
+
             console.log(
                 `New report: ${reportId} (Linked Incident: ${report.incidentId || "none"})`
             );
@@ -1987,7 +2047,9 @@ app.post(
 
                 incidentId: report.incidentId || null,
 
-                report
+                report,
+
+                emailStatus
 
             });
 
@@ -2048,6 +2110,146 @@ app.post("/api/emergency-requests", async (req, res) => {
         console.error("Emergency request creation failed:", error.message);
         return res.status(401).json({ success: false, error: "Unable to create an authenticated emergency request." });
     }
+});
+
+app.post("/api/sos", async (req, res) => {
+    try {
+        const header = String(req.headers.authorization || "");
+        const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+        const localDemo = !token && req.headers["x-local-demo"] === "true" && ["localhost", "127.0.0.1"].includes(req.hostname) && process.env.NODE_ENV !== "production";
+        if (!token && !localDemo) return res.status(401).json({ success: false, error: "Sign in is required before sending an SOS." });
+        const decoded = localDemo ? { uid: "local-demo-citizen" } : await getAdminAuth(getAdminApp()).verifyIdToken(token);
+        const lastSos = sosRateLimit.get(decoded.uid) || 0;
+        if (Date.now() - lastSos < 60000) return res.status(429).json({ success: false, error: "Please wait one minute before sending another SOS." });
+        const latitude = Number(req.body?.latitude);
+        const longitude = Number(req.body?.longitude);
+        const accuracy = Number(req.body?.accuracy);
+        const capturedAt = Number(req.body?.capturedAt);
+        const helpMessage = cleanText(req.body?.message, 1000);
+        if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90 || !Number.isFinite(longitude) || longitude < -180 || longitude > 180) {
+            return res.status(400).json({ success: false, error: "A valid live location is required." });
+        }
+        if (!helpMessage) return res.status(400).json({ success: false, error: "Tell the response team what help you need." });
+        const notificationTarget = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.GOVERNMENT_ADMIN_EMAIL;
+        if (!notificationTarget) return res.status(503).json({ success: false, error: "Emergency email service is not configured." });
+        const sosId = `SOS-${Date.now().toString(36).toUpperCase()}`;
+        const database = getAdminDatabase(getAdminApp());
+        const alert = { sosId, userId: decoded.uid, latitude, longitude, accuracy: Number.isFinite(accuracy) && accuracy >= 0 ? accuracy : null, capturedAt: Number.isFinite(capturedAt) && capturedAt > 0 ? capturedAt : null, message: helpMessage, status: "PENDING_NOTIFICATION", createdAt: Date.now(), updatedAt: Date.now() };
+        await database.ref(`sosAlerts/${sosId}`).set(alert);
+        const capturedTime = alert.capturedAt ? new Date(alert.capturedAt).toISOString() : "Unavailable";
+        const accuracyText = alert.accuracy !== null ? `${alert.accuracy} metres` : "Unavailable";
+        const text = `URGENT SOS ALERT\n\nSOS ID: ${sosId}\nUser ID: ${decoded.uid}\nAlert time: ${new Date().toISOString()}\nLocation captured: ${capturedTime}\nLocation accuracy: ${accuracyText}\nLive location: https://www.google.com/maps?q=${latitude},${longitude}\nCoordinates: ${latitude}, ${longitude}\n\nHelp message:\n${helpMessage}`;
+        try {
+            await sendEmail({
+                to: notificationTarget,
+                subject: `URGENT SOS Alert - ${sosId}`,
+                text,
+                html: `<h2>URGENT SOS ALERT</h2><p><strong>SOS ID:</strong> ${sosId}</p><p><strong>Alert time:</strong> ${new Date().toISOString()}</p><p><strong>Location captured:</strong> ${capturedTime}</p><p><strong>Location accuracy:</strong> ${accuracyText}</p><p><strong>Live location:</strong> <a href="https://www.google.com/maps?q=${latitude},${longitude}">Open in Google Maps</a></p><p><strong>Coordinates:</strong> ${latitude}, ${longitude}</p><p><strong>Help message:</strong></p><p>${helpMessage.replace(/[&<>]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[character]))}</p>`
+            });
+            await database.ref(`sosAlerts/${sosId}`).update({ status: "NOTIFIED", notifiedAt: Date.now(), updatedAt: Date.now() });
+        } catch (emailError) {
+            await database.ref(`sosAlerts/${sosId}`).update({ status: "NOTIFICATION_FAILED", error: emailError.message.slice(0, 300), updatedAt: Date.now() });
+            throw emailError;
+        }
+        sosRateLimit.set(decoded.uid, Date.now());
+        return res.status(201).json({ success: true, sosId });
+    } catch (error) {
+        console.error("SOS notification failed:", error.message);
+        return res.status(500).json({ success: false, error: "Unable to send SOS alert. Please call emergency services directly." });
+    }
+});
+
+const FLEET_STATUSES = new Set(["AVAILABLE", "ASSIGNED", "EN_ROUTE", "ARRIVED", "RETURNING", "OFFLINE"]);
+const FLEET_ROLES = new Set(["admin", "super_admin", "government_officer", "rescue_coordinator", "field_worker"]);
+
+async function requireFleetUser(req, res, next) {
+    try {
+        const header = String(req.headers.authorization || "");
+        const token = header.startsWith("Bearer ") ? header.slice(7).trim() : "";
+        const localDemo = !token && req.headers["x-local-admin"] === "true" && ["localhost", "127.0.0.1"].includes(req.hostname) && process.env.NODE_ENV !== "production";
+        if (localDemo) {
+            req.fleetUser = { uid: "local-admin", role: "admin", name: "Local administrator" };
+            return next();
+        }
+        if (!token) return res.status(401).json({ success: false, error: "Fleet authentication required." });
+        const decoded = await getAdminAuth(getAdminApp()).verifyIdToken(token);
+        const profile = (await getAdminDatabase(getAdminApp()).ref(`users/${decoded.uid}`).once("value")).val() || {};
+        const role = profile.role || decoded.role || "citizen";
+        if (!FLEET_ROLES.has(role)) return res.status(403).json({ success: false, error: "Authorized fleet role required." });
+        req.fleetUser = { uid: decoded.uid, role, name: profile.name || decoded.name || decoded.email || "Fleet operator" };
+        next();
+    } catch (error) {
+        console.error("Fleet authentication failed:", error.message);
+        res.status(401).json({ success: false, error: "Invalid fleet authentication." });
+    }
+}
+
+app.get("/api/fleet/vehicles", requireFleetUser, async (req, res) => {
+    const snapshot = await getAdminDatabase(getAdminApp()).ref("rescueVehicles").once("value");
+    const raw = snapshot.val() || {};
+    const vehicles = Object.entries(raw).map(([id, vehicle]) => ({ id, ...vehicle }));
+    res.json({ success: true, vehicles });
+});
+
+app.post("/api/fleet/vehicles", requireFleetUser, async (req, res) => {
+    if (!["admin", "super_admin", "government_officer", "rescue_coordinator"].includes(req.fleetUser.role)) return res.status(403).json({ success: false, error: "Fleet registration requires a government role." });
+    const vehicleId = cleanText(req.body?.vehicleId || req.body?.vehicleNumber, 80).toUpperCase().replace(/[^A-Z0-9_-]/g, "-");
+    const type = cleanText(req.body?.type, 60).toUpperCase();
+    const agency = cleanText(req.body?.agency || req.body?.department, 160);
+    if (!vehicleId || !type || !agency) return res.status(400).json({ success: false, error: "Vehicle number, type and department are required." });
+    const status = FLEET_STATUSES.has(String(req.body?.status || "AVAILABLE").toUpperCase()) ? String(req.body.status).toUpperCase() : "AVAILABLE";
+    const vehicle = { vehicleNumber: vehicleId, type, agency, driverName: cleanText(req.body?.driverName, 120), contact: cleanText(req.body?.contact, 40), status, assignedIncidentId: null, trackingActive: false, latitude: null, longitude: null, lastUpdated: 0, createdAt: Date.now(), updatedAt: Date.now() };
+    await getAdminDatabase(getAdminApp()).ref(`rescueVehicles/${vehicleId}`).set(vehicle);
+    res.status(201).json({ success: true, vehicle: { id: vehicleId, ...vehicle } });
+});
+
+app.patch("/api/fleet/vehicles/:vehicleId", requireFleetUser, async (req, res) => {
+    if (!["admin", "super_admin", "government_officer", "rescue_coordinator"].includes(req.fleetUser.role)) return res.status(403).json({ success: false, error: "Fleet changes require a government role." });
+    const reference = getAdminDatabase(getAdminApp()).ref(`rescueVehicles/${req.params.vehicleId}`);
+    const snapshot = await reference.once("value");
+    if (!snapshot.exists()) return res.status(404).json({ success: false, error: "Vehicle not found." });
+    const current = snapshot.val();
+    const updates = { updatedAt: Date.now() };
+    if (req.body?.status && FLEET_STATUSES.has(String(req.body.status).toUpperCase())) updates.status = String(req.body.status).toUpperCase();
+    if (req.body?.assignedIncidentId !== undefined) updates.assignedIncidentId = req.body.assignedIncidentId ? cleanText(req.body.assignedIncidentId, 120) : null;
+    if (req.body?.responderUid !== undefined) updates.responderUid = req.body.responderUid ? cleanText(req.body.responderUid, 160) : null;
+    if (req.body?.trackingActive !== undefined) updates.trackingActive = Boolean(req.body.trackingActive);
+    await reference.update(updates);
+    if (req.body?.assignedIncidentId !== undefined && current.assignedIncidentId !== updates.assignedIncidentId) {
+        const database = getAdminDatabase(getAdminApp());
+        if (updates.assignedIncidentId) {
+            await database.ref(`emergencyRequests/${updates.assignedIncidentId}`).update({ assignedVehicleId: req.params.vehicleId, status: "ASSIGNED", updatedAt: Date.now() });
+        } else if (current.assignedIncidentId) {
+            await database.ref(`emergencyRequests/${current.assignedIncidentId}`).update({ assignedVehicleId: null, status: "PENDING", updatedAt: Date.now() });
+        }
+    }
+    res.json({ success: true, vehicle: { id: req.params.vehicleId, ...current, ...updates } });
+});
+
+app.post("/api/fleet/vehicles/:vehicleId/location", requireFleetUser, async (req, res) => {
+    const reference = getAdminDatabase(getAdminApp()).ref(`rescueVehicles/${req.params.vehicleId}`);
+    const snapshot = await reference.once("value");
+    const current = snapshot.val();
+    if (!current) return res.status(404).json({ success: false, error: "Vehicle not found." });
+    if (req.fleetUser.role === "field_worker" && current.responderUid !== req.fleetUser.uid) return res.status(403).json({ success: false, error: "Vehicle is assigned to another responder." });
+    const latitude = Number(req.body?.latitude);
+    const longitude = Number(req.body?.longitude);
+    if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90 || !Number.isFinite(longitude) || longitude < -180 || longitude > 180) return res.status(400).json({ success: false, error: "Valid latitude and longitude are required." });
+    const lastUpdated = Date.now();
+    const updates = { latitude, longitude, accuracy: Number(req.body?.accuracy) || null, lastUpdated, trackingActive: true, status: current.status === "ASSIGNED" ? "EN_ROUTE" : current.status, updatedAt: lastUpdated };
+    await reference.update(updates);
+    res.json({ success: true, vehicle: { id: req.params.vehicleId, ...current, ...updates } });
+});
+
+app.post("/api/fleet/vehicles/:vehicleId/tracking/stop", requireFleetUser, async (req, res) => {
+    const reference = getAdminDatabase(getAdminApp()).ref(`rescueVehicles/${req.params.vehicleId}`);
+    const snapshot = await reference.once("value");
+    const current = snapshot.val();
+    if (!current) return res.status(404).json({ success: false, error: "Vehicle not found." });
+    if (req.fleetUser.role === "field_worker" && current.responderUid !== req.fleetUser.uid) return res.status(403).json({ success: false, error: "Vehicle is assigned to another responder." });
+    const updates = { trackingActive: false, status: "OFFLINE", updatedAt: Date.now() };
+    await reference.update(updates);
+    res.json({ success: true, vehicle: { id: req.params.vehicleId, ...current, ...updates } });
 });
 
 app.get(
@@ -2765,6 +2967,15 @@ checkSlaAndEscalate();
 
 app.get("/api/risk", handleRisk);
 
+app.post("/api/admin/sih-session", (req, res) => {
+    const demoEnabled = process.env.ALLOW_SIH_DEMO_BYPASS === "true";
+    const requested = req.headers["x-sih-demo"] === "true";
+    if (!demoEnabled || !requested) {
+        return res.status(403).json({ success: false, error: "SIH testing mode is not enabled on this deployment." });
+    }
+    return res.json({ success: true, mode: "sih-demo", user: { role: "admin", name: "SIH Testing Officer" } });
+});
+
 app.use(
     "/api",
     (req, res) => {
@@ -3170,6 +3381,11 @@ async function requireGovernmentUser(req, res, next) {
         const remoteAddress = String(req.socket?.remoteAddress || req.ip || "").replace(/^::ffff:/, "");
         const isLocalRequest = ["127.0.0.1", "::1", "localhost"].includes(remoteAddress) || String(req.headers.host || "").startsWith("localhost") || String(req.headers.origin || "").includes("localhost");
         const isLocalAdminHeader = req.headers["x-local-admin"] === "true";
+        const isSihDemoHeader = req.headers["x-sih-demo"] === "true";
+        if (process.env.ALLOW_SIH_DEMO_BYPASS === "true" && isSihDemoHeader) {
+            req.governmentUser = { uid: "sih-demo", email: "sih-demo@localhost", name: "SIH Testing Officer", role: "admin" };
+            return next();
+        }
         if ((process.env.ALLOW_LOCAL_ADMIN_BYPASS === "true" || process.env.NODE_ENV !== "production") && isLocalRequest && isLocalAdminHeader) {
             req.governmentUser = { uid: "local-admin", email: "local@localhost", name: "Local administrator", role: "admin" };
             return next();

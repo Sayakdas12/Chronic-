@@ -8,7 +8,6 @@ import {
   EyeOff, 
   ArrowRight, 
   ShieldCheck, 
-  Sparkles, 
   KeyRound, 
   CheckCircle2 
 } from "lucide-react";
@@ -39,12 +38,6 @@ export const Component = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-
-  const fillDemoCredentials = () => {
-    setEmail("demo@localhost");
-    setPassword("LocalDemo123!");
-    setError(null);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,16 +109,6 @@ export const Component = ({
             </div>
           </div>
 
-          {/* Quick Demo Pill */}
-          <button
-            type="button"
-            onClick={fillDemoCredentials}
-            className="flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-1 text-xs font-medium text-sky-400 hover:bg-sky-500/20 transition-colors"
-            title="Auto-fill verified demo citizen credentials"
-          >
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>Demo Auto-fill</span>
-          </button>
         </div>
 
         {/* Animated Segmented Auth Mode Switcher */}
@@ -216,7 +199,7 @@ export const Component = ({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@example.com or demo@localhost"
+                placeholder="name@example.com"
                 className="w-full rounded-lg border border-border/60 bg-background/70 pl-9 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
                 required
               />

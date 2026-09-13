@@ -1,5 +1,7 @@
 ﻿"use strict";
 
+import { getSavedLocation, saveLocation as saveSharedLocation, subscribeToLocationUpdates } from "./location-manager.js";
+
 
 /* =========================================================
    CHRONICAI RESOURCE CENTER
@@ -49,6 +51,12 @@ let searchedLocationMarker = null;
 
 let resourceMarkers = [];
 
+let disasterLayer = null;
+
+let disasterRefreshTimer = null;
+
+let liveDisasterEvents = [];
+
 let pollutionZoneLayers = [];
 
 let resources = [];
@@ -88,6 +96,8 @@ const centerMapBtn =
     document.getElementById(
         "centerMapBtn"
     );
+
+const showNationalDisastersBtn = document.getElementById("showNationalDisastersBtn");
 
 
 const locationStatus =
@@ -331,11 +341,15 @@ document.addEventListener(
 
         initializeMap();
 
+        loadLiveDisasters();
+
         bindEvents();
 
         loadSavedLocation();
 
         updateAirWaitingState();
+
+        window.addEventListener("beforeunload", () => clearInterval(disasterRefreshTimer), { once: true });
 
     }
 );
@@ -380,7 +394,60 @@ function initializeMap() {
     mapStatus.textContent =
         "Ready";
 
+    disasterLayer = L.layerGroup().addTo(map);
+
 }
+
+function disasterIcon(type) {
+    const normalized = String(type || "").toLowerCase();
+    if (normalized.includes("earthquake")) return "fa-house-crack";
+    if (normalized.includes("flood") || normalized.includes("rain")) return "fa-water";
+    if (normalized.includes("cyclone") || normalized.includes("wind")) return "fa-hurricane";
+    if (normalized.includes("fire")) return "fa-fire";
+    if (normalized.includes("landslide")) return "fa-mountain";
+    return "fa-triangle-exclamation";
+}
+
+function disasterColor(severity) {
+    const normalized = String(severity || "").toLowerCase();
+    if (normalized.includes("critical") || normalized.includes("high")) return "#ef4444";
+    if (normalized.includes("moderate")) return "#f59e0b";
+    return "#38bdf8";
+}
+
+function disasterRadius(severity) {
+    const normalized = String(severity || "").toLowerCase();
+    return normalized.includes("critical") ? 120000 : normalized.includes("high") ? 80000 : normalized.includes("moderate") ? 45000 : 25000;
+}
+
+async function loadLiveDisasters() {
+    if (!map || !disasterLayer) return;
+    try {
+        const response = await fetch("/api/disasters/india", { cache: "no-store" });
+        if (!response.ok) throw new Error("Live disaster feed unavailable");
+        const payload = await response.json();
+        disasterLayer.clearLayers();
+        liveDisasterEvents = (payload.events || []).filter((event) => Number.isFinite(Number(event.latitude)) && Number.isFinite(Number(event.longitude)));
+        liveDisasterEvents.forEach((event) => {
+            const latitude = Number(event.latitude);
+            const longitude = Number(event.longitude);
+            const color = disasterColor(event.severity);
+            L.circle([latitude, longitude], { radius: disasterRadius(event.severity), color, fillColor: color, fillOpacity: .08, weight: 1, interactive: false }).addTo(disasterLayer);
+            const marker = L.marker([latitude, longitude], { interactive: false, icon: L.divIcon({ className: "resource-disaster-marker", html: `<span style="--disaster-color:${color}"><i class="fa-solid ${disasterIcon(event.type)}"></i></span>`, iconSize: [34, 34], iconAnchor: [17, 17] }) }).addTo(disasterLayer);
+            marker.bindTooltip(`${escapeHtml(event.type || "Disaster")} · ${escapeHtml(event.location || "India")}`, { direction: "top", opacity: .92 });
+        });
+    } catch (error) {
+        console.warn("ChronicAI: live disaster overlay unavailable.", error?.message || error);
+    }
+    if (!disasterRefreshTimer) disasterRefreshTimer = window.setInterval(loadLiveDisasters, 5 * 60 * 1000);
+}
+
+showNationalDisastersBtn?.addEventListener("click", () => {
+    if (!liveDisasterEvents.length) return;
+    const bounds = L.latLngBounds(liveDisasterEvents.map((event) => [Number(event.latitude), Number(event.longitude)]));
+    map.fitBounds(bounds.pad(.35), { maxZoom: 7, animate: true });
+    mapStatus.textContent = `${liveDisasterEvents.length} live India disaster event${liveDisasterEvents.length === 1 ? "" : "s"}`;
+});
 
 
 /* =========================================================
@@ -747,8 +814,6 @@ function getUserLocation() {
                 );
 
             }
-
-            startLocationWatch();
 
         },
 
@@ -1364,79 +1429,33 @@ async function fetchOverpassData(
 
         );
 
-        out center tags;
+        out center tags qt;
 
     `;
 
 
-    let lastError =
-        null;
-
-
-    for (
-        const endpoint of
-        RESOURCE_CONFIG.overpassEndpoints
-    ) {
-
+    const fetchEndpoint = async (endpoint) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
         try {
-
-            const response =
-                await fetch(
-                    endpoint,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers:
-                            {
-                                "Content-Type":
-                                    "application/x-www-form-urlencoded"
-                            },
-
-                        body:
-                            "data=" +
-                            encodeURIComponent(
-                                query
-                            )
-
-                    }
-                );
-
-
-            if (
-                !response.ok
-            ) {
-
-                throw new Error(
-                    `Overpass HTTP ${response.status}`
-                );
-
-            }
-
-
-            return await response.json();
-
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "data=" + encodeURIComponent(query),
+                signal: controller.signal
+            });
+            if (!response.ok) throw new Error(`Overpass HTTP ${response.status}`);
+            return response.json();
+        } finally {
+            clearTimeout(timeout);
         }
+    };
 
-        catch (
-            error
-        ) {
-
-            lastError =
-                error;
-
-        }
-
+    try {
+        return await Promise.any(RESOURCE_CONFIG.overpassEndpoints.map(fetchEndpoint));
+    } catch (error) {
+        throw new Error("Resource API unavailable.", { cause: error });
     }
-
-
-    throw (
-        lastError ||
-        new Error(
-            "Resource API unavailable."
-        )
-    );
 
 }
 
@@ -2028,6 +2047,12 @@ function saveLocation(
     location
 ) {
 
+    saveSharedLocation({
+        latitude: location.lat,
+        longitude: location.lng,
+        accuracy: location.accuracy
+    }, "resource-center-update");
+
     try {
 
         localStorage.setItem(
@@ -2050,23 +2075,16 @@ function loadSavedLocation() {
 
     try {
 
-        const raw =
-            localStorage.getItem(
-                "chronicai_resource_location"
-            );
+        const shared = getSavedLocation();
+        const raw = localStorage.getItem("chronicai_resource_location");
+        const saved = shared || (raw ? JSON.parse(raw) : null);
 
-        if (!raw) {
-            return false;
-        }
-
-        const saved =
-            JSON.parse(raw);
+        if (!saved) return false;
 
         const isValid =
-            Number.isFinite(Number(saved?.lat)) &&
-            Number.isFinite(Number(saved?.lng)) &&
-            Number.isFinite(Number(saved?.savedAt)) &&
-            Date.now() - Number(saved.savedAt) <= RESOURCE_CONFIG.savedLocationMaxAgeMs;
+            Number.isFinite(Number(saved?.latitude ?? saved?.lat)) &&
+            Number.isFinite(Number(saved?.longitude ?? saved?.lng)) &&
+            (shared || (Number.isFinite(Number(saved?.savedAt)) && Date.now() - Number(saved.savedAt) <= RESOURCE_CONFIG.savedLocationMaxAgeMs));
 
         if (!isValid) {
             localStorage.removeItem(
@@ -2076,8 +2094,8 @@ function loadSavedLocation() {
         }
 
         userLocation = {
-            lat: Number(saved.lat),
-            lng: Number(saved.lng),
+            lat: Number(saved.latitude ?? saved.lat),
+            lng: Number(saved.longitude ?? saved.lng),
             accuracy: Number(saved.accuracy) || 100
         };
 

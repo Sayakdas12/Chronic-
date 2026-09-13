@@ -23,6 +23,7 @@
     <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
     <script src="../js/auth-guard.js"></script>
     <script src="../js/theme-manager.js"></script>
+    <script src="../js/offline-app.js"></script>
 
     <title>ChronicAI — Offline Resource Center</title>
 
@@ -88,7 +89,7 @@
                     </strong>
 
                     <span>
-                        SMART CITIZEN PLATFORM
+                        DISASTER RESPONSE RESOURCE NETWORK
                     </span>
 
                 </div>
@@ -177,17 +178,17 @@
 
                         <span class="status-dot"></span>
 
-                        CHRONICAI RESOURCE NETWORK
+                        RESPONSE RESOURCE NETWORK · LIVE OPERATIONS
 
                     </div>
 
 
                     <h1>
 
-                        Find Help
+                        Deploy the right help
 
                         <span class="gradient-text">
-                            Near You.
+                            Where it matters.
                         </span>
 
                     </h1>
@@ -195,9 +196,9 @@
 
                     <p>
 
-                        Find nearby hospitals, police stations,
-                        fire stations, government offices,
-                        relief centers and other public resources.
+                        Locate hospitals, fire stations, police units,
+                        shelters and relief points for the current response area.
+                        Every result is mapped for dispatch, contact and routing.
 
                     </p>
 
@@ -249,6 +250,24 @@
 
         </section>
 
+        <section class="response-strip" aria-label="Response resource mission lanes">
+            <div class="resource-container">
+                <div class="response-strip-head">
+                    <div>
+                        <span class="section-label">RESPONSE POSTURE</span>
+                        <h2>Operational resource lanes</h2>
+                    </div>
+                    <span class="response-strip-note"><i class="fa-solid fa-satellite-dish"></i> OpenStreetMap + local availability</span>
+                </div>
+                <div class="mission-lanes">
+                    <div class="mission-lane medical"><i class="fa-solid fa-truck-medical"></i><div><strong>Medical response</strong><small>Hospitals and urgent care</small></div></div>
+                    <div class="mission-lane rescue"><i class="fa-solid fa-person-rubble"></i><div><strong>Rescue & fire</strong><small>Fire stations and field support</small></div></div>
+                    <div class="mission-lane shelter"><i class="fa-solid fa-house-medical-flag"></i><div><strong>Shelter & relief</strong><small>Safe sites and social centres</small></div></div>
+                    <div class="mission-lane command"><i class="fa-solid fa-tower-broadcast"></i><div><strong>Command & public safety</strong><small>Police and government offices</small></div></div>
+                </div>
+            </div>
+        </section>
+
 
 
         <!-- =================================================
@@ -267,12 +286,12 @@
                         <div>
 
                             <span class="section-label">
-                                FIND SERVICES
+                                DISPATCH DIRECTORY
                             </span>
 
 
                             <h2>
-                                Nearby Resources
+                                Find response resources
                             </h2>
 
                         </div>
@@ -284,7 +303,7 @@
                                 0
                             </span>
 
-                            resources
+                            live results
 
                         </div>
 
@@ -302,7 +321,7 @@
 
                             <i class="fa-solid fa-layer-group"></i>
 
-                            All
+                            All response assets
 
                         </button>
 
@@ -420,6 +439,11 @@
 
 
                             <div class="map-header-actions">
+
+                                <button id="showNationalDisastersBtn" class="pollution-tracker-btn" type="button" title="Show live India disaster events">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    <span>National Disasters</span>
+                                </button>
 
 
                                 <!-- POLLUTION TRACKER -->
@@ -1243,31 +1267,33 @@
                 <div class="quick-help-card">
 
 
-                    <div class="quick-help-icon">
-
-                        <i
-                            class="fa-solid fa-hand-holding-heart"
-                        ></i>
-
+                    <div class="ai-desk-visual" aria-hidden="true">
+                        <div class="ai-orbit orbit-one"></div>
+                        <div class="ai-orbit orbit-two"></div>
+                        <div class="ai-scan-line"></div>
+                        <div class="ai-core"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <span class="ai-node node-one"><i class="fa-solid fa-location-dot"></i></span>
+                        <span class="ai-node node-two"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                        <span class="ai-node node-three"><i class="fa-solid fa-kit-medical"></i></span>
                     </div>
 
 
                     <div class="quick-help-content">
 
                         <span class="section-label">
-                            NEED IMMEDIATE HELP?
+                            EMERGENCY INTELLIGENCE DESK
                         </span>
 
 
                         <h2>
-                            Select the required assistance
+                            Decide your next move faster
                         </h2>
 
 
                         <p>
 
-                            Call our support team directly or chat with
-                            the ChronicAI agent for guided assistance.
+                            Get guided triage for a civic emergency, or connect
+                            directly to human support when the situation is urgent.
 
                         </p>
 
@@ -1275,8 +1301,10 @@
 
 
 
+                    <div class="ai-desk-status"><span class="status-dot"></span> AI guidance online <b>·</b> human escalation available</div>
+
                     <!-- =================================================
-                         HELP OPTIONS
+                        HELP OPTIONS
                     ================================================== -->
 
                     <a
@@ -1301,17 +1329,17 @@
                         >
 
                             <span>
-                                DIRECT PHONE SUPPORT
+                                HUMAN ESCALATION
                             </span>
 
 
                             <strong>
-                                8013593509
+                                Talk to response support
                             </strong>
 
 
                             <small>
-                                Speak directly with our support team.
+                                For urgent situations that need a human handoff.
                             </small>
 
                         </div>
@@ -1356,17 +1384,17 @@
                         >
 
                             <span>
-                                AI HELPER
+                                AI TRIAGE ASSISTANT
                             </span>
 
 
                             <strong>
-                                ChronicAI Life Helper
+                                Start guided emergency triage
                             </strong>
 
 
                             <small>
-                                Chat with the ChronicAI agent.
+                                Describe what happened and get the safest next step.
                             </small>
 
                         </div>
@@ -1556,7 +1584,7 @@
     ====================================================== -->
 
     <script
-        src="../js/resource-center.js"
+        type="module" src="../js/resource-center.js"
     ></script>
 
 

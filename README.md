@@ -4,6 +4,7 @@ It will preserve the connection(nexus) between government and people.
 ## Project structure
 
 - The canonical structure is documented in [docs/PROJECT-STRUCTURE.md](docs/PROJECT-STRUCTURE.md).
+- The complete product, architecture, operations, security, offline, testing, and SIH guide is documented in [docs/COMPLETE-PROJECT-DOCUMENTATION.md](docs/COMPLETE-PROJECT-DOCUMENTATION.md).
 - `server/server.js` is the server entry point used by `npm start` and `npm run dev`.
 - `server/firebase.js` contains the Express backend implementation.
 - `public/html/` contains website pages.

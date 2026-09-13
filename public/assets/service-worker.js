@@ -1,5 +1,6 @@
-﻿const CACHE_NAME = "chronicai-offline-v5";
+﻿const CACHE_NAME = "chronicai-offline-v6";
 const OFFLINE_URLS = [
+  "/",
   "/html/index.html",
   "/html/citizen.html",
   "/html/index.html",
@@ -14,6 +15,11 @@ const OFFLINE_URLS = [
   "/html/resource-center.html",
   "/html/scan-product.html",
   "/html/track.html",
+  "/html/admin-dashboard.html",
+  "/html/admin-login.html",
+  "/html/complaint.html",
+  "/html/support.html",
+  "/html/report-problem.html",
   "/js/citizen.js",
   "/js/complaint.js",
   "/js/firebase-client.js",
@@ -26,7 +32,16 @@ const OFFLINE_URLS = [
   "/js/report-problem.js",
   "/js/resource-center.js",
   "/js/risk-dashboard.js",
+  "/js/offline-app.js",
+  "/js/sos.js",
+  "/css/design-tokens.css",
   "/css/global.css",
+  "/css/admin-dashboard.css",
+  "/css/theme-sync.css",
+  "/css/prisma-hero.css",
+  "/css/rescue-tracking.css",
+  "/images/goverment%20logo.png",
+  "/images/hero-command-center.jpg",
   "/css/risk-dashboard.css",
   "/css/request.css",
   "/css/missing-persons.css",
@@ -86,7 +101,7 @@ self.addEventListener("fetch", (event) => {
           });
           return networkResponse;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(event.request).then(cached => cached || caches.match("/html/index.html")))
     );
     return;
   }

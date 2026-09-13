@@ -13,6 +13,10 @@ export async function generateDistrictBriefing({ district = "Ward 7", modelOverr
     const missions = await readAllMissions();
     const resources = await readAllResources();
     const roadClosures = await readAllRoadClosures();
+    const uniqueRoadClosures = [...new Map(roadClosures.map((closure) => {
+        const key = `${String(closure.roadName || "").trim().toLowerCase()}|${String(closure.reason || "").trim().toLowerCase()}`;
+        return [key, closure];
+    })).values()];
 
     // Compute live metrics
     const p1Count = incidents.filter(i => i.priority === "P1" && i.status !== "RESOLVED").length;
@@ -42,7 +46,7 @@ export async function generateDistrictBriefing({ district = "Ward 7", modelOverr
         .filter(i => (i.priority === "P1" || i.priority === "P2") && i.status !== "RESOLVED")
         .map(i => `${i.title} (${i.location?.text || "Sector"}: ${i.priority})`);
 
-    const blockedRoutes = roadClosures.map(rc => `${rc.roadName}: ${rc.reason}`);
+    const blockedRoutes = uniqueRoadClosures.map(rc => `${rc.roadName}: ${String(rc.reason || "Reported obstruction").replace(/[.;\s]+$/, "")}`);
 
     // Try Gemini AI synthesis
     const apiKey = process.env.GEMINI_API_KEY;
@@ -105,7 +109,7 @@ Format output as concise JSON:
                     availableAmbulances,
                     dispatchedAmbulances,
                     activeMissions,
-                    blockedRoadsCount: roadClosures.length
+                    blockedRoadsCount: uniqueRoadClosures.length
                 },
                 briefing: parsed
             };
@@ -127,14 +131,14 @@ Format output as concise JSON:
             ? `Dispatch remaining available water rescue units and ambulances to prioritized P1 flood zones (${criticalLocations.slice(0, 2).join("; ")}).`
             : `Maintain active patrol and verify ${unverifiedCount} incoming citizen reports in queue.`,
         blockedRoutes.length > 0
-            ? `Reroute emergency convoys away from confirmed obstructions: ${roadClosures.map(rc => rc.roadName).slice(0, 2).join(", ")}.`
+            ? `Reroute emergency convoys away from confirmed obstructions: ${uniqueRoadClosures.map(rc => rc.roadName).slice(0, 2).join(", ")}.`
             : `Keep primary evacuation arteries monitored for waterlogging.`,
         `Pre-position medical supplies and clean drinking water at designated Ward 7 evacuation shelters.`,
         `Direct field responders to utilize offline queueing in flood dead-zones to ensure casualty updates are preserved.`
     ];
 
     const routeAdvisory = blockedRoutes.length > 0
-        ? `${blockedRoutes.length} primary transit arteries blocked by floodwaters: ${blockedRoutes.join("; ")}.`
+        ? `${blockedRoutes.length} primary transit arteries blocked by floodwaters: ${blockedRoutes.slice(0, 6).join("; ")}${blockedRoutes.length > 6 ? "; and additional reported obstructions" : ""}.`
         : `All primary access routes currently passable. Monitor low-lying underpasses.`;
 
     const casualtySitRep = `${totalVictimsAtRisk} citizens currently in flood-impacted structures; ${totalInjured} casualties under triage; ${totalRescued} successfully rescued and evacuated.`;
@@ -156,7 +160,7 @@ Format output as concise JSON:
             availableAmbulances,
             dispatchedAmbulances,
             activeMissions,
-            blockedRoadsCount: roadClosures.length
+            blockedRoadsCount: uniqueRoadClosures.length
         },
         briefing: {
             headline,

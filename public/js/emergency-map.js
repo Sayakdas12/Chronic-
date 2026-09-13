@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import { get, ref } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
 import { auth, database } from "./firebase-client.js";
+import { getSavedLocation, requestLocation as requestSavedLocation, saveLocation as saveSharedLocation } from "./location-manager.js";
 
 const $ = (id) => document.getElementById(id);
 const state = {
@@ -143,7 +144,7 @@ function startLocationWatch() {
 }
 
 function loadSavedLocation(reason = "Using saved profile location") {
-  const stored = JSON.parse(localStorage.getItem("safeJourneyPreferredLocation") || "null");
+  const stored = getSavedLocation() || JSON.parse(localStorage.getItem("safeJourneyPreferredLocation") || "null");
   if (stored?.latitude && stored?.longitude) {
     usePosition({ coords: { latitude: Number(stored.latitude), longitude: Number(stored.longitude), accuracy: stored.accuracy || 100 } }, reason);
     return true;
@@ -169,14 +170,13 @@ async function loadProfileLocation(user) {
 }
 
 function requestLocation() {
-  if (!navigator.geolocation) return loadSavedLocation("GPS unavailable; using saved location");
-  setLocationStatus("Waiting for GPS permission", "Waiting for permission");
-  navigator.geolocation.getCurrentPosition((position) => {
-    usePosition(position);
-    startLocationWatch();
-  }, () => {
-    if (!loadSavedLocation("GPS denied; using saved location")) setLocationStatus("Permission needed for live location", "Permission denied");
-  }, { enableHighAccuracy: true, maximumAge: 30000, timeout: 12000 });
+  setLocationStatus("Updating your saved location", "Updating location");
+  requestSavedLocation({ source: "emergency-map-update" }).then((location) => {
+    saveSharedLocation(location, "emergency-map-update");
+    usePosition({ coords: location }, "Updated saved location");
+  }).catch(() => {
+    if (!loadSavedLocation("GPS unavailable; using saved location")) setLocationStatus("Permission needed for live location", "Permission denied");
+  });
 }
 
 async function geocode(query) {
@@ -385,7 +385,7 @@ async function shareLocation() {
 
 function initializeEmergencyMap() {
   setupEmergencyActions();
-  const waitForMap = () => { if (!getMap()) return setTimeout(waitForMap, 100); loadVerifiedReports(); requestLocation(); };
+  const waitForMap = () => { if (!getMap()) return setTimeout(waitForMap, 100); loadVerifiedReports(); loadSavedLocation(); };
   waitForMap();
   onAuthStateChanged(auth, loadProfileLocation);
   state.refreshInterval = window.setInterval(() => { loadVerifiedReports(); loadNearbyFacilities(); }, 120000);

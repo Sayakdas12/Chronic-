@@ -7,8 +7,9 @@
 <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
 <script src="../js/auth-guard.js"></script>
 <script src="../js/theme-manager.js"></script>
+<script src="../js/offline-app.js"></script>
 
-<title>ChronicAI — AI Life Helper</title>
+<title>ChronicAI — Chronic AI Assistant</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="../css/design-tokens.css">
@@ -842,6 +843,10 @@ button{
 
     position:relative;
 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
     background:
         linear-gradient(
             160deg,
@@ -875,47 +880,39 @@ button{
     background:#251d39;
 }
 
-.eye{
+.robot-face{
     position:absolute;
-
-    top:27px;
-
-    width:6px;
-    height:4px;
-
-    border-radius:50%;
-
-    background:#30233b;
+    inset:0;
+    z-index:1;
 }
 
-.eye.l{
+.robot-eye{
+    position:absolute;
+    top:24px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#2b2440;
+    box-shadow:0 0 0 2px rgba(255,255,255,.12);
+}
+
+.robot-eye.left{
     left:15px;
 }
 
-.eye.r{
+.robot-eye.right{
     right:15px;
 }
 
-.mouth{
+.robot-mouth{
     position:absolute;
-
-    left:22px;
-
-    top:42px;
-
-    width:12px;
-
-    height:5px;
-
-    border-bottom:
-        2px solid
-        #8f3e50;
-
-    border-radius:
-        0
-        0
-        10px
-        10px;
+    left:50%;
+    bottom:14px;
+    width:22px;
+    height:10px;
+    border-bottom:4px solid #8f3e50;
+    border-radius:0 0 14px 14px;
+    transform:translateX(-50%);
 }
 
 .ai-orb.speaking{
@@ -924,16 +921,6 @@ button{
         .7s
         ease-in-out
         infinite;
-}
-
-.ai-orb.speaking .mouth{
-    height:9px;
-
-    border:
-        2px solid
-        #8f3e50;
-
-    border-radius:50%;
 }
 
 @keyframes orbFloat{
@@ -963,8 +950,13 @@ button{
 }
 
 .voice-toggle{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
 
     margin-top:6px;
+    min-width:106px;
 
     border:
         1px solid
@@ -978,14 +970,22 @@ button{
     border-radius:20px;
 
     padding:
-        5px
-        9px;
+        6px
+        10px;
 
     font-size:10px;
-
+    line-height:1.2;
+    font-weight:600;
+    letter-spacing:.02em;
     cursor:pointer;
-
     pointer-events:auto;
+    box-sizing:border-box;
+}
+
+.voice-toggle i{
+    font-size:10px;
+    display:inline-block;
+    transform:translateY(-1px);
 }
 
 .voice-toggle.on{
@@ -1834,10 +1834,11 @@ body {
 
                     <div class="ai-hair"></div>
 
-                    <i class="eye l"></i>
-                    <i class="eye r"></i>
-
-                    <i class="mouth"></i>
+                    <div class="robot-face">
+                        <span class="robot-eye left"></span>
+                        <span class="robot-eye right"></span>
+                        <span class="robot-mouth"></span>
+                    </div>
 
                 </div>
 
@@ -1845,7 +1846,7 @@ body {
 
 
             <div class="assistant-label">
-                <b>ChronicAI Assistant</b>
+                <b>Chronic AI Assistant</b>
             </div>
 
 

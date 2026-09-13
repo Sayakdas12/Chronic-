@@ -255,6 +255,21 @@ body.admin-page {
   box-shadow: var(--shadow-low);
 }
 
+.sitrep-live-status {
+  color: var(--verified-green);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sitrep-live-status i {
+  font-size: 7px;
+  vertical-align: middle;
+}
+
 .sitrep-body {
   padding: var(--space-5) var(--space-6);
 }
@@ -802,4 +817,481 @@ body.admin-page {
   .sitrep-content-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Command Console Surface System
+   -------------------------------------------------------------------------- */
+body.admin-page {
+  background:
+    linear-gradient(135deg, rgba(219, 234, 254, 0.72), transparent 42%),
+    var(--paper);
+}
+
+body.admin-page .panel {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(148, 163, 184, 0.36);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(30, 64, 175, 0.08);
+  overflow: hidden;
+  margin-bottom: var(--space-6);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.metric {
+  position: relative;
+  min-height: 100px;
+  padding: 16px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  border-top: 3px solid var(--authority);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 7px 18px rgba(15, 23, 42, 0.06);
+}
+
+.metric:nth-child(2n) { border-top-color: var(--signal-amber); }
+.metric:nth-child(3n) { border-top-color: var(--verified-green); }
+.metric:nth-child(4n) { border-top-color: var(--signal-red); }
+
+.metric span,
+.metric small {
+  display: block;
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.metric span { text-transform: uppercase; letter-spacing: 0.04em; }
+.metric strong {
+  display: block;
+  margin: 8px 0 4px;
+  color: var(--authority-deep);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 0.8fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.dashboard-grid > aside {
+  position: sticky;
+  top: 92px;
+  align-self: start;
+}
+
+.dashboard-grid > aside .panel {
+  position: static;
+}
+
+.dashboard-grid > aside .panel + .panel {
+  margin-top: var(--space-4);
+}
+
+.alert-list,
+.missing-list {
+  display: grid;
+  gap: 8px;
+  padding: var(--space-4);
+}
+
+.alert-item {
+  display: grid;
+  gap: 5px;
+  padding: 12px 13px;
+  border: 1px solid var(--concrete);
+  border-left: 4px solid var(--signal-amber);
+  border-radius: 7px;
+  background: #fffdf5;
+}
+
+.alert-item strong {
+  color: var(--authority-deep);
+  font-size: var(--text-sm);
+}
+
+.alert-item span {
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.alert-item.sos-alert {
+  border-color: #fecaca;
+  border-left-color: var(--signal-red);
+  background: #fff1f2;
+}
+
+.alert-item.sos-alert strong { color: #991b1b; }
+.alert-item.sos-alert strong i { margin-right: 5px; }
+
+@media (max-width: 1080px) {
+  .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .dashboard-grid > aside { position: static; }
+}
+
+@media (max-width: 640px) {
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-shell { width: min(100% - 20px, 1560px); padding: 0; }
+  .admin-topbar { height: auto; min-height: 68px; padding: 12px 14px; gap: 12px; }
+  .admin-user > span { display: none; }
+  .admin-heading { align-items: stretch; flex-direction: column; }
+  .admin-heading h1 { font-size: var(--text-2xl); }
+  .panel-head, .sitrep-head { padding: var(--space-3) var(--space-4); }
+  .sitrep-body { padding: var(--space-4); }
+  .sitrep-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .filters { grid-template-columns: 1fr; padding: var(--space-3) var(--space-4); }
+  .map-preview { margin-bottom: var(--space-4); }
+}
+
+/* --------------------------------------------------------------------------
+   Night Mode Command Palette
+   -------------------------------------------------------------------------- */
+html[data-theme="dark"] body.admin-page {
+  background:
+    linear-gradient(135deg, rgba(14, 116, 144, 0.14), transparent 38%),
+    #07111f;
+}
+
+html[data-theme="dark"] body.admin-page .admin-heading {
+  border-bottom-color: rgba(148, 163, 184, 0.24);
+}
+
+html[data-theme="dark"] body.admin-page .admin-heading h1,
+html[data-theme="dark"] body.admin-page .panel-head h2,
+html[data-theme="dark"] body.admin-page .sitrep-title-group h2 {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] body.admin-page .admin-heading p,
+html[data-theme="dark"] body.admin-page .panel-head small {
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] body.admin-page .panel,
+html[data-theme="dark"] body.admin-page .sitrep-panel,
+html[data-theme="dark"] body.admin-page .canonical-panel,
+html[data-theme="dark"] body.admin-page .metric {
+  background: rgba(12, 29, 54, 0.94);
+  border-color: rgba(148, 163, 184, 0.23);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] body.admin-page .sitrep-head,
+html[data-theme="dark"] body.admin-page .panel-head,
+html[data-theme="dark"] body.admin-page .case-table th {
+  background: #102646;
+  border-color: rgba(148, 163, 184, 0.22);
+}
+
+html[data-theme="dark"] body.admin-page .sitrep-metric-item,
+html[data-theme="dark"] body.admin-page .sitrep-summary-box,
+html[data-theme="dark"] body.admin-page .sitrep-directives-box,
+html[data-theme="dark"] body.admin-page .sitrep-route-box,
+html[data-theme="dark"] body.admin-page .sitrep-casualty-box,
+html[data-theme="dark"] body.admin-page .signal-item,
+html[data-theme="dark"] body.admin-page .map-side {
+  background: #0c1d36;
+  border-color: rgba(148, 163, 184, 0.23);
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] body.admin-page .sitrep-summary-box p,
+html[data-theme="dark"] body.admin-page .sitrep-directives-list,
+html[data-theme="dark"] body.admin-page .case-table td,
+html[data-theme="dark"] body.admin-page .metric strong,
+html[data-theme="dark"] body.admin-page .alert-item strong {
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] body.admin-page .case-table td {
+  border-bottom-color: rgba(148, 163, 184, 0.18);
+}
+
+html[data-theme="dark"] body.admin-page .case-table tr:hover td {
+  background: rgba(56, 189, 248, 0.08);
+}
+
+html[data-theme="dark"] body.admin-page .filters {
+  background: #07111f;
+  border-bottom-color: rgba(148, 163, 184, 0.22);
+}
+
+html[data-theme="dark"] body.admin-page .filters input,
+html[data-theme="dark"] body.admin-page .filters select,
+html[data-theme="dark"] body.admin-page .refresh,
+html[data-theme="dark"] body.admin-page .sitrep-refresh-btn,
+html[data-theme="dark"] body.admin-page .canonical-counter-badge,
+html[data-theme="dark"] body.admin-page .btn-action {
+  background: #0c1d36;
+  border-color: rgba(148, 163, 184, 0.38);
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] body.admin-page .filters input::placeholder {
+  color: #64748b;
+}
+
+html[data-theme="dark"] body.admin-page .alert-item {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.28);
+}
+
+html[data-theme="dark"] body.admin-page .alert-item.sos-alert {
+  background: rgba(127, 29, 29, 0.32);
+  border-color: rgba(248, 113, 113, 0.45);
+}
+
+html[data-theme="dark"] body.admin-page .alert-item.sos-alert strong {
+  color: #fecaca;
+}
+
+html[data-theme="dark"] body.admin-page .alert-strip {
+  background: rgba(245, 158, 11, 0.13);
+  border-color: rgba(245, 158, 11, 0.42);
+}
+
+/* --------------------------------------------------------------------------
+   Fleet Recommendation Cards
+   -------------------------------------------------------------------------- */
+.rec-cards-list {
+  display: grid;
+  gap: 12px;
+}
+
+.rec-card {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #dbe4ec;
+  border-left: 4px solid var(--authority);
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.07);
+}
+
+.rec-score-box {
+  display: grid;
+  place-items: center;
+  min-height: 64px;
+  padding: 8px;
+  border-radius: 7px;
+  background: #e0f2fe;
+  color: #075985;
+  text-align: center;
+}
+
+.rec-score-num {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.rec-score-lbl {
+  margin-top: 5px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.rec-info { min-width: 0; }
+.rec-info h4 {
+  margin: 0 0 9px;
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.rec-info h4 small {
+  color: #567580 !important;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.rec-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  color: #4b6470;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.rec-meta i { color: var(--authority); }
+.rec-meta strong { color: #123b4a; }
+
+.rec-reasons {
+  margin-top: 9px;
+  color: #526b76;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.rec-dispatch-btn {
+  border: 1px solid #15803d;
+  border-radius: 6px;
+  padding: 9px 12px;
+  background: #15803d;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.rec-dispatch-btn:hover,
+.rec-dispatch-btn:focus-visible {
+  background: #166534;
+  transform: translateY(-1px);
+}
+
+.rec-dispatch-btn:disabled { cursor: wait; opacity: 0.7; }
+
+html[data-theme="dark"] body.admin-page .rec-card {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: #0c1d36;
+  color: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] body.admin-page .rec-score-box {
+  background: rgba(56, 189, 248, 0.16);
+  color: #7dd3fc;
+}
+
+html[data-theme="dark"] body.admin-page .rec-info h4,
+html[data-theme="dark"] body.admin-page .rec-meta strong {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] body.admin-page .rec-info h4 small,
+html[data-theme="dark"] body.admin-page .rec-meta,
+html[data-theme="dark"] body.admin-page .rec-reasons {
+  color: #94a3b8 !important;
+}
+
+@media (max-width: 640px) {
+  .rec-card { grid-template-columns: 58px minmax(0, 1fr); gap: 11px; }
+  .rec-card > div:last-child { grid-column: 1 / -1; }
+  .rec-dispatch-btn { width: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   Duplicate Incident Review Cards
+   -------------------------------------------------------------------------- */
+.dup-cards-list {
+  display: grid;
+  gap: 12px;
+}
+
+.dup-cards-list > p {
+  color: #526b76;
+  line-height: 1.5;
+}
+
+.dup-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 16px;
+  border: 1px solid #dbe4ec;
+  border-left: 4px solid #d97706;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 5px 14px rgba(15, 23, 42, 0.07);
+}
+
+.dup-card strong {
+  color: #0f172a;
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+}
+
+.dup-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin-top: 8px;
+  color: #526b76;
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.dup-meta i { color: var(--authority); }
+.dup-meta strong { color: #123b4a; font-family: var(--font-mono); font-size: 11px; }
+
+.dup-score-badge {
+  padding: 3px 7px;
+  border: 1px solid #fde68a;
+  border-radius: 4px;
+  background: #fffbeb;
+  color: #92400e;
+  font-weight: 700;
+}
+
+.btn-merge-action {
+  flex: 0 0 auto;
+  border: 1px solid #1d4ed8;
+  border-radius: 6px;
+  padding: 9px 12px;
+  background: #1d4ed8;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-merge-action:hover,
+.btn-merge-action:focus-visible {
+  background: #1e40af;
+}
+
+html[data-theme="dark"] body.admin-page .dup-cards-list > p,
+html[data-theme="dark"] body.admin-page .dup-meta {
+  color: #94a3b8;
+}
+
+html[data-theme="dark"] body.admin-page .dup-card {
+  border-color: rgba(148, 163, 184, 0.3);
+  background: #0c1d36;
+  color: #e2e8f0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+html[data-theme="dark"] body.admin-page .dup-card strong,
+html[data-theme="dark"] body.admin-page .dup-meta strong {
+  color: #f8fafc;
+}
+
+html[data-theme="dark"] body.admin-page .dup-score-badge {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.14);
+  color: #fde68a;
+}
+
+@media (max-width: 640px) {
+  .dup-card { align-items: stretch; flex-direction: column; }
+  .btn-merge-action { width: 100%; }
 }
