@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // CHRONICAI â€” MAIN FRONTEND APPLICATION
 // ============================================================
 // Handles:
@@ -3934,7 +3934,140 @@ async function initializeApp() {
 }
 
 // ============================================================
-// START
+// ROLE DESTINATION ROUTER
+// ============================================================
+
+function getRoleDestination(role, requestedTarget) {
+    if (
+        requestedTarget &&
+        !requestedTarget.includes("://") &&
+        !requestedTarget.startsWith("/") &&
+        requestedTarget !== "index.html" &&
+        requestedTarget !== "login.html"
+    ) {
+        return requestedTarget;
+    }
+
+    if (role === "admin" || role === "officer") {
+        return "admin-dashboard.html";
+    }
+
+    if (role === "responder" || role === "field_worker") {
+        return "responder-dashboard.html";
+    }
+
+    return "citizen-dashboard.html";
+}
+
+// ============================================================
+// STAKEHOLDER ROLE TABS & DEMO ACCESS
+// ============================================================
+
+function setupRoleTabs() {
+    const tabCitizen = document.getElementById("tabRoleCitizen");
+    const tabOfficer = document.getElementById("tabRoleOfficer");
+    const tabResponder = document.getElementById("tabRoleResponder");
+    const selectedRoleInput = document.getElementById("selectedRole");
+    const emailLabel = document.getElementById("emailLabel");
+    const emailInput = document.getElementById("email");
+    const loginButton = document.getElementById("loginButton");
+
+    function setRole(role) {
+        if (selectedRoleInput) selectedRoleInput.value = role;
+        tabCitizen?.classList.toggle("active", role === "citizen");
+        tabOfficer?.classList.toggle("active", role === "officer");
+        tabResponder?.classList.toggle("active", role === "responder");
+
+        tabCitizen?.setAttribute("aria-selected", role === "citizen");
+        tabOfficer?.setAttribute("aria-selected", role === "officer");
+        tabResponder?.setAttribute("aria-selected", role === "responder");
+
+        if (role === "officer") {
+            if (emailLabel) emailLabel.textContent = "Government EOC Officer Email";
+            if (emailInput) emailInput.placeholder = "officer@chronic.gov";
+            if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to EOC Command';
+        } else if (role === "responder") {
+            if (emailLabel) emailLabel.textContent = "Field Responder Callsign / Email";
+            if (emailInput) emailInput.placeholder = "responder@chronic.gov";
+            if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to Mission Console';
+        } else {
+            if (emailLabel) emailLabel.textContent = "Citizen Email Address";
+            if (emailInput) emailInput.placeholder = "name@example.com";
+            if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In as Citizen';
+        }
+    }
+
+    tabCitizen?.addEventListener("click", () => setRole("citizen"));
+    tabOfficer?.addEventListener("click", () => setRole("officer"));
+    tabResponder?.addEventListener("click", () => setRole("responder"));
+}
+
+function setupDemoButtons() {
+    const demoCitizenBtn = document.getElementById("demoCitizenBtn");
+    const demoOfficerBtn = document.getElementById("demoOfficerBtn");
+    const demoResponderBtn = document.getElementById("demoResponderBtn");
+    const loginMessage = document.getElementById("loginMessage");
+
+    demoCitizenBtn?.addEventListener("click", async () => {
+        saveLocalUser({
+            uid: "demo-citizen-101",
+            name: "Ravi Kumar (Citizen)",
+            email: "citizen@chronic.gov",
+            role: "citizen",
+            loggedIn: true
+        });
+        localStorage.setItem(SESSION_KEYS.role, "citizen");
+        if (loginMessage) {
+            loginMessage.textContent = "Launching Citizen Operations Portal...";
+            loginMessage.style.color = "#38bdf8";
+        }
+        await captureInitialLocation();
+        const target = getRoleDestination("citizen", new URLSearchParams(window.location.search).get("redirect"));
+        setTimeout(() => { window.location.href = target; }, 350);
+    });
+
+    demoOfficerBtn?.addEventListener("click", async () => {
+        saveLocalUser({
+            uid: "demo-officer-eoc",
+            name: "Chief D. Banerjee (EOC Director)",
+            email: "officer@chronic.gov",
+            role: "admin",
+            loggedIn: true
+        });
+        localStorage.setItem(SESSION_KEYS.role, "admin");
+        sessionStorage.setItem("governmentSession", "active");
+        sessionStorage.setItem("sihDemoSession", "active");
+        if (loginMessage) {
+            loginMessage.textContent = "Entering EOC Disaster Command Center...";
+            loginMessage.style.color = "#f59e0b";
+        }
+        await captureInitialLocation();
+        const target = getRoleDestination("admin", new URLSearchParams(window.location.search).get("redirect"));
+        setTimeout(() => { window.location.href = target; }, 350);
+    });
+
+    demoResponderBtn?.addEventListener("click", async () => {
+        saveLocalUser({
+            uid: "demo-responder-boat4",
+            name: "NDRF Unit 04 — Cmdr. A. Sen",
+            email: "responder@chronic.gov",
+            role: "responder",
+            unitId: "RES-BOAT-04",
+            loggedIn: true
+        });
+        localStorage.setItem(SESSION_KEYS.role, "responder");
+        if (loginMessage) {
+            loginMessage.textContent = "Launching Field Responder Mission Console...";
+            loginMessage.style.color = "#22c55e";
+        }
+        await captureInitialLocation();
+        const target = getRoleDestination("responder", new URLSearchParams(window.location.search).get("redirect"));
+        setTimeout(() => { window.location.href = target; }, 350);
+    });
+}
+
+// ============================================================
+// START LOGIN FORM
 // ============================================================
 
 function setupLoginForm() {
@@ -3947,6 +4080,9 @@ function setupLoginForm() {
 
     const loginMessage =
         document.getElementById("loginMessage");
+
+    setupRoleTabs();
+    setupDemoButtons();
 
     if (!loginForm || !loginButton || !loginMessage) {
         return;
@@ -3962,6 +4098,9 @@ function setupLoginForm() {
         const password =
             document.getElementById("password")?.value;
 
+        const chosenRole =
+            document.getElementById("selectedRole")?.value || "citizen";
+
         if (!email || !password) {
             loginMessage.textContent =
                 "Enter your email and password.";
@@ -3974,22 +4113,35 @@ function setupLoginForm() {
             '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
         loginMessage.textContent = "";
 
+        // Determine user role
+        let role = chosenRole;
+        if (email.toLowerCase().includes("officer") || email.toLowerCase().includes("admin")) {
+            role = "admin";
+        } else if (email.toLowerCase().includes("responder") || email.toLowerCase().includes("rescue") || email.toLowerCase().includes("unit")) {
+            role = "responder";
+        }
+
         if (
-            IS_LOCAL_DEV_HOST &&
-            email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email &&
+            (IS_LOCAL_DEV_HOST || email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email) &&
             password === LOCAL_DEMO_CREDENTIALS.password
         ) {
 
             saveLocalUser({
-                uid: "local-demo-citizen",
-                name: "Local Demo Citizen",
-                email: LOCAL_DEMO_CREDENTIALS.email,
-                role: "citizen",
+                uid: `demo-${role}-user`,
+                name: role === "admin" ? "EOC Director" : role === "responder" ? "NDRF Unit 04" : "Citizen",
+                email: email,
+                role: role,
                 loggedIn: true
             });
+            localStorage.setItem(SESSION_KEYS.role, role);
+
+            if (role === "admin") {
+                sessionStorage.setItem("governmentSession", "active");
+                sessionStorage.setItem("sihDemoSession", "active");
+            }
 
             loginMessage.textContent =
-                "Local demo login successful. Redirecting...";
+                "Sign in successful. Opening your dashboard...";
             loginMessage.style.color = "#4ade80";
 
             await captureInitialLocation();
@@ -3998,14 +4150,11 @@ function setupLoginForm() {
                 new URLSearchParams(window.location.search)
                     .get("redirect");
 
-            const redirectTarget =
-                requestedTarget &&
-                !requestedTarget.includes("://") &&
-                !requestedTarget.startsWith("/")
-                    ? requestedTarget
-                    : "index.html";
+            const redirectTarget = getRoleDestination(role, requestedTarget);
 
-            window.location.href = redirectTarget;
+            setTimeout(() => {
+                window.location.href = redirectTarget;
+            }, 300);
             return;
         }
 
@@ -4022,14 +4171,19 @@ function setupLoginForm() {
 
             saveLocalUser({
                 uid: user.uid,
-                name: user.displayName || "Citizen",
+                name: user.displayName || (role === "admin" ? "Emergency Officer" : role === "responder" ? "Field Unit" : "Citizen"),
                 email: user.email || email,
-                role: "citizen",
+                role: role,
                 loggedIn: true
             });
+            localStorage.setItem(SESSION_KEYS.role, role);
+
+            if (role === "admin") {
+                sessionStorage.setItem("governmentSession", "active");
+            }
 
             loginMessage.textContent =
-                "Login successful. Redirecting...";
+                "Sign in successful. Opening your dashboard...";
             loginMessage.style.color = "#4ade80";
 
             await captureInitialLocation();
@@ -4038,14 +4192,11 @@ function setupLoginForm() {
                 new URLSearchParams(window.location.search)
                     .get("redirect");
 
-            const redirectTarget =
-                requestedTarget &&
-                !requestedTarget.includes("://") &&
-                !requestedTarget.startsWith("/")
-                    ? requestedTarget
-                    : "index.html";
+            const redirectTarget = getRoleDestination(role, requestedTarget);
 
-            window.location.href = redirectTarget;
+            setTimeout(() => {
+                window.location.href = redirectTarget;
+            }, 300);
 
         } catch (error) {
 
@@ -4081,7 +4232,7 @@ function setupLoginForm() {
 
             loginButton.disabled = false;
             loginButton.innerHTML =
-                '<i class="fa-solid fa-right-to-bracket"></i> Login to ChronicAI';
+                '<i class="fa-solid fa-right-to-bracket"></i> Sign In to ChronicAI';
         }
     });
 }

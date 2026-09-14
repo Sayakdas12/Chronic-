@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+  <title>ChronicAI — Citizen Operations Portal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
+  <link rel="stylesheet" href="../css/citizen.css">
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/theme-manager.js"></script>
+  <script src="../js/offline-app.js"></script>
+
+  <style>
+    /* =========================================================
+       CHRONICAI CITIZEN DASHBOARD ENHANCED STYLES
+       ========================================================= */
+    :root {
+      --cz-bg: #060e1a;
+      --cz-card-bg: rgba(15, 23, 42, 0.7);
+      --cz-card-border: rgba(255, 255, 255, 0.08);
+      --cz-text: #f8fafc;
+      --cz-muted: #94a3b8;
+      --cz-primary: #38bdf8;
+      --cz-accent: #818cf8;
+      --cz-warning: #f59e0b;
+      --cz-danger: #ef4444;
+      --cz-success: #22c55e;
+    }
+
+    [data-theme="day"] {
+      --cz-bg: #f8fafc;
+      --cz-card-bg: #ffffff;
+      --cz-card-border: #e2e8f0;
+      --cz-text: #0f172a;
+      --cz-muted: #64748b;
+      --cz-primary: #0284c7;
+      --cz-accent: #6366f1;
+    }
+
+    body {
+      background-color: var(--cz-bg);
+      color: var(--cz-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* TOPBAR */
+    .citizen-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 14, 26, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--cz-card-border);
+      padding: 12px 24px;
+      transition: background-color 0.3s ease;
+    }
+
+    [data-theme="day"] .citizen-topbar {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .citizen-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(99, 102, 241, 0.3));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #38bdf8;
+      font-size: 18px;
+    }
+
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-subtitle {
+      display: block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--cz-muted);
+      font-weight: 600;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .citizen-user-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--cz-primary);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .citizen-nav-link {
+      color: var(--cz-muted);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .citizen-nav-link:hover {
+      color: var(--cz-text);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="day"] .citizen-nav-link:hover {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-citizen-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-citizen-logout:hover {
+      background: #ef4444;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* MAIN CONTAINER */
+    .dashboard-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* COMMUNITY EMERGENCY ALERT BANNER */
+    .emergency-alert-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(245, 158, 11, 0.12) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    [data-theme="day"] .emergency-alert-banner {
+      background: linear-gradient(135deg, #fef2f2 0%, #fffbeb 100%);
+      border: 1px solid #fca5a5;
+    }
+
+    .alert-lead {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .alert-pulse-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      animation: alertPulse 2s infinite;
+    }
+
+    @keyframes alertPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+    }
+
+    .alert-text strong {
+      display: block;
+      font-size: 14px;
+      color: #ef4444;
+      margin-bottom: 2px;
+    }
+
+    [data-theme="day"] .alert-text strong {
+      color: #b91c1c;
+    }
+
+    .alert-text p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--cz-text);
+      opacity: 0.9;
+    }
+
+    /* WELCOME HERO */
+    .citizen-hero-box {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cz-primary);
+      margin-bottom: 8px;
+    }
+
+    .hero-heading {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin: 0 0 8px;
+    }
+
+    .hero-sub {
+      color: var(--cz-muted);
+      font-size: 15px;
+      max-width: 650px;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .hero-location-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: var(--cz-card-bg);
+      border: 1px solid var(--cz-card-border);
+      border-radius: 14px;
+      font-size: 13px;
+      color: var(--cz-text);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    .hero-location-chip i {
+      color: #ef4444;
+    }
+
+    /* QUICK ACTION COMMAND STRIP */
+    .quick-actions-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .action-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      border-radius: 18px;
+      background: var(--cz-card-bg);
+      border: 1px solid var(--cz-card-border);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    .action-card.report-hazard {
+      border-left: 4px solid var(--cz-warning);
+    }
+
+    .action-card.report-hazard:hover {
+      border-color: var(--cz-warning);
+    }
+
+    .action-card.sos-rescue {
+      border-left: 4px solid var(--cz-danger);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, var(--cz-card-bg) 100%);
+    }
+
+    .action-card.sos-rescue:hover {
+      border-color: var(--cz-danger);
+    }
+
+    .action-card.shelters {
+      border-left: 4px solid var(--cz-primary);
+    }
+
+    .action-card.shelters:hover {
+      border-color: var(--cz-primary);
+    }
+
+    .action-card.helplines {
+      border-left: 4px solid var(--cz-success);
+    }
+
+    .action-card.helplines:hover {
+      border-color: var(--cz-success);
+    }
+
+    .action-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .action-card.report-hazard .action-icon {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--cz-warning);
+    }
+
+    .action-card.sos-rescue .action-icon {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--cz-danger);
+    }
+
+    .action-card.shelters .action-icon {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cz-primary);
+    }
+
+    .action-card.helplines .action-icon {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--cz-success);
+    }
+
+    .action-content strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .action-content span {
+      display: block;
+      font-size: 12px;
+      color: var(--cz-muted);
+    }
+
+    /* METRICS STRIP */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .metric-card {
+      padding: 20px;
+      border-radius: 18px;
+      background: var(--cz-card-bg);
+      border: 1px solid var(--cz-card-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .metric-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      flex-shrink: 0;
+    }
+
+    .metric-icon.blue { background: rgba(56, 189, 248, 0.12); color: var(--cz-primary); }
+    .metric-icon.orange { background: rgba(245, 158, 11, 0.12); color: var(--cz-warning); }
+    .metric-icon.purple { background: rgba(129, 140, 248, 0.12); color: var(--cz-accent); }
+    .metric-icon.green { background: rgba(34, 197, 94, 0.12); color: var(--cz-success); }
+
+    .metric-info span {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--cz-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .metric-info strong {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    /* REPORTS & DISPATCH TRACKER */
+    .section-card {
+      background: var(--cz-card-bg);
+      border: 1px solid var(--cz-card-border);
+      border-radius: 20px;
+      padding: 26px;
+      margin-bottom: 32px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .section-title-wrap h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .section-title-wrap p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--cz-muted);
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: 1px solid var(--cz-card-border);
+      background: transparent;
+      color: var(--cz-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--cz-primary);
+      color: #ffffff;
+      border-color: var(--cz-primary);
+    }
+
+    /* INCIDENTS LIST */
+    .incidents-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .incident-item {
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--cz-card-border);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 20px;
+      transition: all 0.2s ease;
+    }
+
+    [data-theme="day"] .incident-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .incident-item:hover {
+      border-color: var(--cz-primary);
+      transform: translateX(3px);
+    }
+
+    .priority-badge {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      min-width: 65px;
+    }
+
+    .priority-p1 {
+      background: rgba(239, 68, 68, 0.18);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+    }
+
+    .priority-p2 {
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #f59e0b;
+    }
+
+    .priority-p3 {
+      background: rgba(56, 189, 248, 0.18);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+    }
+
+    .incident-details h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 0 0 5px;
+    }
+
+    .incident-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--cz-muted);
+    }
+
+    .incident-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .incident-status-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .status-chip {
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .status-chip.dispatched {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.35);
+      color: #22c55e;
+    }
+
+    .status-chip.review {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #f59e0b;
+    }
+
+    .status-chip.resolved {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+
+    .btn-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: var(--cz-primary);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-track:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* SHELTERS & CONTACTS SPLIT */
+    .shelters-contacts-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+    }
+
+    .shelter-item {
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--cz-card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    [data-theme="day"] .shelter-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .shelter-item strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .shelter-item small {
+      color: var(--cz-muted);
+      font-size: 12px;
+    }
+
+    .shelter-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    .helpline-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--cz-card-border);
+      margin-bottom: 10px;
+    }
+
+    [data-theme="day"] .helpline-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .helpline-item span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .helpline-call-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 8px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .helpline-call-btn:hover {
+      background: #22c55e;
+      color: #ffffff;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .quick-actions-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .shelters-contacts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .quick-actions-strip {
+        grid-template-columns: 1fr;
+      }
+      .incident-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .incident-status-col {
+        align-items: flex-start;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="citizen-topbar">
+    <div class="topbar-inner">
+      <a class="citizen-brand" href="index.html">
+        <div class="brand-icon-box">
+          <i class="fa-solid fa-shield-heart"></i>
+        </div>
+        <div>
+          <span class="brand-title">ChronicAI</span>
+          <span class="brand-subtitle">CITIZEN OPERATIONS & LIFELINE</span>
+        </div>
+      </a>
+
+      <div class="topbar-actions">
+        <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+          <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+            <i class="fa-solid fa-sun"></i> <span>Day</span>
+          </button>
+          <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+            <i class="fa-solid fa-moon"></i> <span>Night</span>
+          </button>
+        </div>
+
+        <div class="citizen-user-badge">
+          <i class="fa-solid fa-circle-user"></i>
+          <span id="citizenName">Citizen</span>
+        </div>
+
+        <button class="btn-citizen-logout" id="logoutBtn" title="Log out of ChronicAI">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DASHBOARD CONTENT -->
+  <main class="dashboard-container">
+
+    <!-- EOC EMERGENCY ALERT BANNER -->
+    <div class="emergency-alert-banner">
+      <div class="alert-lead">
+        <div class="alert-pulse-icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="alert-text">
+          <strong>WARD 7 HIGH FLOOD RISK ADVISORY · ACTIVE EOC ALERT</strong>
+          <p>Earthen Embankment breached near Canal Road. NDRF Flood Unit 04 deployed. Residents in low-lying zones should avoid canal roads and proceed to designated relief shelters.</p>
+        </div>
+      </div>
+      <a href="resource-center.html" class="btn-track" style="background: rgba(239, 68, 68, 0.85); white-space: nowrap;">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Shelter Map</span>
+      </a>
+    </div>
+
+    <!-- WELCOME HERO -->
+    <div class="citizen-hero-box">
+      <div>
+        <span class="hero-eyebrow"><i class="fa-solid fa-circle-dot" style="color: #22c55e;"></i> CIVILIAN OPERATIONS HUB · WARD 7 SAFENET</span>
+        <h1 class="hero-heading">Welcome, <span id="heroCitizenName">Citizen</span></h1>
+        <p class="hero-sub">Report emergencies, trigger instant SOS rescue, track live responder vehicle dispatches, and access verified relief supplies in real-time.</p>
+      </div>
+      <div class="hero-location-chip" id="locationChip">
+        <i class="fa-solid fa-location-crosshairs"></i>
+        <span><strong>GPS:</strong> 22.5726° N, 88.3639° E · Ward 7 Central</span>
+      </div>
+    </div>
+
+    <!-- QUICK ACTIONS STRIP -->
+    <div class="quick-actions-strip">
+      <a href="report-problem.html" class="action-card report-hazard">
+        <div class="action-icon">
+          <i class="fa-solid fa-camera-retro"></i>
+        </div>
+        <div class="action-content">
+          <strong>Report Hazard</strong>
+          <span>Photo & GPS incident submission</span>
+        </div>
+      </a>
+
+      <a href="request.html?type=rescue" class="action-card sos-rescue">
+        <div class="action-icon">
+          <i class="fa-solid fa-truck-medical"></i>
+        </div>
+        <div class="action-content">
+          <strong>Request SOS Rescue</strong>
+          <span>Immediate life-threat evacuation</span>
+        </div>
+      </a>
+
+      <a href="resource-center.html" class="action-card shelters">
+        <div class="action-icon">
+          <i class="fa-solid fa-campground"></i>
+        </div>
+        <div class="action-content">
+          <strong>Relief Shelters</strong>
+          <span>Find food, water & medical camps</span>
+        </div>
+      </a>
+
+      <a href="#helplineSection" class="action-card helplines">
+        <div class="action-icon">
+          <i class="fa-solid fa-phone-volume"></i>
+        </div>
+        <div class="action-content">
+          <strong>Emergency Contacts</strong>
+          <span>Direct 24/7 disaster helplines</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- METRICS STRIP -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-icon blue">
+          <i class="fa-solid fa-file-shield"></i>
+        </div>
+        <div class="metric-info">
+          <span>My Reports</span>
+          <strong id="metricTotalReports">3</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon orange">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+        <div class="metric-info">
+          <span>In Progress</span>
+          <strong id="metricActiveReports">1</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon purple">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div class="metric-info">
+          <span>Units Dispatched</span>
+          <strong id="metricDispatched">2</strong>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-icon green">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <div class="metric-info">
+          <span>Resolved</span>
+          <strong id="metricResolved">2</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY REPORTS & LIVE TRACKER -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2>My Incident Reports & Live Dispatch Radar</h2>
+          <p>Track your submitted emergency incidents and monitor assigned rescue vehicle telemetry.</p>
+        </div>
+        <div class="filter-pills">
+          <button type="button" class="filter-btn active" data-filter="all">All (3)</button>
+          <button type="button" class="filter-btn" data-filter="active">Active</button>
+          <button type="button" class="filter-btn" data-filter="dispatched">Dispatched</button>
+          <button type="button" class="filter-btn" data-filter="resolved">Resolved</button>
+        </div>
+      </div>
+
+      <div class="incidents-list" id="incidentsList">
+        <!-- INCIDENT 1 -->
+        <div class="incident-item" data-status="dispatched">
+          <div class="priority-badge priority-p1">
+            P1 LIFE-THREAT
+          </div>
+          <div class="incident-details">
+            <h3>Ward 7 Canal Embankment Fracture & Water Inundation</h3>
+            <div class="incident-meta">
+              <span><i class="fa-solid fa-map-pin"></i> Canal West Road, Ward 7</span>
+              <span><i class="fa-solid fa-clock"></i> Reported 18 mins ago</span>
+              <span><i class="fa-solid fa-ship" style="color: #22c55e;"></i> Assigned: NDRF Rescue Boat 04 (ETA 6m)</span>
+            </div>
+          </div>
+          <div class="incident-status-col">
+            <span class="status-chip dispatched">BOAT EN ROUTE</span>
+            <a href="track.html?id=INC-2026-081" class="btn-track">
+              <i class="fa-solid fa-satellite-dish"></i>
+              <span>Track Live Map</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- INCIDENT 2 -->
+        <div class="incident-item" data-status="active">
+          <div class="priority-badge priority-p2">
+            P2 URGENT
+          </div>
+          <div class="incident-details">
+            <h3>Submerged Electrical Junction Box near Residential Complex</h3>
+            <div class="incident-meta">
+              <span><i class="fa-solid fa-map-pin"></i> Block B, Sector 2, Ward 7</span>
+              <span><i class="fa-solid fa-clock"></i> Reported 42 mins ago</span>
+              <span><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> Power Grid Crew Notified</span>
+            </div>
+          </div>
+          <div class="incident-status-col">
+            <span class="status-chip review">AI VERIFIED</span>
+            <a href="track.html?id=INC-2026-079" class="btn-track">
+              <i class="fa-solid fa-satellite-dish"></i>
+              <span>Track Status</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- INCIDENT 3 -->
+        <div class="incident-item" data-status="resolved">
+          <div class="priority-badge priority-p3">
+            P3 ROUTINE
+          </div>
+          <div class="incident-details">
+            <h3>Fallen Banyan Tree Branch Blocking Ambulance Access</h3>
+            <div class="incident-meta">
+              <span><i class="fa-solid fa-map-pin"></i> College Road Crossing</span>
+              <span><i class="fa-solid fa-clock"></i> Yesterday, 16:30</span>
+              <span><i class="fa-solid fa-circle-check" style="color: #38bdf8;"></i> Cleared by Civil Defense Squad A</span>
+            </div>
+          </div>
+          <div class="incident-status-col">
+            <span class="status-chip resolved">RESOLVED</span>
+            <a href="track.html?id=INC-2026-064" class="btn-track" style="background: rgba(56, 189, 248, 0.2); color: var(--cz-primary);">
+              <i class="fa-solid fa-check-double"></i>
+              <span>View Report</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHELTERS & EMERGENCY HELPLINES -->
+    <div class="shelters-contacts-grid" id="helplineSection">
+      <!-- SHELTERS -->
+      <div class="section-card" style="margin-bottom: 0;">
+        <div class="section-header" style="margin-bottom: 16px;">
+          <div class="section-title-wrap">
+            <h2>Nearby Relief Shelters</h2>
+            <p>Open community shelters providing dry beds, food, and clean water.</p>
+          </div>
+          <a href="resource-center.html" class="citizen-nav-link" style="color: var(--cz-primary);">View All</a>
+        </div>
+
+        <div class="shelter-item">
+          <div>
+            <strong>Salt Lake Stadium Flood Relief Shelter #02</strong>
+            <small><i class="fa-solid fa-location-dot"></i> Gate 3, Salt Lake · 1.4 km away · 450/600 Capacity</small>
+          </div>
+          <span class="shelter-badge">OPEN · AID AVAILABLE</span>
+        </div>
+
+        <div class="shelter-item">
+          <div>
+            <strong>Bidhannagar Community Hall #05</strong>
+            <small><i class="fa-solid fa-location-dot"></i> Central Park Road · 2.1 km away · 210/300 Capacity</small>
+          </div>
+          <span class="shelter-badge">OPEN · MEDICAL POST</span>
+        </div>
+
+        <div class="shelter-item">
+          <div>
+            <strong>Ward 7 Primary Health Relief Centre</strong>
+            <small><i class="fa-solid fa-location-dot"></i> Station Road · 2.8 km away · Triage Station</small>
+          </div>
+          <span class="shelter-badge" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b; border-color: rgba(245, 158, 11, 0.25);">AMBULANCE BASE</span>
+        </div>
+      </div>
+
+      <!-- HELPLINES -->
+      <div class="section-card" style="margin-bottom: 0;">
+        <div class="section-header" style="margin-bottom: 16px;">
+          <div class="section-title-wrap">
+            <h2>Emergency Helplines</h2>
+            <p>Instant toll-free phone dispatch lines.</p>
+          </div>
+        </div>
+
+        <div class="helpline-item">
+          <span><i class="fa-solid fa-phone-flip" style="color: #ef4444; margin-right: 8px;"></i> National Emergency SOS</span>
+          <a href="tel:112" class="helpline-call-btn"><i class="fa-solid fa-phone"></i> Call 112</a>
+        </div>
+
+        <div class="helpline-item">
+          <span><i class="fa-solid fa-life-ring" style="color: #f59e0b; margin-right: 8px;"></i> Disaster Operations Center</span>
+          <a href="tel:1070" class="helpline-call-btn"><i class="fa-solid fa-phone"></i> Call 1070</a>
+        </div>
+
+        <div class="helpline-item">
+          <span><i class="fa-solid fa-truck-medical" style="color: #38bdf8; margin-right: 8px;"></i> Ambulance & Emergency Triage</span>
+          <a href="tel:108" class="helpline-call-btn"><i class="fa-solid fa-phone"></i> Call 108</a>
+        </div>
+
+        <div class="helpline-item">
+          <span><i class="fa-solid fa-water" style="color: #22c55e; margin-right: 8px;"></i> Ward 7 Flood Control Cell</span>
+          <a href="tel:18003451234" class="helpline-call-btn"><i class="fa-solid fa-phone"></i> Call Ward 7</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="../js/citizen-dashboard.js"></script>
+</body>
+</html>

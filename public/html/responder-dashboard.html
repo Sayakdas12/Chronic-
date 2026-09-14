@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="night">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" type="image/svg+xml" href="../icons/icon.svg">
+  <title>ChronicAI — Field Responder Tactical Mission Console</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/design-tokens.css">
+  <link rel="stylesheet" href="../css/theme-sync.css">
+  <script src="../js/auth-guard.js"></script>
+  <script src="../js/theme-manager.js"></script>
+  <script src="../js/offline-app.js"></script>
+
+  <style>
+    /* =========================================================
+       TACTICAL FIELD MISSION CONSOLE STYLES
+       ========================================================= */
+    :root {
+      --resp-bg: #050b14;
+      --resp-surface: #0a1526;
+      --resp-card: #0e1e38;
+      --resp-border: rgba(56, 189, 248, 0.18);
+      --resp-text: #f8fafc;
+      --resp-muted: #94a3b8;
+      --resp-cyan: #38bdf8;
+      --resp-green: #22c55e;
+      --resp-amber: #f59e0b;
+      --resp-red: #ef4444;
+    }
+
+    [data-theme="day"] {
+      --resp-bg: #f1f5f9;
+      --resp-surface: #ffffff;
+      --resp-card: #ffffff;
+      --resp-border: #cbd5e1;
+      --resp-text: #0f172a;
+      --resp-muted: #64748b;
+      --resp-cyan: #0284c7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--resp-bg);
+      color: var(--resp-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* TACTICAL HEADER */
+    .tactical-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--resp-surface);
+      border-bottom: 2px solid rgba(56, 189, 248, 0.35);
+      padding: 12px 18px;
+    }
+
+    [data-theme="day"] .tactical-topbar {
+      border-bottom: 2px solid #0284c7;
+    }
+
+    .topbar-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .unit-callsign-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .unit-badge-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #22c55e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .callsign-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .callsign-sub {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--resp-muted);
+      display: block;
+    }
+
+    .topbar-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sync-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #22c55e;
+    }
+
+    .sync-status-pill.offline {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #f59e0b;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .btn-logout {
+      padding: 7px 12px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* SHELL LAYOUT */
+    .tactical-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 16px 80px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* TELEMETRY BAR */
+    .telemetry-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .telem-tile {
+      background: var(--resp-surface);
+      border: 1px solid var(--resp-border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .telem-tile i {
+      font-size: 16px;
+      color: var(--resp-cyan);
+    }
+
+    .telem-tile small {
+      display: block;
+      font-size: 10px;
+      color: var(--resp-muted);
+      text-transform: uppercase;
+    }
+
+    .telem-tile strong {
+      font-size: 13px;
+    }
+
+    /* ACTIVE MISSION CARD */
+    .mission-hero-card {
+      background: var(--resp-surface);
+      border: 2px solid var(--resp-border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      position: relative;
+    }
+
+    .mission-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .mission-badge-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mission-id-pill {
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--resp-cyan);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .p1-danger-tag {
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #ef4444;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
+
+    .mission-state-tag {
+      padding: 5px 14px;
+      border-radius: 9999px;
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: #22c55e;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .mission-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .mission-intel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin: 18px 0 24px;
+      padding: 16px;
+      border-radius: 12px;
+      background: var(--resp-card);
+      border: 1px solid var(--resp-border);
+    }
+
+    .intel-item span {
+      display: block;
+      font-size: 11px;
+      color: var(--resp-muted);
+      margin-bottom: 3px;
+    }
+
+    .intel-item strong {
+      font-size: 14px;
+    }
+
+    /* 1-TAP ACTION PROGRESSION STRIP */
+    .tactical-progression-box {
+      margin-top: 14px;
+    }
+
+    .progression-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--resp-muted);
+      margin-bottom: 10px;
+    }
+
+    .action-step-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .btn-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px 10px;
+      border-radius: 14px;
+      background: var(--resp-card);
+      border: 1px solid var(--resp-border);
+      color: var(--resp-text);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+      transition: all 0.2s ease;
+      touch-action: manipulation;
+    }
+
+    .btn-step i {
+      font-size: 20px;
+    }
+
+    .btn-step:hover {
+      border-color: var(--resp-cyan);
+      transform: translateY(-2px);
+    }
+
+    .btn-step.active {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(14, 165, 233, 0.25));
+      border: 2px solid #22c55e;
+      color: #22c55e;
+      box-shadow: 0 4px 18px rgba(34, 197, 94, 0.3);
+    }
+
+    /* FIELD UTILITY BUTTONS */
+    .field-utilities-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .btn-utility {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-utility.hazard {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #f59e0b;
+    }
+
+    .btn-utility.hazard:hover {
+      background: #f59e0b;
+      color: #000000;
+    }
+
+    .btn-utility.offline-test {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--resp-cyan);
+    }
+
+    .btn-utility.offline-test:hover {
+      background: var(--resp-cyan);
+      color: #000000;
+    }
+
+    /* FEEDBACK TOAST */
+    .tactical-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #22c55e;
+      color: #22c55e;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      display: none;
+      z-index: 999;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .telemetry-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .mission-intel-grid {
+        grid-template-columns: 1fr;
+      }
+      .action-step-buttons {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .field-utilities-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TACTICAL TOPBAR -->
+  <header class="tactical-topbar">
+    <div class="topbar-content">
+      <div class="unit-callsign-box">
+        <div class="unit-badge-icon">
+          <i class="fa-solid fa-ship"></i>
+        </div>
+        <div>
+          <span class="callsign-title">
+            <span id="unitCallsign">NDRF UNIT 04</span>
+            <span class="p1-danger-tag">P1 FLOOD UNIT</span>
+          </span>
+          <span class="callsign-sub">CALLSIGN: RES-BOAT-04 · WARD 7 CANAL FLOTILLA</span>
+        </div>
+      </div>
+
+      <div class="topbar-telemetry">
+        <div class="civic-theme-segmented-switch" role="group" aria-label="Theme Selection">
+          <button type="button" class="theme-seg-btn" id="segDayBtn" aria-label="Day Mode" aria-pressed="false">
+            <i class="fa-solid fa-sun"></i> <span>Day</span>
+          </button>
+          <button type="button" class="theme-seg-btn active" id="segNightBtn" aria-label="Night Mode" aria-pressed="true">
+            <i class="fa-solid fa-moon"></i> <span>Night</span>
+          </button>
+        </div>
+
+        <div class="sync-status-pill" id="syncStatusBadge">
+          <span class="pulse-dot"></span>
+          <span id="syncText">ONLINE · SYNCED</span>
+        </div>
+
+        <button class="btn-logout" id="logoutBtn" title="Exit Tactical Console">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN SHELL -->
+  <main class="tactical-shell">
+
+    <!-- TELEMETRY STRIP -->
+    <div class="telemetry-strip">
+      <div class="telem-tile">
+        <i class="fa-solid fa-location-crosshairs"></i>
+        <div>
+          <small>GPS FIX</small>
+          <strong id="telemGps">22.5726° N, 88.3639° E</strong>
+        </div>
+      </div>
+
+      <div class="telem-tile">
+        <i class="fa-solid fa-battery-three-quarters" style="color: #22c55e;"></i>
+        <div>
+          <small>CREW BATTERY</small>
+          <strong>92% (6.4 hrs)</strong>
+        </div>
+      </div>
+
+      <div class="telem-tile">
+        <i class="fa-solid fa-tower-broadcast" style="color: #38bdf8;"></i>
+        <div>
+          <small>EOC RELAY</small>
+          <strong id="telemRelay">4G CELL / CHRONIC-MESH</strong>
+        </div>
+      </div>
+
+      <div class="telem-tile">
+        <i class="fa-solid fa-inbox" style="color: #f59e0b;"></i>
+        <div>
+          <small>OFFLINE QUEUE</small>
+          <strong id="telemQueueCount">0 Operations Queued</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIMARY ACTIVE MISSION CARD -->
+    <div class="mission-hero-card">
+      <div class="mission-header">
+        <div class="mission-badge-group">
+          <span class="mission-id-pill" id="missionIdTag">MISSION: MSN-2026-101</span>
+          <span class="p1-danger-tag">LIFE-THREAT FLOOD EVACUATION</span>
+        </div>
+        <span class="mission-state-tag" id="missionStatusDisplay">DISPATCHED</span>
+      </div>
+
+      <h1 class="mission-title" id="missionTitle">Ward 7 Canal Embankment Fracture & Water Inundation</h1>
+
+      <div class="mission-intel-grid">
+        <div class="intel-item">
+          <span>TARGET LOCATION</span>
+          <strong>Canal West Road, Sector 2, Ward 7</strong>
+        </div>
+        <div class="intel-item">
+          <span>TRAPPED CIVILIANS</span>
+          <strong style="color: #ef4444;"><i class="fa-solid fa-users"></i> 14 Citizens (3 Elderly)</strong>
+        </div>
+        <div class="intel-item">
+          <span>RECOMMENDED ROUTE / ETA</span>
+          <strong style="color: #38bdf8;"><i class="fa-solid fa-compass"></i> S-Canal Route (8 mins)</strong>
+        </div>
+      </div>
+
+      <!-- 1-TAP TACTICAL PROGRESSION BUTTONS -->
+      <div class="tactical-progression-box">
+        <span class="progression-label">1-Tap Mission Progression (Updates EOC Command & Citizen Tracker)</span>
+        <div class="action-step-buttons">
+          <button type="button" class="btn-step active" id="btnEnRoute" data-status="EN_ROUTE">
+            <i class="fa-solid fa-ship"></i>
+            <span>1. EN ROUTE</span>
+          </button>
+          
+          <button type="button" class="btn-step" id="btnArrived" data-status="ARRIVED">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>2. ARRIVED</span>
+          </button>
+          
+          <button type="button" class="btn-step" id="btnInProgress" data-status="IN_PROGRESS">
+            <i class="fa-solid fa-people-pulling"></i>
+            <span>3. EXTRACTING</span>
+          </button>
+          
+          <button type="button" class="btn-step" id="btnCompleted" data-status="COMPLETED">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>4. COMPLETED</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FIELD HAZARD & OFFLINE CONTROLS -->
+    <div class="field-utilities-grid">
+      <button type="button" class="btn-utility hazard" id="btnReportObstacle">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span>Report Impassable Road / Submerged Bridge</span>
+      </button>
+
+      <button type="button" class="btn-utility offline-test" id="btnToggleOffline">
+        <i class="fa-solid fa-wifi"></i>
+        <span id="offlineBtnText">Simulate Offline Mode (No Cell Signal)</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- TACTICAL ACTION TOAST -->
+  <div class="tactical-toast" id="tacticalToast">
+    <i class="fa-solid fa-check"></i> <span id="toastMessage">STATUS SYNCHRONIZED</span>
+  </div>
+
+  <script src="../js/responder-dashboard.js"></script>
+</body>
+</html>

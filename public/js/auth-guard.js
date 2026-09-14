@@ -1,11 +1,15 @@
-﻿(function enforceAuthentication() {
+(function enforceAuthentication() {
     const loggedIn = localStorage.getItem("chronicAILoggedIn") === "true";
     const page = window.location.pathname.split("/").pop() || "index.html";
     const publicPages = new Set([
         "index.html",
         "login.html",
         "register.html",
-        "admin-login.html"
+        "admin-login.html",
+        "resource-center.html",
+        "missing-persons.html",
+        "risk-dashboard.html",
+        "support.html"
     ]);
 
     if (!loggedIn && !publicPages.has(page)) {

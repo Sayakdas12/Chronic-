@@ -28,5 +28,215 @@
     "incidentId": "INC-2026-STRUCT-03",
     "reportedBy": "Traffic Police Ward 7",
     "reportedAt": 1789303843463
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789366310648
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789365710649
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789366310667
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789365710668
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789366310714
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789365710715
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789368112062,
+    "id": "rc_1789368112063"
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789368646298
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368046298
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789368646316
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368046317
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789368646362
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368046362
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789370447599,
+    "id": "rc_1789370447599"
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789369401477
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368801482
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789369401500
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368801500
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789369401546
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789368801546
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789371202865,
+    "id": "rc_1789371202865"
   }
 ]

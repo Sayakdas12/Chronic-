@@ -282,13 +282,31 @@ def main():
             "features": "Interactive 3D digital twin, mobile capsule navigation with full drawer, EOC telemetry HUD with surveillance angle switcher, live casualty statistics strip, capabilities matrix, support plate, tactical Leaflet disaster radar map, and panoramic bi-directional melting footer."
         },
         {
-            "name": "login.html (Citizen & Responder Sign-In)",
+            "name": "login.html (Unified Login & Role Gateway)",
             "route": "/login or /login.html",
-            "purpose": "Secure authentication portal for citizens and field inspectors.",
-            "persona": "Registered Citizens, Field Workers",
+            "purpose": "Stakeholder authentication gateway with role-based routing.",
+            "persona": "Citizens, Emergency Officers, Field Responders",
             "scripts": "login.js, theme-manager.js, firebase-client.js",
             "apis": "Firebase Client Auth, POST /api/auth/send-otp",
-            "features": "Split-screen layout with photorealistic EOC command visual (auth-command-center.jpg), live district telemetry status pill, 1-click demo credential auto-fill (demo@localhost / LocalDemo123!), password reveal toggle, Google and GitHub OAuth buttons, and Day/Night mode styling."
+            "features": "Interactive 3-role selector (Citizen, EOC Officer, Field Unit), instant 1-click Demo buttons for all 3 roles, split-screen layout with photorealistic command visual, password reveal toggle, and automatic routing to role-specific dashboard."
+        },
+        {
+            "name": "citizen-dashboard.html (Citizen Operations & Lifeline Portal)",
+            "route": "/citizen-dashboard or /citizen-dashboard.html",
+            "purpose": "Dedicated civilian cockpit for emergency reporting, tracking, and shelter access.",
+            "persona": "Everyday Citizens, Disaster Victims, Residents",
+            "scripts": "citizen-dashboard.js, theme-manager.js, auth-guard.js",
+            "apis": "GET /api/reports, GET /api/incidents, GET /api/resources",
+            "features": "EOC emergency flood alert banner, civilian safeNet greeting, 4-metric statistics strip (Reports, In Progress, Dispatched, Resolved), 4-card quick action strip (Report Hazard, SOS Rescue, Relief Shelters, Helplines), live incident dispatch tracker with ETA countdown, and 1-tap emergency helplines directory."
+        },
+        {
+            "name": "responder-dashboard.html (Field Tactical Mission Console)",
+            "route": "/responder-dashboard or /responder-dashboard.html",
+            "purpose": "High-contrast mobile-first tactical console for rescue boats, ambulances, and field crews.",
+            "persona": "NDRF Rescue Crews, Paramedics, Rapid Response Units",
+            "scripts": "responder-dashboard.js, theme-manager.js, auth-guard.js, field-offline-sync.js",
+            "apis": "GET /api/missions, PATCH /api/missions/:id/status, POST /api/sync/push, GET /api/sync/road-closures",
+            "features": "Unit callsign display (NDRF Unit 04), live telemetry strip (GPS fix, battery, mesh relay, offline queue), primary mission card with trapped civilian counts, 1-tap mission progression buttons (1. EN ROUTE -> 2. ARRIVED -> 3. EXTRACTING -> 4. COMPLETED), road obstacle logger, and simulated offline storm mode with auto-batch synchronization."
         },
         {
             "name": "register.html (Citizen Enrollment Portal)",

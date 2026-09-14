@@ -259,10 +259,39 @@
 }
 
 .civic-nav-auth[hidden],
+.civic-dashboard-link[hidden],
 .civic-logout-btn[hidden],
 .mobile-auth-row[hidden],
 .mobile-logout-btn[hidden] {
   display: none !important;
+}
+
+.civic-dashboard-link {
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(59, 130, 246, 0.2));
+  color: #38bdf8 !important;
+  border-radius: 9999px;
+  padding: 7px 15px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+[data-theme="day"] .civic-dashboard-link {
+  background: #e0f2fe;
+  border-color: #0284c7;
+  color: #0284c7 !important;
+}
+
+.civic-dashboard-link:hover {
+  background: rgba(14, 165, 233, 0.35);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.25);
 }
 
 .civic-logout-btn,

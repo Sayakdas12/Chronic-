@@ -26,12 +26,12 @@ When a flood happens, a bridge cracks, or roads get washed away:
 
 ## 2. Who Uses ChronicAI? (The 4 Main Roles)
 
-| Role | Who are they? | What pages do they use? | What do they do? |
+| Role | Who are they? | Dedicated Stakeholder Dashboard | What do they do? |
 |:---|:---|:---|:---|
-| **1. Everyday Citizen** | Anyone in the city / disaster zone | `index.html`, `report-problem.html`, `track.html`, `request.html` | Reports broken roads or floods, asks for rescue if trapped, tracks repair status. |
-| **2. Emergency Officer** | City officials, disaster directors, police/fire chiefs | `admin-login.html`, `admin-dashboard.html`, `complaint.html` | Verifies incidents, reviews AI priority, dispatches rescue teams, seeds disaster drills. |
-| **3. Field Responders** | NDRF rescue boats, ambulance drivers, repair crews | Mobile Web App, `track.html`, Offline Sync | Receives dispatched missions, marks "En Route" or "Arrived", saves lives even offline. |
-| **4. Donors & Volunteers** | Citizens wanting to help | `support.html`, `resource-center.html`, `missing-persons.html` | Donates food/funds, finds open relief shelters, searches for missing relatives. |
+| **1. Everyday Citizen** | Anyone in the city / disaster zone | `citizen-dashboard.html` (Citizen Operations Portal) | Reports broken roads or floods, asks for rescue if trapped, monitors live responder vehicle ETA, finds open relief shelters. |
+| **2. Emergency Officer** | City officials, disaster directors, police/fire chiefs | `admin-dashboard.html` (EOC Command Center) | Verifies incidents, reviews AI SitRep briefings, evaluates Top-3 recommended fleet resources, issues 1-click dispatches, seeds drills. |
+| **3. Field Responders** | NDRF rescue boats, ambulance drivers, repair crews | `responder-dashboard.html` (Tactical Mission Console) | Receives dispatched missions, 1-tap tactical progression (En Route -> Arrived -> Extricating -> Done), logs road hazards, works offline. |
+| **4. Donors & Volunteers** | Citizens wanting to help | `support.html`, `resource-center.html`, `missing-persons.html` | Donates food/funds, finds open relief shelters, searches for missing relatives displaced by disasters. |
 
 ---
 
@@ -127,10 +127,12 @@ Incident marked "Resolved"            Syncs back when online              Resour
 | Page URL | Name | Plain English Purpose |
 |:---|:---|:---|
 | `/` or `/index.html` | **Home Page** | The main website. Shows live city emergency stats, 3D radar map, and links to all services. |
-| `/login.html` | **Citizen Login** | Where regular users sign in. Has a demo button (`demo@localhost`) for instant 1-click testing. |
+| `/login.html` | **Unified Login & Role Gateway** | Stakeholder login gateway with 3 tabs (`Citizen`, `EOC Officer`, `Field Unit`) and 1-click instant demo access. |
+| `/citizen-dashboard.html` | **Citizen Operations Portal** | Dedicated citizen home showing active reports, live rescue dispatch tracker, SOS emergency actions, and shelter directory. |
+| `/admin-dashboard.html` | **EOC Command Center** | High-level situation room for emergency officers to verify incidents, review SitRep briefings, and dispatch resources. |
+| `/responder-dashboard.html` | **Field Tactical Mission Console** | Mobile-first console for NDRF boats and ambulances to progress active missions (`En Route` -> `Arrived` -> `Completed`) even offline. |
 | `/register.html` | **Sign Up** | Where new users create an account. |
 | `/admin-login.html` | **Officer Login** | Restricted login for disaster chiefs. Sends a 6-digit code to their email. |
-| `/admin-dashboard.html` | **EOC Command Desk** | The main command center screen where emergency officers verify emergencies and send rescue teams. |
 | `/report-problem.html` | **Report Emergency** | The form where citizens upload photos of damage, drop GPS pins, and get an instant AI risk rating. |
 | `/track.html` | **Live Tracking** | Where citizens track their complaint and watch rescue boats/ambulances coming. |
 | `/request.html` | **Urgent Aid Request** | Emergency SOS button for stranded citizens needing food, clean water, or boat evacuation right now. |
@@ -140,7 +142,6 @@ Incident marked "Resolved"            Syncs back when online              Resour
 | `/life-helper.html` | **Survival First-Aid** | Offline emergency guides for treating wounds, making dirty water safe to drink, and surviving blackouts. |
 | `/support.html` | **Donate & Volunteer** | Where people can donate money, drop off blankets and food, or sign up as volunteers. |
 | `/complaint.html` | **Incident Case File** | A detailed page showing the full history, photos, and officer notes of one specific report. |
-| `/journey.html` | **Interactive Story** | An educational presentation showing how ChronicAI saves lives from start to finish. |
 
 ---
 

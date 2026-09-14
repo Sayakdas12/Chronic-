@@ -73,6 +73,10 @@
                   <span>Night</span>
                 </button>
               </div>
+              <a href="citizen-dashboard.html" class="civic-dashboard-link" id="civicDashboardLink" hidden>
+                <i class="fa-solid fa-bolt"></i>
+                <span id="civicDashboardText">Dashboard</span>
+              </a>
               <button type="button" class="civic-logout-btn" id="civicLogoutButton" hidden>
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 <span>Logout</span>
@@ -187,6 +191,18 @@
             </div>
 
             <div class="mobile-drawer-footer">
+              <a href="citizen-dashboard.html" class="mobile-drawer-link" id="mobileDashboardLink" hidden style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(59, 130, 246, 0.25)); border: 1px solid rgba(56, 189, 248, 0.5); margin-bottom: 12px;">
+                <div class="link-icon cyan"><i class="fa-solid fa-bolt"></i></div>
+                <div class="link-text">
+                  <strong id="mobileDashboardTitle">My Operations Dashboard</strong>
+                  <small>Return to active stakeholder workspace</small>
+                </div>
+                <i class="fa-solid fa-arrow-right link-chevron" style="color: #38bdf8;"></i>
+              </a>
+              <button type="button" class="mobile-logout-btn" id="mobileLogoutButton" hidden style="margin-bottom: 12px;">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout Session</span>
+              </button>
               <a href="tel:+918013593509" class="mobile-helpline-chip">
                 <i class="fa-solid fa-phone"></i>
                 <span>24/7 Helpline: +91 80135 93509</span>
@@ -1108,12 +1124,39 @@
     <script>
       const signInLink = document.getElementById("civicSignInLink");
       const logoutButton = document.getElementById("civicLogoutButton");
+      const civicDashboardLink = document.getElementById("civicDashboardLink");
+      const civicDashboardText = document.getElementById("civicDashboardText");
       const mobileLogoutButton = document.getElementById("mobileLogoutButton");
+      const mobileDashboardLink = document.getElementById("mobileDashboardLink");
+      const mobileDashboardTitle = document.getElementById("mobileDashboardTitle");
       const mobileSignInLink = document.getElementById("mobileSignInLink");
       const mobileAuthRow = document.getElementById("mobileAuthRow");
 
       function updateAuthUi() {
         const loggedIn = localStorage.getItem("chronicAILoggedIn") === "true";
+        const role = localStorage.getItem("chronicAIRole") || "citizen";
+
+        let dashboardHref = "citizen-dashboard.html";
+        let dashboardLabel = "Citizen Portal";
+        if (role === "admin" || role === "officer") {
+          dashboardHref = "admin-dashboard.html";
+          dashboardLabel = "EOC Command";
+        } else if (role === "responder" || role === "field_worker") {
+          dashboardHref = "responder-dashboard.html";
+          dashboardLabel = "Mission Console";
+        }
+
+        if (civicDashboardLink) {
+          civicDashboardLink.hidden = !loggedIn;
+          civicDashboardLink.href = dashboardHref;
+          if (civicDashboardText) civicDashboardText.textContent = dashboardLabel;
+        }
+
+        if (mobileDashboardLink) {
+          mobileDashboardLink.hidden = !loggedIn;
+          mobileDashboardLink.href = dashboardHref;
+          if (mobileDashboardTitle) mobileDashboardTitle.textContent = `${dashboardLabel} Active`;
+        }
 
         if (signInLink) signInLink.hidden = loggedIn;
         if (logoutButton) logoutButton.hidden = !loggedIn;
@@ -1130,6 +1173,9 @@
         localStorage.removeItem("chronicAIUserId");
         localStorage.removeItem("chronicAIUserEmail");
         localStorage.removeItem("chronicAIUserName");
+        localStorage.removeItem("chronicAIRole");
+        sessionStorage.removeItem("governmentSession");
+        sessionStorage.removeItem("sihDemoSession");
         updateAuthUi();
         window.location.href = "login.html";
       }
