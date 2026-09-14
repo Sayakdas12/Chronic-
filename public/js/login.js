@@ -4121,16 +4121,33 @@ function setupLoginForm() {
             role = "responder";
         }
 
-        if (
-            (IS_LOCAL_DEV_HOST || email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email) &&
-            password === LOCAL_DEMO_CREDENTIALS.password
-        ) {
+        const validDemoEmails = [
+            "demo@localhost",
+            "citizen@chronic.gov",
+            "officer@chronic.gov",
+            "responder@chronic.gov",
+            "admin@chronic.gov"
+        ];
+        const validDemoPasswords = [
+            "LocalDemo123!",
+            "ChronicAI@2026",
+            "Demo123!",
+            "chronic"
+        ];
+
+        const isDemoMatch =
+            (IS_LOCAL_DEV_HOST && validDemoPasswords.includes(password)) ||
+            (validDemoEmails.includes(email.toLowerCase()) && validDemoPasswords.includes(password)) ||
+            (email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email && password === LOCAL_DEMO_CREDENTIALS.password);
+
+        if (isDemoMatch) {
 
             saveLocalUser({
                 uid: `demo-${role}-user`,
-                name: role === "admin" ? "EOC Director" : role === "responder" ? "NDRF Unit 04" : "Citizen",
+                name: role === "admin" ? "Chief D. Banerjee (EOC Director)" : role === "responder" ? "NDRF Unit 04 — Cmdr. A. Sen" : "Ravi Kumar (Citizen)",
                 email: email,
                 role: role,
+                unitId: role === "responder" ? "RES-BOAT-04" : undefined,
                 loggedIn: true
             });
             localStorage.setItem(SESSION_KEYS.role, role);
