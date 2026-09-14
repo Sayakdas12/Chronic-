@@ -1,9 +1,10 @@
-﻿const CACHE_NAME = "chronicai-offline-v6";
+const CACHE_NAME = "chronicai-offline-v7";
 const OFFLINE_URLS = [
   "/",
   "/html/index.html",
   "/html/citizen.html",
-  "/html/index.html",
+  "/html/citizen-dashboard.html",
+  "/html/responder-dashboard.html",
   "/html/risk-dashboard.html",
   "/html/journey.html",
   "/html/life-helper.html",
@@ -34,6 +35,8 @@ const OFFLINE_URLS = [
   "/js/risk-dashboard.js",
   "/js/offline-app.js",
   "/js/sos.js",
+  "/js/citizen-dashboard.js",
+  "/js/responder-dashboard.js",
   "/css/design-tokens.css",
   "/css/global.css",
   "/css/admin-dashboard.css",
@@ -42,6 +45,8 @@ const OFFLINE_URLS = [
   "/css/rescue-tracking.css",
   "/images/goverment%20logo.png",
   "/images/hero-command-center.jpg",
+  "/images/tactical-responder-bg.jpg",
+  "/images/citizen-operations-bg.jpg",
   "/css/risk-dashboard.css",
   "/css/request.css",
   "/css/missing-persons.css",

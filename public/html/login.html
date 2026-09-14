@@ -114,17 +114,19 @@
 
     .left-panel-bg {
       position: absolute;
-      inset: 0;
+      inset: -20px;
       background-image: url('../images/auth-command-center.jpg');
       background-size: cover;
       background-position: center;
-      opacity: 0.65;
-      transform: scale(1.02);
-      transition: transform 12s ease;
+      opacity: 0.68;
+      transform: scale(1.03);
+      animation: slowPanAuth 40s ease-in-out infinite alternate;
     }
 
-    .left-panel:hover .left-panel-bg {
-      transform: scale(1.06);
+    @keyframes slowPanAuth {
+      0% { transform: scale(1.02) translate(0, 0); }
+      50% { transform: scale(1.08) translate(-1.5%, 1%); }
+      100% { transform: scale(1.04) translate(1%, -1.2%); }
     }
 
     .left-panel-overlay {
@@ -311,19 +313,39 @@
       margin-bottom: 20px;
     }
 
+    .role-selector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .role-selector-hint {
+      font-size: 11px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    [data-theme="day"] .role-selector-hint {
+      color: #94a3b8;
+    }
+
     .role-tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
-      background: rgba(15, 23, 42, 0.7);
-      padding: 4px;
+      background: rgba(15, 23, 42, 0.75);
+      padding: 5px;
       border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.18);
+      backdrop-filter: blur(12px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
     [data-theme="day"] .role-tabs {
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
     .role-tab-btn {
@@ -331,38 +353,38 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
-      padding: 9px 6px;
-      border: none;
+      gap: 5px;
+      padding: 10px 6px;
+      border: 1px solid transparent;
       border-radius: 10px;
       background: transparent;
       color: #94a3b8;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .role-tab-btn i {
-      font-size: 14px;
-      transition: transform 0.2s;
+      font-size: 15px;
+      transition: transform 0.2s ease;
     }
 
     .role-tab-btn:hover {
       color: #f8fafc;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     [data-theme="day"] .role-tab-btn:hover {
       color: #0f172a;
-      background: rgba(0, 0, 0, 0.04);
+      background: rgba(0, 0, 0, 0.05);
     }
 
     .role-tab-btn.active {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(59, 130, 246, 0.25));
-      border: 1px solid rgba(56, 189, 248, 0.55);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(59, 130, 246, 0.28));
+      border: 1px solid rgba(56, 189, 248, 0.6);
       color: #38bdf8;
-      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
     }
 
     [data-theme="day"] .role-tab-btn.active {
@@ -373,36 +395,83 @@
     }
 
     .role-tab-btn.active i {
-      transform: scale(1.15);
+      transform: scale(1.18);
     }
 
     /* 1-Click Instant Demo Access Box */
     .demo-access-box {
       margin-bottom: 22px;
-      padding: 14px;
-      border-radius: 14px;
-      background: rgba(14, 165, 233, 0.06);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      padding: 14px 16px 16px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(14, 165, 233, 0.09) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-access-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #38bdf8, #f59e0b, #22c55e);
+      opacity: 0.8;
     }
 
     [data-theme="day"] .demo-access-box {
-      background: #f0f9ff;
+      background: linear-gradient(145deg, #f0f9ff 0%, #ffffff 100%);
       border: 1px solid #bae6fd;
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
     }
 
     .demo-access-title {
       display: flex;
       align-items: center;
-      gap: 7px;
+      justify-content: space-between;
       font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: #38bdf8;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     [data-theme="day"] .demo-access-title {
+      color: #0284c7;
+    }
+
+    .demo-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .demo-beacon-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse-dot 2s infinite;
+    }
+
+    .demo-eval-pill {
+      font-size: 9.5px;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+
+    [data-theme="day"] .demo-eval-pill {
+      background: #e0f2fe;
+      border-color: #7dd3fc;
       color: #0284c7;
     }
 
@@ -417,15 +486,15 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      padding: 9px 6px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
+      text-align: center;
+      gap: 6px;
+      padding: 10px 6px;
+      background: rgba(15, 23, 42, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
       color: #e2e8f0;
       cursor: pointer;
-      text-align: center;
-      transition: all 0.22s ease;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="day"] .demo-card-btn {
@@ -435,32 +504,91 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     }
 
-    .demo-card-btn:hover {
-      border-color: #38bdf8;
-      background: rgba(14, 165, 233, 0.15);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(14, 165, 233, 0.25);
+    .demo-icon-pill {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: transform 0.2s ease;
     }
 
-    [data-theme="day"] .demo-card-btn:hover {
+    .demo-icon-pill.citizen {
+      background: rgba(14, 165, 233, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+    }
+
+    .demo-icon-pill.officer {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #f59e0b;
+    }
+
+    .demo-icon-pill.responder {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #22c55e;
+    }
+
+    .demo-card-btn:hover .demo-icon-pill {
+      transform: scale(1.12);
+    }
+
+    .demo-btn-citizen:hover {
+      border-color: #38bdf8;
+      background: rgba(14, 165, 233, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+    }
+
+    .demo-btn-officer:hover {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(245, 158, 11, 0.28);
+    }
+
+    .demo-btn-responder:hover {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(34, 197, 94, 0.28);
+    }
+
+    [data-theme="day"] .demo-btn-citizen:hover {
       background: #e0f2fe;
       border-color: #0284c7;
       box-shadow: 0 4px 12px rgba(2, 132, 199, 0.12);
     }
 
-    .demo-card-btn strong {
+    [data-theme="day"] .demo-btn-officer:hover {
+      background: #fef3c7;
+      border-color: #d97706;
+      box-shadow: 0 4px 12px rgba(217, 119, 6, 0.12);
+    }
+
+    [data-theme="day"] .demo-btn-responder:hover {
+      background: #dcfce7;
+      border-color: #16a34a;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.12);
+    }
+
+    .demo-card-name {
       font-size: 11px;
       font-weight: 700;
       line-height: 1.2;
     }
 
-    .demo-card-btn span {
+    .demo-card-desc {
       font-size: 9.5px;
       color: #94a3b8;
       white-space: nowrap;
     }
 
-    [data-theme="day"] .demo-card-btn span {
+    [data-theme="day"] .demo-card-desc {
       color: #64748b;
     }
 
@@ -840,10 +968,13 @@
 
         <!-- Stakeholder Role Selector -->
         <div class="role-selector-wrap">
-          <label class="field-label">Select Stakeholder Portal</label>
+          <div class="role-selector-header">
+            <label class="field-label" style="margin-bottom: 0;">Select Stakeholder Portal</label>
+            <span class="role-selector-hint">Instant Context Switch</span>
+          </div>
           <div class="role-tabs" role="tablist" aria-label="Stakeholder Portal Selection">
             <button type="button" class="role-tab-btn active" id="tabRoleCitizen" data-role="citizen" role="tab" aria-selected="true">
-              <i class="fa-solid fa-user"></i>
+              <i class="fa-solid fa-user-shield"></i>
               <span>Citizen</span>
             </button>
             <button type="button" class="role-tab-btn" id="tabRoleOfficer" data-role="officer" role="tab" aria-selected="false">
@@ -860,24 +991,35 @@
         <!-- 1-Click Instant Demo Testing Box -->
         <div class="demo-access-box">
           <div class="demo-access-title">
-            <i class="fa-solid fa-bolt"></i>
-            <span>Instant Demo Access (Testing & Evaluation)</span>
+            <div class="demo-badge-wrap">
+              <span class="demo-beacon-dot"></span>
+              <span>1-Click Live Stakeholder Demo</span>
+            </div>
+            <span class="demo-eval-pill">EVALUATION</span>
           </div>
           <div class="demo-btn-grid">
-            <button type="button" class="demo-card-btn" id="demoCitizenBtn" title="Launch Citizen Portal">
-              <i class="fa-solid fa-user-shield" style="color: #38bdf8;"></i>
-              <strong>Citizen</strong>
-              <span>Demo User</span>
+            <button type="button" class="demo-card-btn demo-btn-citizen" id="demoCitizenBtn" title="Launch Citizen Operations Console">
+              <div class="demo-icon-pill citizen">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <strong class="demo-card-name">Citizen</strong>
+              <span class="demo-card-desc">Public Lifeline</span>
             </button>
-            <button type="button" class="demo-card-btn" id="demoOfficerBtn" title="Launch EOC Command Center">
-              <i class="fa-solid fa-landmark" style="color: #f59e0b;"></i>
-              <strong>Officer</strong>
-              <span>EOC Command</span>
+
+            <button type="button" class="demo-card-btn demo-btn-officer" id="demoOfficerBtn" title="Launch EOC Command Center">
+              <div class="demo-icon-pill officer">
+                <i class="fa-solid fa-building-shield"></i>
+              </div>
+              <strong class="demo-card-name">Officer</strong>
+              <span class="demo-card-desc">EOC Command</span>
             </button>
-            <button type="button" class="demo-card-btn" id="demoResponderBtn" title="Launch Field Mission Console">
-              <i class="fa-solid fa-shield-heart" style="color: #22c55e;"></i>
-              <strong>Field Unit</strong>
-              <span>NDRF Boat 04</span>
+
+            <button type="button" class="demo-card-btn demo-btn-responder" id="demoResponderBtn" title="Launch Field Mission Console">
+              <div class="demo-icon-pill responder">
+                <i class="fa-solid fa-truck-medical"></i>
+              </div>
+              <strong class="demo-card-name">Field Unit</strong>
+              <span class="demo-card-desc">NDRF Boat 04</span>
             </button>
           </div>
         </div>
