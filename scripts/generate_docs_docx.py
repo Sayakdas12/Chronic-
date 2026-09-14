@@ -150,7 +150,74 @@ def main():
         title="CORE SYSTEM VALUE PROPOSITION"
     )
 
-    doc.add_heading("2. Complete Project Directory Structure", level=1)
+    # -------------------------------------------------------------
+    # 2. PLAIN-ENGLISH WORKFLOW & USER ROLES
+    # -------------------------------------------------------------
+    doc.add_heading("2. Plain-English Guide & Application Workflow", level=1)
+    
+    p = doc.add_paragraph()
+    p.paragraph_format.line_spacing = 1.15
+    p.add_run(
+        "In simple terms, ChronicAI is an intelligent emergency management network—similar to 911 combined with Uber and AI. "
+        "When an embankment collapses, a road washes out, or floodwaters trap citizens, ChronicAI connects the person on the ground "
+        "directly to the emergency director's screen and dispatches the closest rescue squad automatically.\n"
+    )
+    
+    # The 4 Roles Table
+    doc.add_heading("2.1 The 4 Key User Roles", level=2)
+    roles_data = [
+        ("1. Everyday Citizen", "report-problem.html, track.html, request.html", "Takes photos of hazards, tags GPS coordinates, requests emergency boat/water aid, and tracks resolution."),
+        ("2. Emergency Officer", "admin-login.html, admin-dashboard.html", "Logs in with 2FA email OTP, verifies incident urgency, reviews AI severity, and dispatches rescue assets."),
+        ("3. Field Responders", "Mobile Web App, Offline Sync Queue", "Ambulance, NDRF boat, or engineering squads who receive missions, update status, and operate even with zero cell service."),
+        ("4. Donors & Volunteers", "support.html, resource-center.html, missing-persons.html", "Citizens and NGOs who donate funds/supplies, locate relief shelters, or search for displaced family.")
+    ]
+    
+    tbl_roles = doc.add_table(rows=len(roles_data) + 1, cols=3)
+    tbl_roles.alignment = WD_TABLE_ALIGNMENT.CENTER
+    col_w_roles = [Inches(1.5), Inches(2.0), Inches(3.0)]
+    
+    hdr_r = tbl_roles.rows[0]
+    hdr_r.cells[0].paragraphs[0].add_run("User Role")
+    hdr_r.cells[1].paragraphs[0].add_run("Pages Used")
+    hdr_r.cells[2].paragraphs[0].add_run("Key Responsibilities")
+    style_table_header(hdr_r, col_w_roles, "091A2D")
+    
+    for idx, r in enumerate(roles_data):
+        row = tbl_roles.rows[idx + 1]
+        row.cells[0].paragraphs[0].add_run(r[0]).bold = True
+        row.cells[1].paragraphs[0].add_run(r[1])
+        row.cells[2].paragraphs[0].add_run(r[2])
+        style_table_row(row, col_w_roles, "F8FAFC" if idx % 2 == 1 else "FFFFFF")
+        
+    doc.add_paragraph().paragraph_format.space_after = Pt(8)
+
+    # 9-Step Lifecycle
+    doc.add_heading("2.2 Step-by-Step Incident Lifecycle (From Problem to Relief)", level=2)
+    
+    steps = [
+        ("Step 1: Incident Spotting", "Citizen discovers an earthen levee breach or road washout in Ward 7 and opens the mobile app."),
+        ("Step 2: Geotagged Capture", "Citizen snaps a photo and taps 'Detect GPS Pin' on report-problem.html, selecting category and headcount."),
+        ("Step 3: Instant AI Analysis", "Google Gemini AI analyzes structural damage within 2 seconds, evaluating water rise, electrical risk, and urgency score (0-100)."),
+        ("Step 4: Spatial Duplicate Check", "Haversine engine checks if any neighbor reported the same flood within 500m / 24h, grouping duplicates to avoid EOC clutter."),
+        ("Step 5: EOC Officer Verification", "Disaster Director logs in to admin-dashboard.html via 6-digit OTP, sees high-priority P1 flag, and approves verification."),
+        ("Step 6: Top-3 Fleet Match", "System evaluates all available assets and recommends the 3 closest units with matching capabilities (e.g., NDRF Rescue Boat 04)."),
+        ("Step 7: One-Click Dispatch", "Officer clicks 'Dispatch'. Resource is assigned, mission is created (MSN-101), and travel ETA is logged."),
+        ("Step 8: Field Action & Offline Replay", "Boat squad receives task on phone. If cell towers fail, team records rescues locally; phone auto-syncs when signal returns."),
+        ("Step 9: Citizen Resolution Notice", "Citizen watches live progress bar on track.html (Logged -> AI Evaluated -> Responders En Route -> Resolved).")
+    ]
+    
+    for s_title, s_desc in steps:
+        p_step = doc.add_paragraph()
+        p_step.paragraph_format.space_after = Pt(3)
+        p_step.paragraph_format.line_spacing = 1.15
+        r_st = p_step.add_run(f"• {s_title}: ")
+        r_st.bold = True
+        r_st.font.color.rgb = RGBColor(2, 132, 199)
+        p_step.add_run(s_desc)
+        
+    doc.add_paragraph().paragraph_format.space_after = Pt(12)
+
+    doc.add_heading("3. Complete Project Directory Structure", level=1)
     
     p = doc.add_paragraph()
     p.add_run("The repository is architectured into clean separation of concerns across presentation, domain logic, APIs, and persistence:")

@@ -6,13 +6,14 @@
 
 ## Table of Contents
 1. [Executive Summary & System Overview](#1-executive-summary--system-overview)
-2. [Complete Project Directory Structure](#2-complete-project-directory-structure)
-3. [Page Catalog & Frontend Architecture (All 15 Pages)](#3-page-catalog--frontend-architecture-all-15-pages)
-4. [Exhaustive REST API Reference & Specification](#4-exhaustive-rest-api-reference--specification)
-5. [Core Architectural Engines & Subsystems](#5-core-architectural-engines--subsystems)
-6. [Data Models & Persistence Schemas](#6-data-models--persistence-schemas)
-7. [Deployment, Clustered HA Supervisor & DevOps](#7-deployment-clustered-ha-supervisor--devops)
-8. [Environment Variables & Configuration Guide](#8-environment-variables--configuration-guide)
+2. [Plain-English Guide & Application Workflow (How it Works)](#2-plain-english-guide--application-workflow-how-it-works)
+3. [Complete Project Directory Structure](#3-complete-project-directory-structure)
+4. [Page Catalog & Frontend Architecture (All 15 Pages)](#4-page-catalog--frontend-architecture-all-15-pages)
+5. [Exhaustive REST API Reference & Specification](#5-exhaustive-rest-api-reference--specification)
+6. [Core Architectural Engines & Subsystems](#6-core-architectural-engines--subsystems)
+7. [Data Models & Persistence Schemas](#7-data-models--persistence-schemas)
+8. [Deployment, Clustered HA Supervisor & DevOps](#8-deployment-clustered-ha-supervisor--devops)
+9. [Environment Variables & Configuration Guide](#9-environment-variables--configuration-guide)
 
 ---
 
@@ -37,7 +38,58 @@ During civic crises, structural emergencies, and natural disasters (flash floods
 
 ---
 
-## 2. Complete Project Directory Structure
+## 2. Plain-English Guide & Application Workflow (How it Works)
+
+### 2.1 The Concept in Simple Everyday Terms
+Think of ChronicAI as **Emergency 911 meets Uber, powered by an AI brain**. 
+Instead of waiting on hold on jammed phone lines during a cyclone or flash flood:
+- A citizen snaps a photo on their phone.
+- The AI rates how dangerous it is in 2 seconds.
+- The city disaster director sees the verified emergency and gets a list of the 3 closest rescue squads (boats, ambulances).
+- With 1 click, the mission is dispatched to the responders' phones—**even if internet is down**.
+- The citizen watches the rescue team moving toward them on a live map.
+
+---
+
+### 2.2 The 4 Key User Roles
+
+| User Role | Who are they? | Pages Used | What do they do? |
+|:---|:---|:---|:---|
+| **1. Everyday Citizen** | Anyone in the city or disaster zone | `index.html`, `report-problem.html`, `track.html`, `request.html` | Takes photos of damage, captures GPS pins, requests emergency boat/water aid, tracks incident resolution. |
+| **2. Emergency Officer** | Disaster directors, police/fire chiefs, municipality heads | `admin-login.html`, `admin-dashboard.html`, `complaint.html` | Logs in with 2FA email OTP, verifies incident urgency, reviews AI severity, and dispatches rescue assets. |
+| **3. Field Responders** | NDRF rescue boat crews, ambulance drivers, repair teams | Mobile Web App, `track.html`, Offline Sync Queue | Receives dispatched missions, updates status (En Route, Arrived, Saved), and operates even when cell towers are down. |
+| **4. Donors & Volunteers** | Citizens and NGOs wanting to assist | `support.html`, `resource-center.html`, `missing-persons.html` | Donates relief funds/goods, finds open shelter capacities, or searches civil missing persons rolls. |
+
+---
+
+### 2.3 The 9-Step Application Workflow (Problem to Relief)
+
+```text
++---------------------------------------------------------------------------------------------------+
+|                                 END-TO-END APPLICATION WORKFLOW                                   |
++---------------------------------------------------------------------------------------------------+
+| 1. Citizen Spots Hazard   --> 2. Citizen Reports (Photo + GPS) --> 3. AI Triage in 2 Seconds      |
+|                                                                                |                  |
+| 6. Top-3 Fleet Suggested  <-- 5. Officer Verifies on Dashboard <-- 4. Duplicates Filtered (500m)  |
+|            |                                                                                      |
+|            v                                                                                      |
+| 7. 1-Click Mission Created--> 8. Field Team Executes (Offline) --> 9. Citizen Tracks Live Progress|
++---------------------------------------------------------------------------------------------------+
+```
+
+- **Step 1: Citizen Spots Hazard**: Citizen notices an earthen levee breach or road washout in Ward 7 and opens the website on their mobile phone.
+- **Step 2: Geotagged Capture (`report-problem.html`)**: Citizen snaps a photo with their camera, taps "Detect GPS Pin", selects category (Flood Breach), and enters trapped/injured counts.
+- **Step 3: Instant AI Analysis (`POST /api/analyze`)**: Gemini AI scans the image and description in 2 seconds. The Priority Engine assigns a score (0 to 100) and marks it **P1 - CRITICAL**.
+- **Step 4: Spatial Duplicate Check (`duplicate-detector.js`)**: Haversine distance engine checks if neighbors already reported the same incident within 500 meters and 24 hours. If yes, it clusters under one master incident to avoid clogging the EOC.
+- **Step 5: EOC Officer Verification (`admin-dashboard.html`)**: Emergency Director logs in with a 6-digit email OTP. The flood appears prominently at the top in flashing red. The officer reviews and clicks "Verify Incident".
+- **Step 6: Top-3 Fleet Recommendation (`allocation-service.js`)**: System scores all available resources and presents the 3 best options: e.g. *NDRF Inflatable Rescue Boat 04* (1.2 km away, ETA 8 minutes).
+- **Step 7: One-Click Dispatch (`POST /api/missions`)**: Officer clicks "Dispatch". Mission `MSN-2026-101` is created, resource is marked `DISPATCHED`, and incident is marked `ASSIGNED`.
+- **Step 8: Field Action with Offline Sync (`field-offline-sync.js`)**: Boat crew gets the mission on their mobile device. If cell towers fail, the team records "Arrived" and "14 Trapped Rescued" locally. When signal returns, data auto-syncs.
+- **Step 9: Citizen Tracks Live Progress (`track.html`)**: The reporting citizen tracks the progress bar from `Logged` -> `AI Analyzed` -> `Officer Verified` -> `Rescue Boat En Route` -> `Resolved`.
+
+---
+
+## 3. Complete Project Directory Structure
 
 ```text
 Chronic-/
