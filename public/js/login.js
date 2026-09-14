@@ -3963,24 +3963,25 @@ function getRoleDestination(role, requestedTarget) {
 // STAKEHOLDER ROLE TABS & DEMO ACCESS
 // ============================================================
 
-function setupRoleTabs() {
-    const tabCitizen = document.getElementById("tabRoleCitizen");
-    const tabOfficer = document.getElementById("tabRoleOfficer");
-    const tabResponder = document.getElementById("tabRoleResponder");
+// ============================================================
+// UNIFIED STAKEHOLDER SELECTOR & 1-CLICK ACCESS
+// ============================================================
+
+function setupStakeholderSelector() {
+    const demoCitizenBtn = document.getElementById("demoCitizenBtn");
+    const demoOfficerBtn = document.getElementById("demoOfficerBtn");
+    const demoResponderBtn = document.getElementById("demoResponderBtn");
     const selectedRoleInput = document.getElementById("selectedRole");
     const emailLabel = document.getElementById("emailLabel");
     const emailInput = document.getElementById("email");
     const loginButton = document.getElementById("loginButton");
+    const loginMessage = document.getElementById("loginMessage");
 
     function setRole(role) {
         if (selectedRoleInput) selectedRoleInput.value = role;
-        tabCitizen?.classList.toggle("active", role === "citizen");
-        tabOfficer?.classList.toggle("active", role === "officer");
-        tabResponder?.classList.toggle("active", role === "responder");
-
-        tabCitizen?.setAttribute("aria-selected", role === "citizen");
-        tabOfficer?.setAttribute("aria-selected", role === "officer");
-        tabResponder?.setAttribute("aria-selected", role === "responder");
+        demoCitizenBtn?.classList.toggle("active", role === "citizen");
+        demoOfficerBtn?.classList.toggle("active", role === "officer");
+        demoResponderBtn?.classList.toggle("active", role === "responder");
 
         if (role === "officer") {
             if (emailLabel) emailLabel.textContent = "Government EOC Officer Email";
@@ -3992,23 +3993,13 @@ function setupRoleTabs() {
             if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to Mission Console';
         } else {
             if (emailLabel) emailLabel.textContent = "Citizen Email Address";
-            if (emailInput) emailInput.placeholder = "name@example.com";
+            if (emailInput) emailInput.placeholder = "citizen@chronic.gov";
             if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In as Citizen';
         }
     }
 
-    tabCitizen?.addEventListener("click", () => setRole("citizen"));
-    tabOfficer?.addEventListener("click", () => setRole("officer"));
-    tabResponder?.addEventListener("click", () => setRole("responder"));
-}
-
-function setupDemoButtons() {
-    const demoCitizenBtn = document.getElementById("demoCitizenBtn");
-    const demoOfficerBtn = document.getElementById("demoOfficerBtn");
-    const demoResponderBtn = document.getElementById("demoResponderBtn");
-    const loginMessage = document.getElementById("loginMessage");
-
     demoCitizenBtn?.addEventListener("click", async () => {
+        setRole("citizen");
         saveLocalUser({
             uid: "demo-citizen-101",
             name: "Ravi Kumar (Citizen)",
@@ -4027,6 +4018,7 @@ function setupDemoButtons() {
     });
 
     demoOfficerBtn?.addEventListener("click", async () => {
+        setRole("officer");
         saveLocalUser({
             uid: "demo-officer-eoc",
             name: "Chief D. Banerjee (EOC Director)",
@@ -4047,6 +4039,7 @@ function setupDemoButtons() {
     });
 
     demoResponderBtn?.addEventListener("click", async () => {
+        setRole("responder");
         saveLocalUser({
             uid: "demo-responder-boat4",
             name: "NDRF Unit 04 — Cmdr. A. Sen",
@@ -4081,8 +4074,7 @@ function setupLoginForm() {
     const loginMessage =
         document.getElementById("loginMessage");
 
-    setupRoleTabs();
-    setupDemoButtons();
+    setupStakeholderSelector();
 
     if (!loginForm || !loginButton || !loginMessage) {
         return;

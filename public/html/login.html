@@ -309,93 +309,40 @@
     }
 
     /* Stakeholder Role Selector & Demo Access */
-    .role-selector-wrap {
-      margin-bottom: 20px;
+    .demo-card-btn.active.demo-btn-citizen {
+      border-color: #38bdf8;
+      background: rgba(14, 165, 233, 0.2);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4), 0 8px 22px rgba(14, 165, 233, 0.28);
     }
 
-    .role-selector-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
+    .demo-card-btn.active.demo-btn-officer {
+      border-color: #f59e0b;
+      background: rgba(245, 158, 11, 0.2);
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.4), 0 8px 22px rgba(245, 158, 11, 0.28);
     }
 
-    .role-selector-hint {
-      font-size: 11px;
-      color: #64748b;
-      font-weight: 500;
+    .demo-card-btn.active.demo-btn-responder {
+      border-color: #22c55e;
+      background: rgba(34, 197, 94, 0.2);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4), 0 8px 22px rgba(34, 197, 94, 0.28);
     }
 
-    [data-theme="day"] .role-selector-hint {
-      color: #94a3b8;
+    [data-theme="day"] .demo-card-btn.active.demo-btn-citizen {
+      background: #e0f2fe;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.3), 0 4px 14px rgba(2, 132, 199, 0.15);
     }
 
-    .role-tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      background: rgba(15, 23, 42, 0.75);
-      padding: 5px;
-      border-radius: 14px;
-      border: 1px solid rgba(56, 189, 248, 0.18);
-      backdrop-filter: blur(12px);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+    [data-theme="day"] .demo-card-btn.active.demo-btn-officer {
+      background: #fef3c7;
+      border-color: #d97706;
+      box-shadow: 0 0 0 2px rgba(217, 119, 6, 0.3), 0 4px 14px rgba(217, 119, 6, 0.15);
     }
 
-    [data-theme="day"] .role-tabs {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
-
-    .role-tab-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      padding: 10px 6px;
-      border: 1px solid transparent;
-      border-radius: 10px;
-      background: transparent;
-      color: #94a3b8;
-      font-size: 11.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .role-tab-btn i {
-      font-size: 15px;
-      transition: transform 0.2s ease;
-    }
-
-    .role-tab-btn:hover {
-      color: #f8fafc;
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    [data-theme="day"] .role-tab-btn:hover {
-      color: #0f172a;
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-    .role-tab-btn.active {
-      background: linear-gradient(135deg, rgba(14, 165, 233, 0.22), rgba(59, 130, 246, 0.28));
-      border: 1px solid rgba(56, 189, 248, 0.6);
-      color: #38bdf8;
-      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
-    }
-
-    [data-theme="day"] .role-tab-btn.active {
-      background: #ffffff;
-      border: 1px solid #0284c7;
-      color: #0284c7;
-      box-shadow: 0 3px 10px rgba(2, 132, 199, 0.15);
-    }
-
-    .role-tab-btn.active i {
-      transform: scale(1.18);
+    [data-theme="day"] .demo-card-btn.active.demo-btn-responder {
+      background: #dcfce7;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.3), 0 4px 14px rgba(22, 163, 74, 0.15);
     }
 
     /* 1-Click Instant Demo Access Box */
@@ -966,39 +913,17 @@
           </p>
         </div>
 
-        <!-- Stakeholder Role Selector -->
-        <div class="role-selector-wrap">
-          <div class="role-selector-header">
-            <label class="field-label" style="margin-bottom: 0;">Select Stakeholder Portal</label>
-            <span class="role-selector-hint">Instant Context Switch</span>
-          </div>
-          <div class="role-tabs" role="tablist" aria-label="Stakeholder Portal Selection">
-            <button type="button" class="role-tab-btn active" id="tabRoleCitizen" data-role="citizen" role="tab" aria-selected="true">
-              <i class="fa-solid fa-user-shield"></i>
-              <span>Citizen</span>
-            </button>
-            <button type="button" class="role-tab-btn" id="tabRoleOfficer" data-role="officer" role="tab" aria-selected="false">
-              <i class="fa-solid fa-building-shield"></i>
-              <span>EOC Officer</span>
-            </button>
-            <button type="button" class="role-tab-btn" id="tabRoleResponder" data-role="responder" role="tab" aria-selected="false">
-              <i class="fa-solid fa-truck-medical"></i>
-              <span>Field Unit</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- 1-Click Instant Demo Testing Box -->
+        <!-- Unified Stakeholder Portal Selection & 1-Click Access -->
         <div class="demo-access-box">
           <div class="demo-access-title">
             <div class="demo-badge-wrap">
               <span class="demo-beacon-dot"></span>
-              <span>1-Click Live Stakeholder Demo</span>
+              <span>Select Stakeholder Portal</span>
             </div>
-            <span class="demo-eval-pill">EVALUATION</span>
+            <span class="demo-eval-pill">1-CLICK DEMO</span>
           </div>
           <div class="demo-btn-grid">
-            <button type="button" class="demo-card-btn demo-btn-citizen" id="demoCitizenBtn" title="Launch Citizen Operations Console">
+            <button type="button" class="demo-card-btn demo-btn-citizen active" id="demoCitizenBtn" data-role="citizen" title="Launch Citizen Operations Console">
               <div class="demo-icon-pill citizen">
                 <i class="fa-solid fa-user-shield"></i>
               </div>
@@ -1006,7 +931,7 @@
               <span class="demo-card-desc">Public Lifeline</span>
             </button>
 
-            <button type="button" class="demo-card-btn demo-btn-officer" id="demoOfficerBtn" title="Launch EOC Command Center">
+            <button type="button" class="demo-card-btn demo-btn-officer" id="demoOfficerBtn" data-role="officer" title="Launch EOC Command Center">
               <div class="demo-icon-pill officer">
                 <i class="fa-solid fa-building-shield"></i>
               </div>
@@ -1014,7 +939,7 @@
               <span class="demo-card-desc">EOC Command</span>
             </button>
 
-            <button type="button" class="demo-card-btn demo-btn-responder" id="demoResponderBtn" title="Launch Field Mission Console">
+            <button type="button" class="demo-card-btn demo-btn-responder" id="demoResponderBtn" data-role="responder" title="Launch Field Mission Console">
               <div class="demo-icon-pill responder">
                 <i class="fa-solid fa-truck-medical"></i>
               </div>
