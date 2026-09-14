@@ -1,4 +1,4 @@
-const CACHE_NAME = "chronicai-offline-v8";
+const CACHE_NAME = "chronicai-offline-v9";
 const OFFLINE_URLS = [
   "/",
   "/html/index.html",

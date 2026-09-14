@@ -3943,9 +3943,18 @@ function getRoleDestination(role, requestedTarget) {
         !requestedTarget.includes("://") &&
         !requestedTarget.startsWith("/") &&
         requestedTarget !== "index.html" &&
-        requestedTarget !== "login.html"
+        requestedTarget !== "login.html" &&
+        requestedTarget !== "register.html"
     ) {
-        return requestedTarget;
+        if (role === "citizen" && !requestedTarget.includes("admin") && !requestedTarget.includes("responder")) {
+            return requestedTarget;
+        }
+        if (role === "responder" && requestedTarget.includes("responder")) {
+            return requestedTarget;
+        }
+        if ((role === "admin" || role === "officer") && requestedTarget.includes("admin")) {
+            return requestedTarget;
+        }
     }
 
     if (role === "admin" || role === "officer") {
@@ -3974,6 +3983,7 @@ function setupStakeholderSelector() {
     const selectedRoleInput = document.getElementById("selectedRole");
     const emailLabel = document.getElementById("emailLabel");
     const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
     const loginButton = document.getElementById("loginButton");
     const loginMessage = document.getElementById("loginMessage");
 
@@ -3983,17 +3993,29 @@ function setupStakeholderSelector() {
         demoOfficerBtn?.classList.toggle("active", role === "officer");
         demoResponderBtn?.classList.toggle("active", role === "responder");
 
-        if (role === "officer") {
+        if (role === "officer" || role === "admin") {
             if (emailLabel) emailLabel.textContent = "Government EOC Officer Email";
-            if (emailInput) emailInput.placeholder = "officer@chronic.gov";
+            if (emailInput) {
+                emailInput.placeholder = "officer@chronic.gov";
+                emailInput.value = "officer@chronic.gov";
+            }
+            if (passwordInput) passwordInput.value = "LocalDemo123!";
             if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to EOC Command';
         } else if (role === "responder") {
             if (emailLabel) emailLabel.textContent = "Field Responder Callsign / Email";
-            if (emailInput) emailInput.placeholder = "responder@chronic.gov";
+            if (emailInput) {
+                emailInput.placeholder = "responder@chronic.gov";
+                emailInput.value = "responder@chronic.gov";
+            }
+            if (passwordInput) passwordInput.value = "LocalDemo123!";
             if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In to Mission Console';
         } else {
             if (emailLabel) emailLabel.textContent = "Citizen Email Address";
-            if (emailInput) emailInput.placeholder = "citizen@chronic.gov";
+            if (emailInput) {
+                emailInput.placeholder = "citizen@chronic.gov";
+                emailInput.value = "citizen@chronic.gov";
+            }
+            if (passwordInput) passwordInput.value = "LocalDemo123!";
             if (loginButton) loginButton.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Sign In as Citizen';
         }
     }
@@ -4008,6 +4030,7 @@ function setupStakeholderSelector() {
             loggedIn: true
         });
         localStorage.setItem(SESSION_KEYS.role, "citizen");
+        localStorage.setItem(SESSION_KEYS.loggedIn, "true");
         sessionStorage.removeItem("governmentSession");
         sessionStorage.removeItem("sihDemoSession");
         if (loginMessage) {
@@ -4016,7 +4039,7 @@ function setupStakeholderSelector() {
         }
         await captureInitialLocation();
         const target = getRoleDestination("citizen", new URLSearchParams(window.location.search).get("redirect"));
-        setTimeout(() => { window.location.href = target; }, 350);
+        setTimeout(() => { window.location.href = target; }, 300);
     });
 
     demoOfficerBtn?.addEventListener("click", async () => {
@@ -4029,6 +4052,7 @@ function setupStakeholderSelector() {
             loggedIn: true
         });
         localStorage.setItem(SESSION_KEYS.role, "admin");
+        localStorage.setItem(SESSION_KEYS.loggedIn, "true");
         sessionStorage.setItem("governmentSession", "active");
         sessionStorage.setItem("sihDemoSession", "active");
         if (loginMessage) {
@@ -4037,7 +4061,7 @@ function setupStakeholderSelector() {
         }
         await captureInitialLocation();
         const target = getRoleDestination("admin", new URLSearchParams(window.location.search).get("redirect"));
-        setTimeout(() => { window.location.href = target; }, 350);
+        setTimeout(() => { window.location.href = target; }, 300);
     });
 
     demoResponderBtn?.addEventListener("click", async () => {
@@ -4051,6 +4075,7 @@ function setupStakeholderSelector() {
             loggedIn: true
         });
         localStorage.setItem(SESSION_KEYS.role, "responder");
+        localStorage.setItem(SESSION_KEYS.loggedIn, "true");
         sessionStorage.removeItem("governmentSession");
         sessionStorage.removeItem("sihDemoSession");
         if (loginMessage) {
@@ -4059,7 +4084,7 @@ function setupStakeholderSelector() {
         }
         await captureInitialLocation();
         const target = getRoleDestination("responder", new URLSearchParams(window.location.search).get("redirect"));
-        setTimeout(() => { window.location.href = target; }, 350);
+        setTimeout(() => { window.location.href = target; }, 300);
     });
 }
 
@@ -4109,12 +4134,24 @@ function setupLoginForm() {
             '<i class="fa-solid fa-spinner fa-spin"></i> Signing in...';
         loginMessage.textContent = "";
 
-        // Determine user role
-        let role = chosenRole;
-        if (email.toLowerCase().includes("officer") || email.toLowerCase().includes("admin")) {
+        const normEmail = (email || "").trim().toLowerCase();
+        const normPassword = (password || "").trim();
+        const lowerPassword = normPassword.toLowerCase();
+
+        // Accurately determine user role
+        let role = "citizen";
+        if (normEmail.includes("officer") || normEmail.includes("admin") || normEmail === "admin@chronic") {
             role = "admin";
-        } else if (email.toLowerCase().includes("responder") || email.toLowerCase().includes("rescue") || email.toLowerCase().includes("unit")) {
+        } else if (normEmail.includes("responder") || normEmail.includes("rescue") || normEmail.includes("unit") || normEmail.includes("field")) {
             role = "responder";
+        } else if (normEmail.includes("citizen")) {
+            role = "citizen";
+        } else if (chosenRole === "admin" || chosenRole === "officer") {
+            role = "admin";
+        } else if (chosenRole === "responder") {
+            role = "responder";
+        } else {
+            role = "citizen";
         }
 
         const validDemoEmails = [
@@ -4122,31 +4159,54 @@ function setupLoginForm() {
             "citizen@chronic.gov",
             "officer@chronic.gov",
             "responder@chronic.gov",
-            "admin@chronic.gov"
+            "admin@chronic.gov",
+            "admin@chronic"
         ];
         const validDemoPasswords = [
-            "LocalDemo123!",
-            "ChronicAI@2026",
-            "Demo123!",
-            "chronic"
+            "localdemo123!",
+            "localdemo123",
+            "chronicai@2026",
+            "demo123!",
+            "demo123",
+            "chronic",
+            "password"
         ];
 
+        const isStakeholderEmail =
+            validDemoEmails.includes(normEmail) ||
+            normEmail.endsWith("@chronic.gov") ||
+            normEmail.endsWith("@chronic") ||
+            normEmail === LOCAL_DEMO_CREDENTIALS.email.toLowerCase();
+
+        const isAcceptedDemoPassword =
+            validDemoPasswords.includes(lowerPassword) ||
+            normPassword === LOCAL_DEMO_CREDENTIALS.password ||
+            normPassword.length >= 4;
+
+        // Allow any accepted password or length >= 4 for stakeholder evaluations
         const isDemoMatch =
-            (IS_LOCAL_DEV_HOST && validDemoPasswords.includes(password)) ||
-            (validDemoEmails.includes(email.toLowerCase()) && validDemoPasswords.includes(password)) ||
-            (email.toLowerCase() === LOCAL_DEMO_CREDENTIALS.email && password === LOCAL_DEMO_CREDENTIALS.password);
+            (isStakeholderEmail && isAcceptedDemoPassword) ||
+            (IS_LOCAL_DEV_HOST && normPassword.length >= 4);
 
         if (isDemoMatch) {
 
+            const userName =
+                role === "admin"
+                    ? "Chief D. Banerjee (EOC Director)"
+                    : role === "responder"
+                    ? "NDRF Unit 04 — Cmdr. A. Sen"
+                    : "Ravi Kumar (Citizen)";
+
             saveLocalUser({
                 uid: `demo-${role}-user`,
-                name: role === "admin" ? "Chief D. Banerjee (EOC Director)" : role === "responder" ? "NDRF Unit 04 — Cmdr. A. Sen" : "Ravi Kumar (Citizen)",
-                email: email,
+                name: userName,
+                email: normEmail,
                 role: role,
                 unitId: role === "responder" ? "RES-BOAT-04" : undefined,
                 loggedIn: true
             });
             localStorage.setItem(SESSION_KEYS.role, role);
+            localStorage.setItem(SESSION_KEYS.loggedIn, "true");
 
             if (role === "admin") {
                 sessionStorage.setItem("governmentSession", "active");
@@ -4170,7 +4230,7 @@ function setupLoginForm() {
 
             setTimeout(() => {
                 window.location.href = redirectTarget;
-            }, 300);
+            }, 250);
             return;
         }
 

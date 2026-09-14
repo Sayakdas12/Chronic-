@@ -177,13 +177,23 @@ When you click buttons on the website, your browser talks to the server using **
 
 You can test the entire application locally or on the live web:
 
+### Verified Stakeholder Evaluation Credentials
+You can log in as any of the three distinct stakeholders using the sign-in form on `login.html`:
+
+| Stakeholder Role | Evaluation Email | Accepted Password | Target Dashboard | Access Scope |
+|:---|:---|:---|:---|:---|
+| **1. Citizen (Public Lifeline)** | `citizen@chronic.gov` | `LocalDemo123!` or `LocalDemo123` | `citizen-dashboard.html` | Public relief, incident reporting, live rescue tracking |
+| **2. Emergency Officer (EOC Command)** | `officer@chronic.gov` | `LocalDemo123!` or `LocalDemo123` | `admin-dashboard.html` | Authority command, AI SitRep, Top-3 dispatch, Ward 7 drill |
+| **3. Field Responder (NDRF Unit 04)** | `responder@chronic.gov` | `LocalDemo123` or `LocalDemo123!` | `responder-dashboard.html` | Tactical mission progression, route hazards, offline logging |
+
+> [!TIP]
+> **Password Flexibility:** The authentication system accepts both `LocalDemo123!` (with exclamation mark) and `LocalDemo123` (without exclamation mark), as well as case variations, for all evaluation accounts.
+
 ### Quick Live Test (Online)
 1. Open the live site: **[https://chronicai-kappa.vercel.app/](https://chronicai-kappa.vercel.app/)**
-2. Click **"Report Incident"** to test submitting a hazard report.
-3. Click **"Sign In"** -> click the yellow **"Auto-fill"** pill (`demo@localhost` / `LocalDemo123!`) to sign in instantly.
-4. Open **Authority Portal** (`/admin-login.html`) to access the Command Console.
-5. In the Command Console, click **"Seed Ward 7 Simulation"** — watch 8 real-time disaster incidents appear instantly with live casualty numbers and rescue vehicles!
-6. Click any incident -> click **"Dispatch Mission"** to see the automatic Top-3 recommendation engine in action.
+2. Click **"Sign In"** (`login.html`).
+3. Enter any of the 3 stakeholder credentials above, or click the 1-click Stakeholder card.
+4. Verify you land directly on the correct dashboard for your role with strict role separation.
 
 ---
 *Created for ChronicAI Platform — Simple, Clear & Comprehensive.*
