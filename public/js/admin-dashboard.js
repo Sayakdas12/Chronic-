@@ -701,7 +701,21 @@ async function initialize() {
 
 onAuthStateChanged(auth, async (user) => {
     currentUser = user;
-    if (!user && !localAdminMode && !sihDemoMode) {
+    const currentRole = (localStorage.getItem("chronicAIRole") || "").toLowerCase().trim();
+    const hasGovSession = sessionStorage.getItem("governmentSession") === "active";
+
+    // Strict role check: if signed in with a non-admin role, block immediately
+    if (currentRole === "citizen") {
+        alert("Access Denied: Citizen accounts cannot access the Government Operations Command Center.");
+        window.location.replace("citizen-dashboard.html");
+        return;
+    } else if (currentRole === "responder" || currentRole === "field_worker") {
+        alert("Access Denied: Field Response units cannot access the EOC Command Center.");
+        window.location.replace("responder-dashboard.html");
+        return;
+    }
+
+    if (!user && !localAdminMode && !sihDemoMode && !hasGovSession) {
         window.location.replace("admin-login.html");
         return;
     }
@@ -709,7 +723,7 @@ onAuthStateChanged(auth, async (user) => {
         await api("/api/admin/session");
         await initialize();
     } catch {
-        if (!localAdminMode && !sihDemoMode) {
+        if (!localAdminMode && !sihDemoMode && !hasGovSession) {
             await signOut(auth);
             sessionStorage.removeItem("governmentSession");
             window.location.replace("admin-login.html");
@@ -720,9 +734,16 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 $("logoutButton")?.addEventListener("click", async () => {
-    await signOut(auth);
+    await signOut(auth).catch(() => {});
     sessionStorage.removeItem("governmentSession");
-    window.location.replace("admin-login.html");
+    sessionStorage.removeItem("sihDemoSession");
+    localStorage.removeItem("chronicAILoggedIn");
+    localStorage.removeItem("chronicAIUser");
+    localStorage.removeItem("chronicAIUserId");
+    localStorage.removeItem("chronicAIUserEmail");
+    localStorage.removeItem("chronicAIUserName");
+    localStorage.removeItem("chronicAIRole");
+    window.location.replace("login.html");
 });
 
 $("refreshButton")?.addEventListener("click", () => {

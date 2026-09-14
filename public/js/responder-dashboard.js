@@ -4,8 +4,19 @@
 
 (function initializeResponderConsole() {
   const loggedIn = localStorage.getItem("chronicAILoggedIn") === "true";
+  const role = (localStorage.getItem("chronicAIRole") || "").toLowerCase().trim();
   if (!loggedIn) {
     window.location.replace("login.html?redirect=responder-dashboard.html");
+    return;
+  }
+
+  if (role !== "responder" && role !== "field_worker") {
+    alert("Access Denied: Only Field Response Units can access the Tactical Mission Console.");
+    if (role === "admin" || role === "officer") {
+      window.location.replace("admin-dashboard.html");
+    } else {
+      window.location.replace("citizen-dashboard.html");
+    }
     return;
   }
 
@@ -45,6 +56,8 @@
     localStorage.removeItem("chronicAIUserEmail");
     localStorage.removeItem("chronicAIUserName");
     localStorage.removeItem("chronicAIRole");
+    sessionStorage.removeItem("governmentSession");
+    sessionStorage.removeItem("sihDemoSession");
     window.location.replace("login.html");
   });
 

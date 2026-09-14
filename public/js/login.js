@@ -4008,6 +4008,8 @@ function setupStakeholderSelector() {
             loggedIn: true
         });
         localStorage.setItem(SESSION_KEYS.role, "citizen");
+        sessionStorage.removeItem("governmentSession");
+        sessionStorage.removeItem("sihDemoSession");
         if (loginMessage) {
             loginMessage.textContent = "Launching Citizen Operations Portal...";
             loginMessage.style.color = "#38bdf8";
@@ -4049,6 +4051,8 @@ function setupStakeholderSelector() {
             loggedIn: true
         });
         localStorage.setItem(SESSION_KEYS.role, "responder");
+        sessionStorage.removeItem("governmentSession");
+        sessionStorage.removeItem("sihDemoSession");
         if (loginMessage) {
             loginMessage.textContent = "Launching Field Responder Mission Console...";
             loginMessage.style.color = "#22c55e";
@@ -4147,6 +4151,9 @@ function setupLoginForm() {
             if (role === "admin") {
                 sessionStorage.setItem("governmentSession", "active");
                 sessionStorage.setItem("sihDemoSession", "active");
+            } else {
+                sessionStorage.removeItem("governmentSession");
+                sessionStorage.removeItem("sihDemoSession");
             }
 
             loginMessage.textContent =
@@ -4189,6 +4196,10 @@ function setupLoginForm() {
 
             if (role === "admin") {
                 sessionStorage.setItem("governmentSession", "active");
+                sessionStorage.setItem("sihDemoSession", "active");
+            } else {
+                sessionStorage.removeItem("governmentSession");
+                sessionStorage.removeItem("sihDemoSession");
             }
 
             loginMessage.textContent =

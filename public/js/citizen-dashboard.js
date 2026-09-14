@@ -4,8 +4,19 @@
 
 (function initializeCitizenDashboard() {
   const loggedIn = localStorage.getItem("chronicAILoggedIn") === "true";
+  const role = (localStorage.getItem("chronicAIRole") || "").toLowerCase().trim();
   if (!loggedIn) {
     window.location.replace("login.html?redirect=citizen-dashboard.html");
+    return;
+  }
+
+  if (role !== "citizen" && role !== "") {
+    alert("Access Denied: Please use your designated stakeholder operations portal.");
+    if (role === "admin" || role === "officer") {
+      window.location.replace("admin-dashboard.html");
+    } else if (role === "responder" || role === "field_worker") {
+      window.location.replace("responder-dashboard.html");
+    }
     return;
   }
 
@@ -26,6 +37,8 @@
     localStorage.removeItem("chronicAIUserEmail");
     localStorage.removeItem("chronicAIUserName");
     localStorage.removeItem("chronicAIRole");
+    sessionStorage.removeItem("governmentSession");
+    sessionStorage.removeItem("sihDemoSession");
     window.location.replace("login.html");
   });
 
