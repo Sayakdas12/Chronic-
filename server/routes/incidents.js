@@ -23,11 +23,19 @@ import {
 import { validateAiAnalysis, generateHeuristicFallbackAnalysis } from "../services/ai-validation.js";
 import { calculatePriorityScore } from "../services/priority-engine.js";
 import { findDuplicateCandidates } from "../services/duplicate-detector.js";
+import { requireRole, requireAuth } from "../middleware/auth-middleware.js";
 
 export const incidentRouter = express.Router();
 
 // Middleware helper to extract authenticated actor or local admin
 function getActor(req) {
+    if (req.user) {
+        return {
+            id: req.user.uid || "user",
+            role: req.user.role || "citizen",
+            name: req.user.name || req.user.email || "Authenticated User"
+        };
+    }
     if (req.governmentUser) {
         return {
             id: req.governmentUser.uid || "officer",
@@ -180,7 +188,7 @@ incidentRouter.post("/", checkIdempotency, async (req, res) => {
 // 4. OFFICER VERIFICATION FLOW
 // POST /api/incidents/:id/verify
 // ============================================================
-incidentRouter.post("/:id/verify", checkIdempotency, async (req, res) => {
+incidentRouter.post("/:id/verify", requireRole(["admin", "government_officer"]), checkIdempotency, async (req, res) => {
     try {
         const actor = getActor(req);
         const incident = await getIncidentById(req.params.id);
@@ -274,7 +282,7 @@ incidentRouter.post("/:id/verify", checkIdempotency, async (req, res) => {
 // 5. OFFICER REJECTION FLOW
 // POST /api/incidents/:id/reject
 // ============================================================
-incidentRouter.post("/:id/reject", checkIdempotency, async (req, res) => {
+incidentRouter.post("/:id/reject", requireRole(["admin", "government_officer"]), checkIdempotency, async (req, res) => {
     try {
         const actor = getActor(req);
         const incident = await getIncidentById(req.params.id);
@@ -352,7 +360,7 @@ incidentRouter.get("/:id/duplicate-candidates", async (req, res) => {
 // 7. NON-DESTRUCTIVE MERGE INCIDENTS
 // POST /api/incidents/:id/merge
 // ============================================================
-incidentRouter.post("/:id/merge", checkIdempotency, async (req, res) => {
+incidentRouter.post("/:id/merge", requireRole(["admin", "government_officer"]), checkIdempotency, async (req, res) => {
     try {
         const actor = getActor(req);
         const primaryIncidentId = req.params.id;

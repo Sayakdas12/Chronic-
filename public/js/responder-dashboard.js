@@ -56,8 +56,10 @@
     localStorage.removeItem("chronicAIUserEmail");
     localStorage.removeItem("chronicAIUserName");
     localStorage.removeItem("chronicAIRole");
+    localStorage.removeItem("chronicAIToken");
     sessionStorage.removeItem("governmentSession");
     sessionStorage.removeItem("sihDemoSession");
+    sessionStorage.removeItem("chronicAIToken");
     window.location.replace("login.html");
   });
 
@@ -87,9 +89,13 @@
 
       // Try server PATCH
       try {
+        const token = localStorage.getItem("chronicAIToken") || sessionStorage.getItem("chronicAIToken") || "";
+        const headers = { "Content-Type": "application/json" };
+        if (token) headers["Authorization"] = `Bearer ${token}`;
+
         const response = await fetch(`/api/missions/${activeMissionId}/status`, {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers,
           body: JSON.stringify({ status: targetStatus, notes: "Field progression reported via Mobile Console" })
         });
 

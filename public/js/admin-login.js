@@ -114,6 +114,21 @@ form.addEventListener("submit", async (event) => {
                 loggedIn: true
             }));
 
+            try {
+                const tokenRes = await fetch("/api/auth/session", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: inputEmail, role: "admin" })
+                });
+                const tokenData = await tokenRes.json();
+                if (tokenData.token) {
+                    localStorage.setItem("chronicAIToken", tokenData.token);
+                    sessionStorage.setItem("chronicAIToken", tokenData.token);
+                }
+            } catch (tokenErr) {
+                console.warn("Failed to acquire admin token:", tokenErr.message);
+            }
+
             if (localAdminMode) {
                 try {
                     await verifyGovernmentSession(null);

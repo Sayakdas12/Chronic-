@@ -43,11 +43,18 @@ function showToast(message, type = "info") {
 }
 
 async function api(path, options = {}) {
-    const headers = sihDemoMode
-        ? { Accept: "application/json", "X-SIH-Demo": "true", ...options.headers }
-        : localAdminMode
-            ? { Accept: "application/json", "X-Local-Admin": "true", ...options.headers }
-            : { Accept: "application/json", ...options.headers, Authorization: `Bearer ${await currentUser?.getIdToken?.() || ""}` };
+    const token = localStorage.getItem("chronicAIToken") || sessionStorage.getItem("chronicAIToken") || "";
+    const headers = { Accept: "application/json", ...options.headers };
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+    }
+    if (sihDemoMode) {
+        headers["X-SIH-Demo"] = "true";
+    } else if (localAdminMode) {
+        headers["X-Local-Admin"] = "true";
+    } else if (!token && currentUser?.getIdToken) {
+        headers["Authorization"] = `Bearer ${await currentUser.getIdToken()}`;
+    }
     const response = await fetch(path, { ...options, headers });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || data.message || `Request failed: ${response.status}`);

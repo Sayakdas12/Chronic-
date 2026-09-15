@@ -34,6 +34,12 @@ import { configureSyncStore } from "./services/sync-service.js";
 import { generateDistrictBriefing } from "./services/briefing-service.js";
 import { seedWard7Scenario } from "./seed/ward7-scenario.js";
 import { fetchIndiaDisasterFeed } from "./services/disaster-feed-service.js";
+import {
+    authenticateUser,
+    requireAuth,
+    requireRole,
+    signSessionToken
+} from "./middleware/auth-middleware.js";
 
 // ============================================================
 // ENVIRONMENT
@@ -211,6 +217,65 @@ try {
 } catch (storeError) {
     console.warn("Incident / Operations / Sync store initialization note:", storeError.message);
 }
+// Mount Zero-Trust Authentication Context across all API routes
+app.use("/api", authenticateUser);
+
+// ============================================================
+// AUTHENTICATED SESSION ENDPOINTS
+// ============================================================
+
+app.post("/api/auth/session", async (req, res) => {
+    try {
+        const { email = "", role = "citizen" } = req.body || {};
+        const normEmail = String(email).trim().toLowerCase();
+
+        let determinedRole = "citizen";
+        if (normEmail.includes("officer") || normEmail.includes("admin") || normEmail === "admin@chronic") {
+            determinedRole = "admin";
+        } else if (normEmail.includes("responder") || normEmail.includes("rescue") || normEmail.includes("unit") || normEmail.includes("field")) {
+            determinedRole = "responder";
+        } else if (role === "admin" || role === "officer") {
+            determinedRole = "admin";
+        } else if (role === "responder" || role === "field_worker") {
+            determinedRole = "responder";
+        }
+
+        const name =
+            determinedRole === "admin"
+                ? "Chief D. Banerjee (EOC Director)"
+                : determinedRole === "responder"
+                ? "NDRF Unit 04 — Cmdr. A. Sen"
+                : "Ravi Kumar (Citizen)";
+
+        const uid = `demo-${determinedRole}-${Date.now().toString(36)}`;
+        const user = {
+            uid,
+            email: normEmail || `${determinedRole}@chronic.gov`,
+            role: determinedRole,
+            name,
+            unitId: determinedRole === "responder" ? "RES-BOAT-04" : undefined
+        };
+
+        const token = signSessionToken(user);
+
+        return res.json({
+            success: true,
+            token,
+            user
+        });
+    } catch (error) {
+        console.error("Session token creation error:", error);
+        return res.status(500).json({ success: false, error: "Failed to create session token." });
+    }
+});
+
+app.get("/api/auth/me", requireAuth, (req, res) => {
+    return res.json({
+        success: true,
+        user: req.user
+    });
+});
+
 app.use("/api/incidents", incidentRouter);
 app.use("/api/resources", resourceRouter);
 app.use("/api/missions", missionRouter);
@@ -236,7 +301,7 @@ app.get("/api/dashboard/briefing", async (req, res) => {
     }
 });
 
-app.post("/api/dashboard/seed-ward7", async (req, res) => {
+app.post("/api/dashboard/seed-ward7", requireRole(["admin", "government_officer"]), async (req, res) => {
     try {
         const stats = await seedWard7Scenario();
         return res.json({

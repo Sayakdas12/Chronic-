@@ -55,7 +55,7 @@ test("District SitRep Briefing Service: Generates live operational briefing from
 test("API: POST /api/dashboard/seed-ward7 triggers scenario seeding", async () => {
     const res = await fetch(`${baseUrl}/api/dashboard/seed-ward7`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" }
+        headers: { "Content-Type": "application/json", "X-Local-Admin": "true" }
     });
 
     assert.equal(res.status, 200);

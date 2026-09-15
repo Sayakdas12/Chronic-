@@ -159,7 +159,10 @@ const SESSION_KEYS = {
         "chronicAICurrentAnalysis",
 
     theme:
-        "chronicAITheme"
+        "chronicAITheme",
+
+    token:
+        "chronicAIToken"
 
 };
 
@@ -4020,8 +4023,28 @@ function setupStakeholderSelector() {
         }
     }
 
+    async function acquireServerSession(email, role) {
+        try {
+            const response = await fetch("/api/auth/session", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, role })
+            });
+            const data = await response.json();
+            if (data.token) {
+                localStorage.setItem(SESSION_KEYS.token, data.token);
+                sessionStorage.setItem(SESSION_KEYS.token, data.token);
+                return data.token;
+            }
+        } catch (err) {
+            console.warn("Could not acquire server session token:", err.message);
+        }
+        return null;
+    }
+
     demoCitizenBtn?.addEventListener("click", async () => {
         setRole("citizen");
+        await acquireServerSession("citizen@chronic.gov", "citizen");
         saveLocalUser({
             uid: "demo-citizen-101",
             name: "Ravi Kumar (Citizen)",
@@ -4044,6 +4067,7 @@ function setupStakeholderSelector() {
 
     demoOfficerBtn?.addEventListener("click", async () => {
         setRole("officer");
+        await acquireServerSession("officer@chronic.gov", "admin");
         saveLocalUser({
             uid: "demo-officer-eoc",
             name: "Chief D. Banerjee (EOC Director)",
@@ -4066,6 +4090,7 @@ function setupStakeholderSelector() {
 
     demoResponderBtn?.addEventListener("click", async () => {
         setRole("responder");
+        await acquireServerSession("responder@chronic.gov", "responder");
         saveLocalUser({
             uid: "demo-responder-boat4",
             name: "NDRF Unit 04 — Cmdr. A. Sen",
@@ -4215,6 +4240,8 @@ function setupLoginForm() {
                 sessionStorage.removeItem("governmentSession");
                 sessionStorage.removeItem("sihDemoSession");
             }
+
+            await acquireServerSession(normEmail, role);
 
             loginMessage.textContent =
                 "Sign in successful. Opening your dashboard...";

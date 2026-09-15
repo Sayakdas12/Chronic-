@@ -10,10 +10,18 @@ import {
     createMission,
     updateMissionStatus
 } from "../services/mission-service.js";
+import { requireRole, requireAuth } from "../middleware/auth-middleware.js";
 
 export const missionRouter = express.Router();
 
 function getActor(req) {
+    if (req.user) {
+        return {
+            id: req.user.uid || "user",
+            role: req.user.role || "field_worker",
+            name: req.user.name || req.user.email || "Authenticated User"
+        };
+    }
     if (req.governmentUser) {
         return {
             id: req.governmentUser.uid || "officer",
@@ -83,7 +91,7 @@ missionRouter.get("/:id", async (req, res) => {
 });
 
 // POST /api/missions (Dispatch resource to incident)
-missionRouter.post("/", checkMissionIdempotency, async (req, res) => {
+missionRouter.post("/", requireRole(["admin", "government_officer"]), checkMissionIdempotency, async (req, res) => {
     try {
         const actor = getActor(req);
         const {
@@ -119,7 +127,7 @@ missionRouter.post("/", checkMissionIdempotency, async (req, res) => {
 });
 
 // PATCH /api/missions/:id/status (Progress mission: EN_ROUTE, ARRIVED, IN_PROGRESS, COMPLETED, BLOCKED)
-missionRouter.patch("/:id/status", checkMissionIdempotency, async (req, res) => {
+missionRouter.patch("/:id/status", requireRole(["responder", "field_worker", "admin", "government_officer"]), checkMissionIdempotency, async (req, res) => {
     try {
         const actor = getActor(req);
         const { status, notes = "" } = req.body;

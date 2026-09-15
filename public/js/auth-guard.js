@@ -71,6 +71,44 @@
             window.location.replace(roleHomes[role] || "index.html");
             return;
         }
+
+        // 3. Asynchronous Zero-Trust Server Handshake for Protected Operational Consoles
+        if (isAdminDashboard || isResponderDashboard) {
+            const token = localStorage.getItem("chronicAIToken") || sessionStorage.getItem("chronicAIToken");
+            const headers = { Accept: "application/json" };
+            if (token) {
+                headers["Authorization"] = `Bearer ${token}`;
+            }
+            if (sessionStorage.getItem("sihDemoSession") === "active") {
+                headers["X-SIH-Demo"] = "true";
+            } else if (sessionStorage.getItem("governmentSession") === "active" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+                headers["X-Local-Admin"] = "true";
+            }
+
+            fetch("/api/auth/me", { headers })
+                .then(res => {
+                    if (!res.ok) throw new Error(`Server returned ${res.status}`);
+                    return res.json();
+                })
+                .then(data => {
+                    const verifiedRole = (data?.user?.role || "").toLowerCase();
+                    const expectedRole = isAdminDashboard ? "admin" : "responder";
+                    if (verifiedRole !== expectedRole) {
+                        throw new Error(`Role mismatch: server verified '${verifiedRole}', but page requires '${expectedRole}'`);
+                    }
+                })
+                .catch(err => {
+                    console.warn("[ChronicAI Auth Guard] Cryptographic server handshake failed:", err.message);
+                    localStorage.removeItem("chronicAILoggedIn");
+                    localStorage.removeItem("chronicAIRole");
+                    localStorage.removeItem("chronicAIToken");
+                    sessionStorage.removeItem("governmentSession");
+                    sessionStorage.removeItem("sihDemoSession");
+                    sessionStorage.removeItem("chronicAIToken");
+                    alert("Session Verification Failed: Your credentials could not be verified by the ChronicAI server.");
+                    window.location.replace("login.html");
+                });
+        }
     }
 
     document.documentElement.classList.toggle("authenticated", loggedIn);
