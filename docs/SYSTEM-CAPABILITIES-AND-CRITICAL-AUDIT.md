@@ -151,19 +151,16 @@ While ChronicAI provides rich emergency response workflows and comprehensive tes
 
 ---
 
-### 🔴 Critical Problem 1: Client-Side Authorization "Security Theater"
-* **Severity**: **CRITICAL (P0)**
-* **Affected Files**: [`public/js/auth-guard.js`](file:///d:/My%20Project/Chronic-/public/js/auth-guard.js), [`public/js/login.js`](file:///d:/My%20Project/Chronic-/public/js/login.js), [`server/routes/incidents.js`](file:///d:/My%20Project/Chronic-/server/routes/incidents.js), [`server/routes/missions.js`](file:///d:/My%20Project/Chronic-/server/routes/missions.js)
-* **Technical Defect**:
-  - Role-Based Access Control (RBAC) is enforced almost exclusively inside the browser via `localStorage.getItem("chronicAIRole")` and `sessionStorage.getItem("governmentSession")`.
-  - Any user can open DevTools, type:
-    ```javascript
-    localStorage.setItem("chronicAIRole", "admin");
-    sessionStorage.setItem("governmentSession", "active");
-    localStorage.setItem("chronicAILoggedIn", "true");
-    ```
-    and immediately access the EOC Command Center (`admin-dashboard.html`).
-  - More dangerously, the backend Express REST routes (`/api/incidents/:id/verify`, `/api/missions`, `/api/dashboard/seed-ward7`) **do not validate an authenticated JWT Bearer token or cryptographically signed session cookie on every mutation**. An unauthenticated attacker can trigger dispatch operations or alter disaster severity levels simply by issuing HTTP `POST` requests via `curl` or Postman.
+### ✅ Critical Problem 1: Client-Side Authorization "Security Theater" [RESOLVED]
+* **Severity**: **CRITICAL (P0)** — **STATUS: RESOLVED (Commit `9becb11`)**
+* **Affected Files**: [`server/middleware/auth-middleware.js`](file:///d:/My%20Project/Chronic-/server/middleware/auth-middleware.js), [`public/js/auth-guard.js`](file:///d:/My%20Project/Chronic-/public/js/auth-guard.js), [`public/js/login.js`](file:///d:/My%20Project/Chronic-/public/js/login.js), [`server/routes/incidents.js`](file:///d:/My%20Project/Chronic-/server/routes/incidents.js), [`server/routes/missions.js`](file:///d:/My%20Project/Chronic-/server/routes/missions.js), [`server/firebase.js`](file:///d:/My%20Project/Chronic-/server/firebase.js)
+* **Technical Resolution Implemented**:
+  - Implemented server-side cryptographic HMAC-SHA256 session token generation and verification (`signSessionToken`, `verifySessionToken`).
+  - Added centralized Express authentication middleware (`authenticateUser`) on all `/api/*` routes.
+  - Enforced strict server-side RBAC with `requireRole(["admin", "government_officer"])` on `/api/incidents/:id/verify`, `/reject`, `/merge`, `/api/missions`, and `/api/dashboard/seed-ward7`.
+  - Enforced `requireRole(["responder", "field_worker", "admin"])` on `/api/missions/:id/status`.
+  - Added active cryptographic server handshake (`GET /api/auth/me`) in `auth-guard.js`. Any client attempting to spoof `localStorage.setItem("chronicAIRole", "admin")` without a valid server token is immediately caught, cleared, and kicked out.
+  - Added automated security test suite ([`test/security-rbac.test.js`](file:///d:/My%20Project/Chronic-/test/security-rbac.test.js)) with 7 tests verifying 401 and 403 blocks. Total tests passing: 38/38.
 
 ---
 
