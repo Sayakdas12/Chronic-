@@ -22,6 +22,17 @@ import { getDatabase as getAdminDatabase } from "firebase-admin/database";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import {
+    safeMkdirSync,
+    safeReadJson,
+    safeWriteJson,
+    readCollection,
+    saveCollection,
+    getItem,
+    saveItem,
+    getAdminApp as getStorageAdminApp,
+    isFirebaseCloudEnabled
+} from "./storage/storage-adapter.js";
 import { sendEmail } from "./email-service.js";
 import { consumeVerificationToken, createOtpChallenge, discardOtpChallenge, getOtpConfiguration, verifyOtp } from "./otp-service.js";
 import { incidentRouter } from "./routes/incidents.js";
@@ -153,24 +164,10 @@ const REPORTS_FILE = path.join(
 );
 
 // ============================================================
-// CREATE DATA DIRECTORY
+// CREATE DATA DIRECTORY (Safe for Serverless / Read-Only Filesystem)
 // ============================================================
 
-fs.mkdirSync(DATA_DIR, {
-    recursive: true
-});
-
-// ============================================================
-// CREATE REPORT DATABASE
-// ============================================================
-
-if (!fs.existsSync(REPORTS_FILE)) {
-    fs.writeFileSync(
-        REPORTS_FILE,
-        "[]",
-        "utf8"
-    );
-}
+safeMkdirSync(DATA_DIR);
 
 // ============================================================
 // SECURITY
@@ -358,89 +355,26 @@ function cleanArray(
 }
 
 // ============================================================
-// READ REPORTS (Firebase primary + local fallback)
+// READ REPORTS (Storage Adapter 3-Tier Persistence)
 // ============================================================
 
 function isFirebaseReportStoreEnabled() {
-    const hasJson = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    const hasFile = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_FILE && fs.existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_FILE));
-    return Boolean(
-        process.env.FIREBASE_DATABASE_URL &&
-        (hasJson || hasFile)
-    );
+    return isFirebaseCloudEnabled();
 }
 
 async function readReports() {
-    if (isFirebaseReportStoreEnabled()) {
-        try {
-            const database = getAdminDatabase(getAdminApp());
-            const snapshot = await database.ref("reports").once("value");
-            const value = snapshot.val();
-            if (value) {
-                return Array.isArray(value)
-                    ? value.filter(Boolean)
-                    : Object.values(value);
-            }
-        } catch (error) {
-            console.error("Unable to read reports from Firebase Realtime Database:", error);
-        }
-    }
-
-    try {
-        const content =
-            fs.readFileSync(
-                REPORTS_FILE,
-                "utf8"
-            );
-
-        const reports =
-            JSON.parse(content);
-
-        return Array.isArray(reports)
-            ? reports
-            : [];
-
-    } catch (error) {
-
-        console.error(
-            "Unable to read reports:",
-            error
-        );
-
-        return [];
-    }
+    return readCollection("reports", []);
 }
 
 // ============================================================
-// SAVE REPORTS (Firebase primary + local fallback)
+// SAVE REPORTS (Storage Adapter 3-Tier Persistence)
 // ============================================================
 
 async function saveReports(reports) {
-    if (isFirebaseReportStoreEnabled()) {
-        const database = getAdminDatabase(getAdminApp());
-        const updates = {};
-        if (Array.isArray(reports)) {
-            reports.forEach(report => {
-                if (report && report.reportId) {
-                    updates[report.reportId] = report;
-                }
-            });
-        } else if (reports && typeof reports === "object") {
-            Object.assign(updates, reports);
-        }
-        await database.ref("reports").set(updates);
-        return;
+    if (Array.isArray(reports)) {
+        return saveCollection("reports", reports);
     }
-
-    fs.writeFileSync(
-        REPORTS_FILE,
-        JSON.stringify(
-            reports,
-            null,
-            2
-        ),
-        "utf8"
-    );
+    return safeWriteJson("reports.json", reports);
 }
 
 // ============================================================
@@ -1475,8 +1409,12 @@ app.post("/api/support-requests", async (req, res) => {
 });
 
 app.get("/api/admin/support-requests", requireGovernmentUser, async (req, res) => {
-    const snapshot = await getAdminDatabase(getAdminApp()).ref("supportRequests").once("value");
-    let requests = Object.values(snapshot.val() || {});
+    let requests = [];
+    try {
+        requests = await readCollection("supportRequests", []);
+    } catch {
+        requests = [];
+    }
     const query = cleanText(req.query.q, 160).toLowerCase();
     const category = cleanText(req.query.category, 50);
     const status = cleanText(req.query.status, 40);
@@ -1485,13 +1423,19 @@ app.get("/api/admin/support-requests", requireGovernmentUser, async (req, res) =
 });
 
 app.patch("/api/admin/support-requests/:requestId", requireGovernmentUser, requireWriteRole, async (req, res) => {
-    const requestRef = getAdminDatabase(getAdminApp()).ref(`supportRequests/${req.params.requestId}`);
-    const snapshot = await requestRef.once("value");
-    if (!snapshot.exists()) return res.status(404).json({ success: false, error: "Support request not found." });
+    let item = null;
+    try {
+        item = await getItem("supportRequests", req.params.requestId);
+    } catch {}
+    if (!item) return res.status(404).json({ success: false, error: "Support request not found." });
     const status = cleanText(req.body?.status, 40);
     const allowedStatuses = ["pending", "under_review", "approved", "contacted", "completed", "rejected", "archived"];
     if (!allowedStatuses.includes(status)) return res.status(400).json({ success: false, error: "Invalid support request status." });
-    await requestRef.update({ status, adminNotes: cleanText(req.body?.adminNotes, 2000), updatedAt: Date.now(), updatedBy: req.governmentUser.uid });
+    item.status = status;
+    item.adminNotes = cleanText(req.body?.adminNotes, 2000);
+    item.updatedAt = Date.now();
+    item.updatedBy = req.governmentUser.uid;
+    await saveItem("supportRequests", req.params.requestId, item);
     return res.json({ success: true });
 });
 
@@ -1514,12 +1458,14 @@ app.get("/api/admin/overview", requireGovernmentUser, async (req, res) => {
                 (!type || String(report.analysis?.category || "").toLowerCase() === type);
         });
         const count = (predicate) => filtered.filter(predicate).length;
-        const missingSnapshot = await getAdminDatabase(getAdminApp()).ref("missingPersons").once("value");
-        const missingPersons = Object.values(missingSnapshot.val() || {});
-        const supportSnapshot = await getAdminDatabase(getAdminApp()).ref("supportRequests").once("value");
-        const supportRequests = Object.values(supportSnapshot.val() || {});
-        const sosSnapshot = await getAdminDatabase(getAdminApp()).ref("sosAlerts").once("value");
-        const sosAlerts = Object.values(sosSnapshot.val() || {}).sort((first, second) => Number(second.createdAt || 0) - Number(first.createdAt || 0));
+        let missingPersons = [];
+        let supportRequests = [];
+        let sosAlerts = [];
+        try {
+            missingPersons = await readCollection("missingPersons", []);
+            supportRequests = await readCollection("supportRequests", []);
+            sosAlerts = await readCollection("sosAlerts", []);
+        } catch {}
         const notifiedSos = sosAlerts.filter((item) => item.notifiedAt && item.createdAt);
         const averageSosResponseSeconds = notifiedSos.length
             ? notifiedSos.reduce((total, item) => total + Math.max(0, Number(item.notifiedAt) - Number(item.createdAt)) / 1000, 0) / notifiedSos.length
@@ -3428,17 +3374,7 @@ if (process.env.CHRONICAI_WORKER === "true" && typeof process.send === "function
 }
 
 function getAdminApp() {
-    if (getApps().length) return getApps()[0];
-    const serviceAccountFile = process.env.FIREBASE_SERVICE_ACCOUNT_FILE;
-    const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-    if (!serviceAccountFile && !serviceAccountJson) throw new Error("Firebase Admin credentials are not configured.");
-    const raw = serviceAccountFile
-        ? fs.readFileSync(serviceAccountFile, "utf8")
-        : serviceAccountJson;
-    return initializeApp({
-        credential: cert(JSON.parse(raw)),
-        databaseURL: process.env.FIREBASE_DATABASE_URL
-    });
+    return getStorageAdminApp();
 }
 
 async function requireGovernmentUser(req, res, next) {

@@ -41,10 +41,10 @@ import {
 import { calculatePriorityScore } from "../services/priority-engine.js";
 import { validateAiAnalysis } from "../services/ai-validation.js";
 
+import { saveCollection } from "../storage/storage-adapter.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, "..", "..", "data");
-const REPORTS_FILE = path.join(DATA_DIR, "reports.json");
 
 export async function seedWard7Scenario() {
     console.log("Seeding Ward 7 Flash Flood Disaster Scenario...");
@@ -308,8 +308,7 @@ export async function seedWard7Scenario() {
         }
     ];
 
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-    fs.writeFileSync(REPORTS_FILE, JSON.stringify(reports, null, 2), "utf-8");
+    await saveCollection("reports", reports);
 
     // ========================================================
     // 2. 6 CANONICAL INCIDENTS (2x P1, 2x P2, 2x P3)

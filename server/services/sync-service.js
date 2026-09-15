@@ -29,56 +29,35 @@ import {
     createIncidentEvent
 } from "../domain/incident.js";
 
+import {
+    readCollection,
+    getItem,
+    saveItem,
+    saveCollection,
+    safeReadJson,
+    safeWriteJson
+} from "../storage/storage-adapter.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, "..", "..", "data");
-const SYNC_OPS_FILE = path.join(DATA_DIR, "sync-operations.json");
-const ROAD_CLOSURES_FILE = path.join(DATA_DIR, "road-closures.json");
+const SYNC_OPS_FILE = "sync-operations.json";
+const ROAD_CLOSURES_FILE = "road-closures.json";
 
 let adminDatabaseGetter = null;
 
-export function configureSyncStore({ getAdminDatabase, getAdminApp }) {
+export function configureSyncStore({ getAdminDatabase, getAdminApp } = {}) {
     if (typeof getAdminDatabase === "function" && typeof getAdminApp === "function") {
         adminDatabaseGetter = () => getAdminDatabase(getAdminApp());
     }
 }
 
-function isFirebaseStoreEnabled() {
-    const hasJson = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    const hasFile = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_FILE && fs.existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_FILE));
-    return Boolean(adminDatabaseGetter && process.env.FIREBASE_DATABASE_URL && (hasJson || hasFile));
+// Local filesystem helpers using safe storage adapter
+function readJsonLocal(fileName, defaultVal = []) {
+    return safeReadJson(fileName, defaultVal);
 }
 
-function readJsonLocal(filePath, defaultVal = []) {
-    try {
-        if (!fs.existsSync(filePath)) {
-            fs.mkdirSync(path.dirname(filePath), { recursive: true });
-            fs.writeFileSync(filePath, JSON.stringify(defaultVal, null, 2), "utf-8");
-            return defaultVal;
-        }
-        const raw = fs.readFileSync(filePath, "utf-8").trim();
-        if (!raw) return defaultVal;
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : defaultVal;
-    } catch {
-        return defaultVal;
-    }
-}
-
-function saveJsonLocal(filePath, data) {
-    try {
-        fs.mkdirSync(path.dirname(filePath), { recursive: true });
-        const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
-        fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), "utf-8");
-        try {
-            fs.renameSync(tempPath, filePath);
-        } catch {
-            fs.copyFileSync(tempPath, filePath);
-            fs.unlinkSync(tempPath);
-        }
-    } catch (error) {
-        console.error(`Failed saving local file ${filePath}:`, error.message);
-    }
+function saveJsonLocal(fileName, data) {
+    safeWriteJson(fileName, data);
 }
 
 // ============================================================
@@ -87,50 +66,24 @@ function saveJsonLocal(filePath, data) {
 
 export async function getSyncOperationById(id) {
     if (!id) return null;
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref(`syncOperations/${id}`).once("value");
-            if (snapshot.exists()) return snapshot.val();
-        } catch (error) {
-            console.warn("Firebase RTDB get syncOperation failed, using local:", error.message);
-        }
-    }
-    const ops = readJsonLocal(SYNC_OPS_FILE, []);
-    return ops.find(o => o.id === id) || null;
+    return getItem("syncOperations", id);
 }
 
 export async function saveSyncOperationRecord(op) {
     op.updatedAt = Date.now();
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            await db.ref(`syncOperations/${op.id}`).set(op);
-            return op;
-        } catch (error) {
-            console.warn("Firebase RTDB save syncOperation failed, using local:", error.message);
-        }
-    }
-    const ops = readJsonLocal(SYNC_OPS_FILE, []);
-    const index = ops.findIndex(o => o.id === op.id);
-    if (index >= 0) ops[index] = op;
-    else ops.push(op);
-    saveJsonLocal(SYNC_OPS_FILE, ops);
-    return op;
+    return saveItem("syncOperations", op.id, op);
 }
 
 // Road closures storage
 export async function saveRoadClosure(closure) {
-    closure.id = closure.id || `rc_${Date.now()}`;
+    closure.id = closure.id || closure.closureId || `rc_${Date.now()}`;
+    closure.closureId = closure.closureId || closure.id;
     closure.reportedAt = closure.reportedAt || Date.now();
-    const closures = readJsonLocal(ROAD_CLOSURES_FILE, []);
-    closures.push(closure);
-    saveJsonLocal(ROAD_CLOSURES_FILE, closures);
-    return closure;
+    return saveItem("roadClosures", closure.closureId, closure);
 }
 
 export async function readAllRoadClosures() {
-    return readJsonLocal(ROAD_CLOSURES_FILE, []);
+    return readCollection("roadClosures", []);
 }
 
 // ============================================================

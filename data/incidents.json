@@ -1,5 +1,2740 @@
 [
   {
+    "incidentId": "INC-2026-82DUFG",
+    "publicId": "CHRONIC-82DUFG",
+    "title": "Severe flash flood near bridge",
+    "description": "Bridge overpass water level exceeding 1.5m",
+    "category": "FLOOD_RESCUE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454551821
+    },
+    "location": {
+      "text": "Bridge 4",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Bridge overpass water level exceeding 1.5m",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454551820
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "officer-eoc-1",
+      "verifiedAt": 1789454551831,
+      "notes": "Verified by EOC Commander",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b1czx-jfbo",
+        "incidentId": "INC-2026-82DUFG",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "anonymous",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454551821
+      },
+      {
+        "eventId": "EVT-mu2b1d07-svz0",
+        "incidentId": "INC-2026-82DUFG",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "verifiedPriority": "P4",
+          "notes": "Verified by EOC Commander",
+          "overrideReason": null
+        },
+        "timestamp": 1789454551831
+      },
+      {
+        "eventId": "EVT-mu2b1d0f-26my",
+        "incidentId": "INC-2026-82DUFG",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "missionId": "MSN-A2G5EH",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04 (Water & Flood Specialist)",
+          "assignedTo": "unit_boat4",
+          "etaMinutes": 5,
+          "routeRisk": "MEDIUM"
+        },
+        "timestamp": 1789454551839
+      },
+      {
+        "eventId": "EVT-mu2b1d0t-in5i",
+        "incidentId": "INC-2026-82DUFG",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "responder-boat-4",
+          "role": "responder",
+          "name": "NDRF Unit 04"
+        },
+        "payload": {
+          "missionId": "MSN-A2G5EH",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454551853
+      }
+    ],
+    "createdAt": 1789454551821,
+    "updatedAt": 1789454551853
+  },
+  {
+    "incidentId": "INC-2026-B7LC5B",
+    "publicId": "CHRONIC-B7LC5B",
+    "title": "River Road submerged",
+    "description": "River Road water level is rising near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "DUPLICATE",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454549721
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.5905,
+      "longitude": 88.3805,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: River Road water level is rising near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454549721
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": "INC-2026-Q99OJ1",
+    "events": [
+      {
+        "eventId": "EVT-mu2b1bdl-8411",
+        "incidentId": "INC-2026-B7LC5B",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-102"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454549721
+      },
+      {
+        "eventId": "EVT-mu2b1bdz-yrl9",
+        "incidentId": "INC-2026-B7LC5B",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedIntoPrimaryId": "INC-2026-Q99OJ1",
+          "reason": "Verified identical flood hazard on River Road"
+        },
+        "timestamp": 1789454549735
+      }
+    ],
+    "createdAt": 1789454549721,
+    "updatedAt": 1789454549735
+  },
+  {
+    "incidentId": "INC-2026-Q99OJ1",
+    "publicId": "CHRONIC-Q99OJ1",
+    "title": "Flooding on River Road",
+    "description": "Severe water logging on River Road near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 10,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity MEDIUM (+15 pts)",
+          "2 independent reports corroborate incident (+10 pts)"
+        ]
+      },
+      "calculatedAt": 1789454549740
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.59,
+      "longitude": 88.38,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-101",
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Severe water logging on River Road near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454549713
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b1bdd-xvah",
+        "incidentId": "INC-2026-Q99OJ1",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-101"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454549713
+      },
+      {
+        "eventId": "EVT-mu2b1bdz-a3om",
+        "incidentId": "INC-2026-Q99OJ1",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedDuplicateId": "INC-2026-B7LC5B",
+          "reason": "Verified identical flood hazard on River Road",
+          "totalLinkedReports": 2
+        },
+        "timestamp": 1789454549735
+      }
+    ],
+    "createdAt": 1789454549713,
+    "updatedAt": 1789454549740
+  },
+  {
+    "incidentId": "INC-2026-DGQH0E",
+    "publicId": "CHRONIC-DGQH0E",
+    "title": "Blocked storm drain",
+    "description": "Municipal drainage blocked with debris causing street puddle.",
+    "category": "DRAINAGE_OVERFLOW",
+    "status": "PRIORITIZED",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 15,
+      "tier": "P1",
+      "originalTier": "P4",
+      "isOverridden": true,
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "OFFICER MANUAL OVERRIDE to P1: Debris blockage threatens nearby electrical substation.",
+          "Base hazard severity MEDIUM (+15 pts)"
+        ]
+      },
+      "calculatedAt": 1789454549703
+    },
+    "location": {
+      "text": "Ward 7 Market",
+      "latitude": 22.58,
+      "longitude": 88.37,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "DRAINAGE_OVERFLOW",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Municipal drainage blocked with debris causing street puddle.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454549693
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "local-admin",
+      "verifiedAt": 1789454549703,
+      "notes": "Dispatched drainage maintenance unit",
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b1bct-7uxs",
+        "incidentId": "INC-2026-DGQH0E",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454549693
+      },
+      {
+        "eventId": "EVT-mu2b1bd3-zq03",
+        "incidentId": "INC-2026-DGQH0E",
+        "type": "PRIORITY_OVERRIDDEN",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "previousPriority": "P4",
+          "newPriority": "P1",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454549703
+      },
+      {
+        "eventId": "EVT-mu2b1bd3-a2c1",
+        "incidentId": "INC-2026-DGQH0E",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "verifiedPriority": "P1",
+          "notes": "Dispatched drainage maintenance unit",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454549703
+      }
+    ],
+    "createdAt": 1789454549693,
+    "updatedAt": 1789454549703
+  },
+  {
+    "incidentId": "INC-2026-SAW5GW",
+    "publicId": "CHRONIC-SAW5GW",
+    "title": "Flood rescue near Ward 7 school",
+    "description": "Four elderly people are trapped on the ground floor with rising water.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 100,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 20,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 20,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "4 people at risk (+20 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)",
+          "Educational institution / children involved (+20 pts)"
+        ]
+      },
+      "calculatedAt": 1789454549655
+    },
+    "location": {
+      "text": "Ward 7 Primary School",
+      "latitude": 22.5726,
+      "longitude": 88.3639,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 4,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped",
+        "vulnerable population involved"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Four elderly people are trapped on the ground floor with rising water.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Detected signal: vulnerable population involved",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454549654
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b1bbs-upjg",
+        "incidentId": "INC-2026-SAW5GW",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454549656
+      }
+    ],
+    "createdAt": 1789454549656,
+    "updatedAt": 1789454549656
+  },
+  {
+    "incidentId": "INC-2026-FD26PA",
+    "publicId": "CHRONIC-FD26PA",
+    "title": "Roof collapse requiring rescue team",
+    "description": "Partial roof collapse near community center.",
+    "category": "BUILDING_COLLAPSE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454547838
+    },
+    "location": {
+      "text": "",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "BUILDING_COLLAPSE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Partial roof collapse near community center.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454547838
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b19xa-06db",
+        "incidentId": "INC-2026-FD26PA",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454547838
+      },
+      {
+        "eventId": "EVT-mu2b19xj-418g",
+        "incidentId": "INC-2026-FD26PA",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-0AJLP6",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04",
+          "assignedTo": "field_alpha",
+          "etaMinutes": 6,
+          "routeRisk": "LOW"
+        },
+        "timestamp": 1789454547847
+      },
+      {
+        "eventId": "EVT-mu2b19xw-9z4c",
+        "incidentId": "INC-2026-FD26PA",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-0AJLP6",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454547860
+      }
+    ],
+    "createdAt": 1789454547838,
+    "updatedAt": 1789454547860
+  },
+  {
+    "incidentId": "INC-2026-MQWGOE",
+    "publicId": "CHRONIC-MQWGOE",
+    "title": "Flash flood trapped citizens",
+    "description": "Six residents trapped on second story in Ward 7.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 95,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 30,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "6 people at risk (+30 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454547826
+    },
+    "location": {
+      "text": "Ward 7 Primary",
+      "latitude": 22.573,
+      "longitude": 88.364,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 6,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Six residents trapped on second story in Ward 7.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454547825
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b19wy-ompa",
+        "incidentId": "INC-2026-MQWGOE",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454547826
+      }
+    ],
+    "createdAt": 1789454547826,
+    "updatedAt": 1789454547826
+  },
+  {
+    "incidentId": "INC-2026-D1JJF9",
+    "publicId": "CHRONIC-D1JJF9",
+    "title": "Severe flash flood near bridge",
+    "description": "Bridge overpass water level exceeding 1.5m",
+    "category": "FLOOD_RESCUE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454494394
+    },
+    "location": {
+      "text": "Bridge 4",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Bridge overpass water level exceeding 1.5m",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454494392
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "officer-eoc-1",
+      "verifiedAt": 1789454494404,
+      "notes": "Verified by EOC Commander",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b04oq-2mkl",
+        "incidentId": "INC-2026-D1JJF9",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "anonymous",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454494394
+      },
+      {
+        "eventId": "EVT-mu2b04p0-5ckt",
+        "incidentId": "INC-2026-D1JJF9",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "verifiedPriority": "P4",
+          "notes": "Verified by EOC Commander",
+          "overrideReason": null
+        },
+        "timestamp": 1789454494404
+      },
+      {
+        "eventId": "EVT-mu2b04pa-2de2",
+        "incidentId": "INC-2026-D1JJF9",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "missionId": "MSN-KW5D5U",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04 (Water & Flood Specialist)",
+          "assignedTo": "unit_boat4",
+          "etaMinutes": 5,
+          "routeRisk": "MEDIUM"
+        },
+        "timestamp": 1789454494414
+      },
+      {
+        "eventId": "EVT-mu2b04pm-ecn6",
+        "incidentId": "INC-2026-D1JJF9",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "responder-boat-4",
+          "role": "responder",
+          "name": "NDRF Unit 04"
+        },
+        "payload": {
+          "missionId": "MSN-KW5D5U",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454494426
+      }
+    ],
+    "createdAt": 1789454494394,
+    "updatedAt": 1789454494426
+  },
+  {
+    "incidentId": "INC-2026-ZNN50O",
+    "publicId": "CHRONIC-ZNN50O",
+    "title": "River Road submerged",
+    "description": "River Road water level is rising near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "DUPLICATE",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454492292
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.5905,
+      "longitude": 88.3805,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: River Road water level is rising near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454492292
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": "INC-2026-H7Y6XJ",
+    "events": [
+      {
+        "eventId": "EVT-mu2b032c-9x4u",
+        "incidentId": "INC-2026-ZNN50O",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-102"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454492292
+      },
+      {
+        "eventId": "EVT-mu2b032q-gfx9",
+        "incidentId": "INC-2026-ZNN50O",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedIntoPrimaryId": "INC-2026-H7Y6XJ",
+          "reason": "Verified identical flood hazard on River Road"
+        },
+        "timestamp": 1789454492306
+      }
+    ],
+    "createdAt": 1789454492292,
+    "updatedAt": 1789454492306
+  },
+  {
+    "incidentId": "INC-2026-H7Y6XJ",
+    "publicId": "CHRONIC-H7Y6XJ",
+    "title": "Flooding on River Road",
+    "description": "Severe water logging on River Road near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 10,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity MEDIUM (+15 pts)",
+          "2 independent reports corroborate incident (+10 pts)"
+        ]
+      },
+      "calculatedAt": 1789454492310
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.59,
+      "longitude": 88.38,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-101",
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Severe water logging on River Road near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454492286
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b0326-xp0r",
+        "incidentId": "INC-2026-H7Y6XJ",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-101"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454492286
+      },
+      {
+        "eventId": "EVT-mu2b032q-mqzk",
+        "incidentId": "INC-2026-H7Y6XJ",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedDuplicateId": "INC-2026-ZNN50O",
+          "reason": "Verified identical flood hazard on River Road",
+          "totalLinkedReports": 2
+        },
+        "timestamp": 1789454492306
+      }
+    ],
+    "createdAt": 1789454492286,
+    "updatedAt": 1789454492310
+  },
+  {
+    "incidentId": "INC-2026-8UQRA9",
+    "publicId": "CHRONIC-8UQRA9",
+    "title": "Blocked storm drain",
+    "description": "Municipal drainage blocked with debris causing street puddle.",
+    "category": "DRAINAGE_OVERFLOW",
+    "status": "PRIORITIZED",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 15,
+      "tier": "P1",
+      "originalTier": "P4",
+      "isOverridden": true,
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "OFFICER MANUAL OVERRIDE to P1: Debris blockage threatens nearby electrical substation.",
+          "Base hazard severity MEDIUM (+15 pts)"
+        ]
+      },
+      "calculatedAt": 1789454492277
+    },
+    "location": {
+      "text": "Ward 7 Market",
+      "latitude": 22.58,
+      "longitude": 88.37,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "DRAINAGE_OVERFLOW",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Municipal drainage blocked with debris causing street puddle.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454492270
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "local-admin",
+      "verifiedAt": 1789454492277,
+      "notes": "Dispatched drainage maintenance unit",
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b031q-lm4w",
+        "incidentId": "INC-2026-8UQRA9",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454492270
+      },
+      {
+        "eventId": "EVT-mu2b031x-3tj3",
+        "incidentId": "INC-2026-8UQRA9",
+        "type": "PRIORITY_OVERRIDDEN",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "previousPriority": "P4",
+          "newPriority": "P1",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454492277
+      },
+      {
+        "eventId": "EVT-mu2b031x-skib",
+        "incidentId": "INC-2026-8UQRA9",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "verifiedPriority": "P1",
+          "notes": "Dispatched drainage maintenance unit",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454492277
+      }
+    ],
+    "createdAt": 1789454492270,
+    "updatedAt": 1789454492277
+  },
+  {
+    "incidentId": "INC-2026-MJ79CZ",
+    "publicId": "CHRONIC-MJ79CZ",
+    "title": "Flood rescue near Ward 7 school",
+    "description": "Four elderly people are trapped on the ground floor with rising water.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 100,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 20,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 20,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "4 people at risk (+20 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)",
+          "Educational institution / children involved (+20 pts)"
+        ]
+      },
+      "calculatedAt": 1789454492238
+    },
+    "location": {
+      "text": "Ward 7 Primary School",
+      "latitude": 22.5726,
+      "longitude": 88.3639,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 4,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped",
+        "vulnerable population involved"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Four elderly people are trapped on the ground floor with rising water.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Detected signal: vulnerable population involved",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454492238
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b030v-9w9t",
+        "incidentId": "INC-2026-MJ79CZ",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454492239
+      }
+    ],
+    "createdAt": 1789454492239,
+    "updatedAt": 1789454492239
+  },
+  {
+    "incidentId": "INC-2026-CQCX6B",
+    "publicId": "CHRONIC-CQCX6B",
+    "title": "Roof collapse requiring rescue team",
+    "description": "Partial roof collapse near community center.",
+    "category": "BUILDING_COLLAPSE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454490416
+    },
+    "location": {
+      "text": "",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "BUILDING_COLLAPSE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Partial roof collapse near community center.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454490416
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b01m8-skxo",
+        "incidentId": "INC-2026-CQCX6B",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454490416
+      },
+      {
+        "eventId": "EVT-mu2b01mi-isqt",
+        "incidentId": "INC-2026-CQCX6B",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-SOUBLW",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04",
+          "assignedTo": "field_alpha",
+          "etaMinutes": 6,
+          "routeRisk": "LOW"
+        },
+        "timestamp": 1789454490426
+      },
+      {
+        "eventId": "EVT-mu2b01mw-o9jt",
+        "incidentId": "INC-2026-CQCX6B",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-SOUBLW",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454490440
+      }
+    ],
+    "createdAt": 1789454490416,
+    "updatedAt": 1789454490440
+  },
+  {
+    "incidentId": "INC-2026-JSRJVY",
+    "publicId": "CHRONIC-JSRJVY",
+    "title": "Flash flood trapped citizens",
+    "description": "Six residents trapped on second story in Ward 7.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 95,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 30,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "6 people at risk (+30 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454490403
+    },
+    "location": {
+      "text": "Ward 7 Primary",
+      "latitude": 22.573,
+      "longitude": 88.364,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 6,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Six residents trapped on second story in Ward 7.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454490402
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2b01lv-79gv",
+        "incidentId": "INC-2026-JSRJVY",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454490403
+      }
+    ],
+    "createdAt": 1789454490403,
+    "updatedAt": 1789454490403
+  },
+  {
+    "incidentId": "INC-2026-BVBAZX",
+    "publicId": "CHRONIC-BVBAZX",
+    "title": "Roof collapse requiring rescue team",
+    "description": "Partial roof collapse near community center.",
+    "category": "BUILDING_COLLAPSE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454435048
+    },
+    "location": {
+      "text": "",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "BUILDING_COLLAPSE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Partial roof collapse near community center.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454435048
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2ayuw8-yumr",
+        "incidentId": "INC-2026-BVBAZX",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454435048
+      },
+      {
+        "eventId": "EVT-mu2ayvzg-qoiv",
+        "incidentId": "INC-2026-BVBAZX",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-XGXBXN",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04",
+          "assignedTo": "field_alpha",
+          "etaMinutes": 6,
+          "routeRisk": "LOW"
+        },
+        "timestamp": 1789454436460
+      },
+      {
+        "eventId": "EVT-mu2ayxix-n4yq",
+        "incidentId": "INC-2026-BVBAZX",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-XGXBXN",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454438457
+      }
+    ],
+    "createdAt": 1789454435048,
+    "updatedAt": 1789454438457
+  },
+  {
+    "incidentId": "INC-2026-BGQBHQ",
+    "publicId": "CHRONIC-BGQBHQ",
+    "title": "Flash flood trapped citizens",
+    "description": "Six residents trapped on second story in Ward 7.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 95,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 30,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "6 people at risk (+30 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454434091
+    },
+    "location": {
+      "text": "Ward 7 Primary",
+      "latitude": 22.573,
+      "longitude": 88.364,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 6,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Six residents trapped on second story in Ward 7.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454434090
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2ayu5o-vt6x",
+        "incidentId": "INC-2026-BGQBHQ",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454434092
+      }
+    ],
+    "createdAt": 1789454434092,
+    "updatedAt": 1789454434092
+  },
+  {
+    "incidentId": "INC-2026-GV4VXL",
+    "publicId": "CHRONIC-GV4VXL",
+    "title": "Severe flash flood near bridge",
+    "description": "Bridge overpass water level exceeding 1.5m",
+    "category": "FLOOD_RESCUE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454089462
+    },
+    "location": {
+      "text": "Bridge 4",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Bridge overpass water level exceeding 1.5m",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454089461
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "officer-eoc-1",
+      "verifiedAt": 1789454089473,
+      "notes": "Verified by EOC Commander",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2arg8n-adw9",
+        "incidentId": "INC-2026-GV4VXL",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "anonymous",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454089463
+      },
+      {
+        "eventId": "EVT-mu2arg8x-e86l",
+        "incidentId": "INC-2026-GV4VXL",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "verifiedPriority": "P4",
+          "notes": "Verified by EOC Commander",
+          "overrideReason": null
+        },
+        "timestamp": 1789454089473
+      },
+      {
+        "eventId": "EVT-mu2arg99-vj6c",
+        "incidentId": "INC-2026-GV4VXL",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "officer-eoc-1",
+          "role": "admin",
+          "name": "Commander Banerjee"
+        },
+        "payload": {
+          "missionId": "MSN-JV1SXO",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04 (Water & Flood Specialist)",
+          "assignedTo": "unit_boat4",
+          "etaMinutes": 5,
+          "routeRisk": "MEDIUM"
+        },
+        "timestamp": 1789454089485
+      },
+      {
+        "eventId": "EVT-mu2arg9o-fxxf",
+        "incidentId": "INC-2026-GV4VXL",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "responder-boat-4",
+          "role": "responder",
+          "name": "NDRF Unit 04"
+        },
+        "payload": {
+          "missionId": "MSN-JV1SXO",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454089500
+      }
+    ],
+    "createdAt": 1789454089463,
+    "updatedAt": 1789454089500
+  },
+  {
+    "incidentId": "INC-2026-JALM7I",
+    "publicId": "CHRONIC-JALM7I",
+    "title": "River Road submerged",
+    "description": "River Road water level is rising near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "DUPLICATE",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454087430
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.5905,
+      "longitude": 88.3805,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: River Road water level is rising near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454087430
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": "INC-2026-DVWVYC",
+    "events": [
+      {
+        "eventId": "EVT-mu2areo6-51u6",
+        "incidentId": "INC-2026-JALM7I",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-102"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454087430
+      },
+      {
+        "eventId": "EVT-mu2areoo-dm6j",
+        "incidentId": "INC-2026-JALM7I",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedIntoPrimaryId": "INC-2026-DVWVYC",
+          "reason": "Verified identical flood hazard on River Road"
+        },
+        "timestamp": 1789454087448
+      }
+    ],
+    "createdAt": 1789454087430,
+    "updatedAt": 1789454087448
+  },
+  {
+    "incidentId": "INC-2026-DVWVYC",
+    "publicId": "CHRONIC-DVWVYC",
+    "title": "Flooding on River Road",
+    "description": "Severe water logging on River Road near Sector 3.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 10,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity MEDIUM (+15 pts)",
+          "2 independent reports corroborate incident (+10 pts)"
+        ]
+      },
+      "calculatedAt": 1789454087452
+    },
+    "location": {
+      "text": "River Road Sector 3",
+      "latitude": 22.59,
+      "longitude": 88.38,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [
+      "REP-101",
+      "REP-102"
+    ],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Severe water logging on River Road near Sector 3.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454087422
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2areny-marl",
+        "incidentId": "INC-2026-DVWVYC",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [
+            "REP-101"
+          ],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454087422
+      },
+      {
+        "eventId": "EVT-mu2areoo-rlhq",
+        "incidentId": "INC-2026-DVWVYC",
+        "type": "INCIDENT_MERGED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "mergedDuplicateId": "INC-2026-JALM7I",
+          "reason": "Verified identical flood hazard on River Road",
+          "totalLinkedReports": 2
+        },
+        "timestamp": 1789454087448
+      }
+    ],
+    "createdAt": 1789454087422,
+    "updatedAt": 1789454087452
+  },
+  {
+    "incidentId": "INC-2026-1VBNI3",
+    "publicId": "CHRONIC-1VBNI3",
+    "title": "Blocked storm drain",
+    "description": "Municipal drainage blocked with debris causing street puddle.",
+    "category": "DRAINAGE_OVERFLOW",
+    "status": "PRIORITIZED",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 15,
+      "tier": "P1",
+      "originalTier": "P4",
+      "isOverridden": true,
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 15,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "OFFICER MANUAL OVERRIDE to P1: Debris blockage threatens nearby electrical substation.",
+          "Base hazard severity MEDIUM (+15 pts)"
+        ]
+      },
+      "calculatedAt": 1789454087412
+    },
+    "location": {
+      "text": "Ward 7 Market",
+      "latitude": 22.58,
+      "longitude": 88.37,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "DRAINAGE_OVERFLOW",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Municipal drainage blocked with debris causing street puddle.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454087396
+    },
+    "verification": {
+      "verified": true,
+      "verifiedBy": "local-admin",
+      "verifiedAt": 1789454087412,
+      "notes": "Dispatched drainage maintenance unit",
+      "overrideReason": "Debris blockage threatens nearby electrical substation.",
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2aren9-5ara",
+        "incidentId": "INC-2026-1VBNI3",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454087397
+      },
+      {
+        "eventId": "EVT-mu2areno-0274",
+        "incidentId": "INC-2026-1VBNI3",
+        "type": "PRIORITY_OVERRIDDEN",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "previousPriority": "P4",
+          "newPriority": "P1",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454087412
+      },
+      {
+        "eventId": "EVT-mu2areno-glwh",
+        "incidentId": "INC-2026-1VBNI3",
+        "type": "VERIFICATION_COMPLETED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "verifiedPriority": "P1",
+          "notes": "Dispatched drainage maintenance unit",
+          "overrideReason": "Debris blockage threatens nearby electrical substation."
+        },
+        "timestamp": 1789454087412
+      }
+    ],
+    "createdAt": 1789454087397,
+    "updatedAt": 1789454087412
+  },
+  {
+    "incidentId": "INC-2026-JVF52G",
+    "publicId": "CHRONIC-JVF52G",
+    "title": "Flood rescue near Ward 7 school",
+    "description": "Four elderly people are trapped on the ground floor with rising water.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 100,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 20,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 20,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "4 people at risk (+20 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)",
+          "Educational institution / children involved (+20 pts)"
+        ]
+      },
+      "calculatedAt": 1789454087355
+    },
+    "location": {
+      "text": "Ward 7 Primary School",
+      "latitude": 22.5726,
+      "longitude": 88.3639,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 4,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped",
+        "vulnerable population involved"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Four elderly people are trapped on the ground floor with rising water.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Detected signal: vulnerable population involved",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454087354
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2arem4-yu65",
+        "incidentId": "INC-2026-JVF52G",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454087356
+      }
+    ],
+    "createdAt": 1789454087356,
+    "updatedAt": 1789454087356
+  },
+  {
+    "incidentId": "INC-2026-2OAEVW",
+    "publicId": "CHRONIC-2OAEVW",
+    "title": "Roof collapse requiring rescue team",
+    "description": "Partial roof collapse near community center.",
+    "category": "BUILDING_COLLAPSE",
+    "status": "IN_PROGRESS",
+    "priority": "P4",
+    "priorityScore": {
+      "totalScore": 25,
+      "tier": "P4",
+      "originalTier": "P4",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Routine",
+        "acknowledgeMinutes": 360,
+        "assignMinutes": 720,
+        "dispatchMinutes": 1440,
+        "targetResolutionHours": 96
+      },
+      "breakdown": {
+        "peopleScore": 0,
+        "hazardSeverityPoints": 25,
+        "lifeThreatPoints": 0,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "Base hazard severity P2 (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454085471
+    },
+    "location": {
+      "text": "",
+      "latitude": 22.57,
+      "longitude": 88.36,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [
+      "rescue_r04"
+    ],
+    "aiAnalysis": {
+      "category": "BUILDING_COLLAPSE",
+      "priorityRecommendation": "P2",
+      "confidence": 0.72,
+      "peopleAtRisk": 0,
+      "injuredPeople": 0,
+      "urgencySignals": [],
+      "hazards": [
+        "structural instability"
+      ],
+      "recommendedResources": [
+        "HEAVY_RESCUE_TEAM"
+      ],
+      "summary": "Emergency report: Partial roof collapse near community center.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Identified hazard: structural instability"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454085471
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2ard5r-t0li",
+        "incidentId": "INC-2026-2OAEVW",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454085471
+      },
+      {
+        "eventId": "EVT-mu2ard65-6b8p",
+        "incidentId": "INC-2026-2OAEVW",
+        "type": "MISSION_ASSIGNED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-764PAY",
+          "resourceId": "rescue_r04",
+          "resourceName": "Rescue Team R-04",
+          "assignedTo": "field_alpha",
+          "etaMinutes": 6,
+          "routeRisk": "LOW"
+        },
+        "timestamp": 1789454085485
+      },
+      {
+        "eventId": "EVT-mu2ard6o-rsmx",
+        "incidentId": "INC-2026-2OAEVW",
+        "type": "STATUS_UPDATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "admin",
+          "name": "Local Administrator"
+        },
+        "payload": {
+          "missionId": "MSN-764PAY",
+          "status": "IN_PROGRESS",
+          "note": "Responders arrived on scene."
+        },
+        "timestamp": 1789454085504
+      }
+    ],
+    "createdAt": 1789454085471,
+    "updatedAt": 1789454085504
+  },
+  {
+    "incidentId": "INC-2026-H3FTWU",
+    "publicId": "CHRONIC-H3FTWU",
+    "title": "Flash flood trapped citizens",
+    "description": "Six residents trapped on second story in Ward 7.",
+    "category": "FLOOD_RESCUE",
+    "status": "NEEDS_VERIFICATION",
+    "priority": "P1",
+    "priorityScore": {
+      "totalScore": 95,
+      "tier": "P1",
+      "originalTier": "P1",
+      "isOverridden": false,
+      "overrideReason": null,
+      "targets": {
+        "label": "Immediate Emergency",
+        "acknowledgeMinutes": 1,
+        "assignMinutes": 2,
+        "dispatchMinutes": 5,
+        "targetResolutionHours": 4
+      },
+      "breakdown": {
+        "peopleScore": 30,
+        "hazardSeverityPoints": 40,
+        "lifeThreatPoints": 25,
+        "vulnerabilityPoints": 0,
+        "timeDecayPoints": 0,
+        "reasons": [
+          "6 people at risk (+30 pts)",
+          "Base hazard severity P1 (+40 pts)",
+          "Trapped victims detected (+25 pts)"
+        ]
+      },
+      "calculatedAt": 1789454085457
+    },
+    "location": {
+      "text": "Ward 7 Primary",
+      "latitude": 22.573,
+      "longitude": 88.364,
+      "ward": null,
+      "district": null
+    },
+    "sourceReportIds": [],
+    "assignedResourceIds": [],
+    "aiAnalysis": {
+      "category": "FLOOD_RESCUE",
+      "priorityRecommendation": "P1",
+      "confidence": 0.72,
+      "peopleAtRisk": 6,
+      "injuredPeople": 0,
+      "urgencySignals": [
+        "people trapped"
+      ],
+      "hazards": [
+        "rising flood water"
+      ],
+      "recommendedResources": [
+        "RESCUE_BOAT"
+      ],
+      "summary": "Emergency report: Six residents trapped on second story in Ward 7.",
+      "explanation": [
+        "Heuristic classification based on keyword signals in report description.",
+        "Detected signal: people trapped",
+        "Identified hazard: rising flood water"
+      ],
+      "requiresHumanVerification": true,
+      "advisory": true,
+      "modelInfo": "deterministic-heuristic-fallback",
+      "validatedAt": 1789454085456
+    },
+    "verification": {
+      "verified": false,
+      "verifiedBy": null,
+      "verifiedAt": null,
+      "notes": "",
+      "overrideReason": null,
+      "rejectionReason": null
+    },
+    "mergedInto": null,
+    "events": [
+      {
+        "eventId": "EVT-mu2ard5d-uq5n",
+        "incidentId": "INC-2026-H3FTWU",
+        "type": "INCIDENT_CREATED",
+        "actor": {
+          "id": "local-admin",
+          "role": "system",
+          "name": "Incident Intake"
+        },
+        "payload": {
+          "sourceReportIds": [],
+          "initialStatus": "NEEDS_VERIFICATION"
+        },
+        "timestamp": 1789454085457
+      }
+    ],
+    "createdAt": 1789454085457,
+    "updatedAt": 1789454085457
+  },
+  {
     "incidentId": "INC-2026-O50ME2",
     "publicId": "CHRONIC-O50ME2",
     "title": "River Road submerged",
@@ -1409,7 +4144,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xewi5-0qcp",
+        "eventId": "EVT-mu2b1c8f-kko9",
         "incidentId": "INC-API-SYNC-1",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -1421,10 +4156,10 @@
           "sourceReportIds": [],
           "initialStatus": "IN_PROGRESS"
         },
-        "timestamp": 1789371202829
+        "timestamp": 1789454550831
       },
       {
-        "eventId": "EVT-mu0xewj3-7817",
+        "eventId": "EVT-mu2b1ca0-feu3",
         "incidentId": "INC-API-SYNC-1",
         "type": "OFFLINE_SYNC_APPLIED",
         "actor": {
@@ -1433,17 +4168,17 @@
           "name": "Responder (worker_field_9)"
         },
         "payload": {
-          "operationId": "op_b1_1789371202830",
+          "operationId": "op_b1_1789454550833",
           "action": "RECORD_RESCUE",
           "rescuedCount": 3,
           "totalRescued": 3,
-          "clientCreatedAt": 1789371202861,
+          "clientCreatedAt": 1789454550887,
           "notes": ""
         },
-        "timestamp": 1789371202863
+        "timestamp": 1789454550888
       },
       {
-        "eventId": "EVT-mu0xewj6-hidn",
+        "eventId": "EVT-mu2b1ca6-uhfr",
         "incidentId": "INC-API-SYNC-1",
         "type": "OFFLINE_SYNC_APPLIED",
         "actor": {
@@ -1452,17 +4187,17 @@
           "name": "Responder (worker_field_9)"
         },
         "payload": {
-          "operationId": "op_b2_1789371202830",
+          "operationId": "op_b2_1789454550833",
           "action": "ROAD_CLOSURE",
-          "closureId": "rc_1789371202865",
+          "closureId": "rc_1789454550893",
           "roadName": "Barrackpore Highway Km 14",
           "reason": "Submerged under 1 meter of floodwater"
         },
-        "timestamp": 1789371202867
+        "timestamp": 1789454550894
       }
     ],
-    "createdAt": 1789371202829,
-    "updatedAt": 1789371202867,
+    "createdAt": 1789454550831,
+    "updatedAt": 1789454550894,
     "rescuedPeople": 3
   },
   {
@@ -1499,7 +4234,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xewhy-guaw",
+        "eventId": "EVT-mu2b1c88-bouh",
         "incidentId": "INC-SYNC-RESCUE-1",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -1511,10 +4246,10 @@
           "sourceReportIds": [],
           "initialStatus": "IN_PROGRESS"
         },
-        "timestamp": 1789371202822
+        "timestamp": 1789454550824
       },
       {
-        "eventId": "EVT-mu0xewi1-fbb5",
+        "eventId": "EVT-mu2b1c8b-uaoz",
         "incidentId": "INC-SYNC-RESCUE-1",
         "type": "OFFLINE_SYNC_APPLIED",
         "actor": {
@@ -1523,18 +4258,18 @@
           "name": "Boat Crew 2"
         },
         "payload": {
-          "operationId": "op_rescue_1789371202824",
+          "operationId": "op_rescue_1789454550826",
           "action": "RECORD_RESCUE",
           "rescuedCount": 7,
           "totalRescued": 7,
-          "clientCreatedAt": 1789371202824,
+          "clientCreatedAt": 1789454550826,
           "notes": "Transferred 7 children to evacuation raft"
         },
-        "timestamp": 1789371202825
+        "timestamp": 1789454550827
       }
     ],
-    "createdAt": 1789371202822,
-    "updatedAt": 1789371202825,
+    "createdAt": 1789454550824,
+    "updatedAt": 1789454550827,
     "rescuedPeople": 7
   },
   {
@@ -1573,7 +4308,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xewhg-4e53",
+        "eventId": "EVT-mu2b1c7n-kwv2",
         "incidentId": "INC-SYNC-001",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -1585,10 +4320,10 @@
           "sourceReportIds": [],
           "initialStatus": "PRIORITIZED"
         },
-        "timestamp": 1789371202804
+        "timestamp": 1789454550803
       },
       {
-        "eventId": "EVT-mu0xewhn-tpxv",
+        "eventId": "EVT-mu2b1c7w-e24x",
         "incidentId": "INC-SYNC-001",
         "type": "MISSION_ASSIGNED",
         "actor": {
@@ -1597,17 +4332,17 @@
           "name": "Officer"
         },
         "payload": {
-          "missionId": "MSN-QC386U",
+          "missionId": "MSN-3W1VUN",
           "resourceId": "res_sync_amb",
           "resourceName": "Sync Ambulance",
           "assignedTo": "worker_sync_1",
           "etaMinutes": 10,
           "routeRisk": "MEDIUM"
         },
-        "timestamp": 1789371202811
+        "timestamp": 1789454550812
       },
       {
-        "eventId": "EVT-mu0xewhu-kvhe",
+        "eventId": "EVT-mu2b1c84-4osl",
         "incidentId": "INC-SYNC-001",
         "type": "STATUS_UPDATED",
         "actor": {
@@ -1616,15 +4351,15 @@
           "name": "System"
         },
         "payload": {
-          "missionId": "MSN-QC386U",
+          "missionId": "MSN-3W1VUN",
           "status": "IN_PROGRESS",
           "note": "Responders arrived on scene."
         },
-        "timestamp": 1789371202818
+        "timestamp": 1789454550820
       }
     ],
-    "createdAt": 1789371202804,
-    "updatedAt": 1789371202818
+    "createdAt": 1789454550803,
+    "updatedAt": 1789454550820
   },
   {
     "incidentId": "INC-DUP-02",
@@ -1662,7 +4397,7 @@
     "mergedInto": "INC-PRIMARY-01",
     "events": [
       {
-        "eventId": "EVT-mu0xew2w-8rm8",
+        "eventId": "EVT-mu2b1bmi-e7y2",
         "incidentId": "INC-DUP-02",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -1676,10 +4411,10 @@
           ],
           "initialStatus": "NEEDS_VERIFICATION"
         },
-        "timestamp": 1789371202280
+        "timestamp": 1789454550042
       },
       {
-        "eventId": "EVT-mu0xew32-fu3w",
+        "eventId": "EVT-mu2b1bmp-zgba",
         "incidentId": "INC-DUP-02",
         "type": "INCIDENT_MERGED",
         "actor": {
@@ -1691,11 +4426,11 @@
           "mergedIntoPrimaryId": "INC-PRIMARY-01",
           "reason": "Confirmed duplicate of flooded school incident"
         },
-        "timestamp": 1789371202286
+        "timestamp": 1789454550049
       }
     ],
-    "createdAt": 1789371202280,
-    "updatedAt": 1789371202286
+    "createdAt": 1789454550042,
+    "updatedAt": 1789454550049
   },
   {
     "incidentId": "INC-PRIMARY-01",
@@ -1734,7 +4469,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xew2w-sbgm",
+        "eventId": "EVT-mu2b1bmi-f3gv",
         "incidentId": "INC-PRIMARY-01",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -1748,10 +4483,10 @@
           ],
           "initialStatus": "NEEDS_VERIFICATION"
         },
-        "timestamp": 1789371202280
+        "timestamp": 1789454550042
       },
       {
-        "eventId": "EVT-mu0xew32-l3cd",
+        "eventId": "EVT-mu2b1bmp-3q58",
         "incidentId": "INC-PRIMARY-01",
         "type": "INCIDENT_MERGED",
         "actor": {
@@ -1764,11 +4499,11 @@
           "reason": "Confirmed duplicate of flooded school incident",
           "totalLinkedReports": 2
         },
-        "timestamp": 1789371202286
+        "timestamp": 1789454550049
       }
     ],
-    "createdAt": 1789371202280,
-    "updatedAt": 1789371202288
+    "createdAt": 1789454550042,
+    "updatedAt": 1789454550052
   },
   {
     "incidentId": "INC-2026-46DI9Z",
@@ -2259,7 +4994,7 @@
           "Base hazard severity LOW (+5 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "Central Avenue Bus Stop 14",
@@ -2294,7 +5029,7 @@
       "requiresHumanVerification": false,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": false,
@@ -2307,7 +5042,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-xjgc",
+        "eventId": "EVT-mu2b1alz-e0et",
         "incidentId": "INC-2026-ROAD-06",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -2321,11 +5056,11 @@
           ],
           "initialStatus": "NEEDS_VERIFICATION"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201537
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548737
   },
   {
     "incidentId": "INC-2026-DRAIN-05",
@@ -2359,7 +5094,7 @@
           "2 independent reports corroborate incident (+10 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "Ward 7 Municipal Market Canal",
@@ -2397,7 +5132,7 @@
       "requiresHumanVerification": false,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": false,
@@ -2410,7 +5145,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-x6wu",
+        "eventId": "EVT-mu2b1alz-kv1l",
         "incidentId": "INC-2026-DRAIN-05",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -2425,11 +5160,11 @@
           ],
           "initialStatus": "NEEDS_VERIFICATION"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201536
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548735
   },
   {
     "incidentId": "INC-2026-FLOOD-02",
@@ -2468,7 +5203,7 @@
           "2 independent reports corroborate incident (+10 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "Elder Care Haven, Health Post Lane",
@@ -2512,18 +5247,18 @@
       "requiresHumanVerification": true,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": true,
       "verifiedBy": "officer_sharma",
-      "verifiedAt": 1789369701530,
+      "verifiedAt": 1789453048727,
       "notes": "Verified P1 medical evacuation emergency."
     },
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-jlg1",
+        "eventId": "EVT-mu2b1alz-ktmf",
         "incidentId": "INC-2026-FLOOD-02",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -2538,11 +5273,11 @@
           ],
           "initialStatus": "ASSIGNED"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201532
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548729
   },
   {
     "incidentId": "INC-2026-FLOOD-01",
@@ -2582,7 +5317,7 @@
           "3 independent reports corroborate incident (+15 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "Ward 7 Primary School, School Road",
@@ -2625,19 +5360,19 @@
       "requiresHumanVerification": true,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": true,
       "verifiedBy": "officer_sharma",
-      "verifiedAt": 1789370601530,
+      "verifiedAt": 1789453948727,
       "notes": "Priority verified as P1 due to elderly victims and surging water level.",
       "overrideReason": null
     },
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-wtyc",
+        "eventId": "EVT-mu2b1alz-aw7n",
         "incidentId": "INC-2026-FLOOD-01",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -2653,11 +5388,11 @@
           ],
           "initialStatus": "VERIFIED"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201530
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548727
   },
   {
     "incidentId": "INC-2026-A0CLLS",
@@ -2925,7 +5660,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xeuz6-br68",
+        "eventId": "EVT-mu2b19uf-tna6",
         "incidentId": "INC-TEST-MSN-1",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -2937,10 +5672,10 @@
           "sourceReportIds": [],
           "initialStatus": "PRIORITIZED"
         },
-        "timestamp": 1789371200850
+        "timestamp": 1789454547735
       },
       {
-        "eventId": "EVT-mu0xeuza-vf7p",
+        "eventId": "EVT-mu2b19um-zi7n",
         "incidentId": "INC-TEST-MSN-1",
         "type": "MISSION_ASSIGNED",
         "actor": {
@@ -2949,17 +5684,17 @@
           "name": "Officer Sharma"
         },
         "payload": {
-          "missionId": "MSN-8IITJN",
+          "missionId": "MSN-HYYXEB",
           "resourceId": "amb_test_disp",
           "resourceName": "Ambulance Test Unit",
           "assignedTo": "worker_77",
           "etaMinutes": 8,
           "routeRisk": "LOW"
         },
-        "timestamp": 1789371200854
+        "timestamp": 1789454547742
       },
       {
-        "eventId": "EVT-mu0xeuzf-c9dx",
+        "eventId": "EVT-mu2b19us-59bu",
         "incidentId": "INC-TEST-MSN-1",
         "type": "STATUS_UPDATED",
         "actor": {
@@ -2968,14 +5703,14 @@
           "name": "Responder Unit"
         },
         "payload": {
-          "missionId": "MSN-8IITJN",
+          "missionId": "MSN-HYYXEB",
           "status": "IN_PROGRESS",
           "note": "Responders arrived on scene."
         },
-        "timestamp": 1789371200859
+        "timestamp": 1789454547748
       },
       {
-        "eventId": "EVT-mu0xeuzj-xm97",
+        "eventId": "EVT-mu2b19uw-t9lr",
         "incidentId": "INC-TEST-MSN-1",
         "type": "STATUS_UPDATED",
         "actor": {
@@ -2984,15 +5719,15 @@
           "name": "Responder Unit"
         },
         "payload": {
-          "missionId": "MSN-8IITJN",
+          "missionId": "MSN-HYYXEB",
           "status": "RESOLVED",
           "note": "Mission completed. Scene secured."
         },
-        "timestamp": 1789371200863
+        "timestamp": 1789454547752
       }
     ],
-    "createdAt": 1789371200850,
-    "updatedAt": 1789371200863
+    "createdAt": 1789454547735,
+    "updatedAt": 1789454547753
   },
   {
     "incidentId": "INC-2026-ELEC-04",
@@ -3028,7 +5763,7 @@
           "2 independent reports corroborate incident (+10 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "CESC Power Substation, Sector 2",
@@ -3067,18 +5802,18 @@
       "requiresHumanVerification": true,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": true,
       "verifiedBy": "officer_sharma",
-      "verifiedAt": 1789370301530,
+      "verifiedAt": 1789453648727,
       "notes": "Verified with electrical board superintendent."
     },
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-r8wb",
+        "eventId": "EVT-mu2b1alz-q9n2",
         "incidentId": "INC-2026-ELEC-04",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -3093,11 +5828,11 @@
           ],
           "initialStatus": "PRIORITIZED"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201535
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548734
   },
   {
     "incidentId": "INC-2026-STRUCT-03",
@@ -3132,7 +5867,7 @@
           "2 independent reports corroborate incident (+10 pts)"
         ]
       },
-      "calculatedAt": 1789371201530
+      "calculatedAt": 1789454548727
     },
     "location": {
       "text": "River Road Embankment Km 3",
@@ -3172,7 +5907,7 @@
       "requiresHumanVerification": true,
       "advisory": true,
       "modelInfo": "gemini-flash",
-      "validatedAt": 1789371201530
+      "validatedAt": 1789454548727
     },
     "verification": {
       "verified": false,
@@ -3185,7 +5920,7 @@
     "mergedInto": null,
     "events": [
       {
-        "eventId": "EVT-mu0xevi2-anwj",
+        "eventId": "EVT-mu2b1alz-4ym6",
         "incidentId": "INC-2026-STRUCT-03",
         "type": "INCIDENT_CREATED",
         "actor": {
@@ -3200,10 +5935,10 @@
           ],
           "initialStatus": "NEEDS_VERIFICATION"
         },
-        "timestamp": 1789371201530
+        "timestamp": 1789454548727
       }
     ],
-    "createdAt": 1789371201530,
-    "updatedAt": 1789371201534
+    "createdAt": 1789454548727,
+    "updatedAt": 1789454548732
   }
 ]

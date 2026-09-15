@@ -15,75 +15,38 @@ import {
     canTransition
 } from "../domain/incident.js";
 
+import {
+    readCollection,
+    getItem,
+    saveItem,
+    saveCollection,
+    safeReadJson,
+    safeWriteJson
+} from "../storage/storage-adapter.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const INCIDENTS_FILE = path.join(__dirname, "..", "..", "data", "incidents.json");
+const INCIDENTS_FILE = "incidents.json";
 
 let adminDatabaseGetter = null;
 
-export function configureIncidentStore({ getAdminDatabase, getAdminApp }) {
+export function configureIncidentStore({ getAdminDatabase, getAdminApp } = {}) {
     if (typeof getAdminDatabase === "function" && typeof getAdminApp === "function") {
         adminDatabaseGetter = () => getAdminDatabase(getAdminApp());
     }
 }
 
-function isFirebaseStoreEnabled() {
-    const hasJson = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    const hasFile = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_FILE && fs.existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_FILE));
-    return Boolean(
-        adminDatabaseGetter &&
-        process.env.FIREBASE_DATABASE_URL &&
-        (hasJson || hasFile)
-    );
-}
-
-// Local filesystem fallback
+// Local filesystem fallback using safe storage adapter
 function readIncidentsLocal() {
-    try {
-        if (!fs.existsSync(INCIDENTS_FILE)) {
-            fs.mkdirSync(path.dirname(INCIDENTS_FILE), { recursive: true });
-            fs.writeFileSync(INCIDENTS_FILE, "[]", "utf-8");
-            return [];
-        }
-        const raw = fs.readFileSync(INCIDENTS_FILE, "utf-8").trim();
-        if (!raw) return [];
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-        console.warn("Failed reading local incidents.json:", error.message);
-        return [];
-    }
+    return safeReadJson(INCIDENTS_FILE, []);
 }
 
 function saveIncidentsLocal(incidents) {
-    try {
-        fs.mkdirSync(path.dirname(INCIDENTS_FILE), { recursive: true });
-        const tempPath = `${INCIDENTS_FILE}.${process.pid}.${Date.now()}.tmp`;
-        fs.writeFileSync(tempPath, JSON.stringify(incidents, null, 2), "utf-8");
-        try {
-            fs.renameSync(tempPath, INCIDENTS_FILE);
-        } catch {
-            fs.copyFileSync(tempPath, INCIDENTS_FILE);
-            fs.unlinkSync(tempPath);
-        }
-    } catch (error) {
-        console.error("Failed saving local incidents.json:", error.message);
-    }
+    safeWriteJson(INCIDENTS_FILE, incidents);
 }
 
 export async function readAllIncidents() {
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref("incidents").once("value");
-            const val = snapshot.val();
-            if (!val) return [];
-            return Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        } catch (error) {
-            console.warn("Firebase RTDB incidents read error, using local fallback:", error.message);
-        }
-    }
-    return readIncidentsLocal();
+    return readCollection("incidents", []);
 }
 
 export async function saveIncident(incident) {
@@ -91,43 +54,12 @@ export async function saveIncident(incident) {
         throw new Error("Invalid incident payload: missing incidentId.");
     }
     incident.updatedAt = Date.now();
-
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            await db.ref(`incidents/${incident.incidentId}`).set(incident);
-            return incident;
-        } catch (error) {
-            console.warn("Firebase RTDB incident save failed, falling back to local:", error.message);
-        }
-    }
-
-    const incidents = readIncidentsLocal();
-    const index = incidents.findIndex((item) => item.incidentId === incident.incidentId);
-    if (index >= 0) {
-        incidents[index] = incident;
-    } else {
-        incidents.unshift(incident);
-    }
-    saveIncidentsLocal(incidents);
-    return incident;
+    return saveItem("incidents", incident.incidentId, incident);
 }
 
 export async function getIncidentById(incidentId) {
     if (!incidentId) return null;
-
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref(`incidents/${incidentId}`).once("value");
-            if (snapshot.exists()) return snapshot.val();
-        } catch (error) {
-            console.warn("Firebase RTDB getIncidentById failed, falling back to local:", error.message);
-        }
-    }
-
-    const incidents = readIncidentsLocal();
-    return incidents.find((item) => item.incidentId === incidentId || item.publicId === incidentId) || null;
+    return getItem("incidents", incidentId);
 }
 
 export async function listIncidents({

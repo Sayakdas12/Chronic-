@@ -21,57 +21,35 @@ import {
 } from "./incident-service.js";
 import { IncidentStatus, IncidentEventType, createIncidentEvent } from "../domain/incident.js";
 
+import {
+    readCollection,
+    getItem,
+    saveItem,
+    saveCollection,
+    safeReadJson,
+    safeWriteJson
+} from "../storage/storage-adapter.js";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, "..", "..", "data");
-const RESOURCES_FILE = path.join(DATA_DIR, "resources.json");
-const MISSIONS_FILE = path.join(DATA_DIR, "missions.json");
+const RESOURCES_FILE = "resources.json";
+const MISSIONS_FILE = "missions.json";
 
 let adminDatabaseGetter = null;
 
-export function configureOperationsStore({ getAdminDatabase, getAdminApp }) {
+export function configureOperationsStore({ getAdminDatabase, getAdminApp } = {}) {
     if (typeof getAdminDatabase === "function" && typeof getAdminApp === "function") {
         adminDatabaseGetter = () => getAdminDatabase(getAdminApp());
     }
 }
 
-function isFirebaseStoreEnabled() {
-    const hasJson = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    const hasFile = Boolean(process.env.FIREBASE_SERVICE_ACCOUNT_FILE && fs.existsSync(process.env.FIREBASE_SERVICE_ACCOUNT_FILE));
-    return Boolean(adminDatabaseGetter && process.env.FIREBASE_DATABASE_URL && (hasJson || hasFile));
+// Local filesystem helpers using safe storage adapter
+function readJsonLocal(fileName, defaultVal = []) {
+    return safeReadJson(fileName, defaultVal);
 }
 
-// Local filesystem helpers
-function readJsonLocal(filePath, defaultVal = []) {
-    try {
-        if (!fs.existsSync(filePath)) {
-            fs.mkdirSync(path.dirname(filePath), { recursive: true });
-            fs.writeFileSync(filePath, JSON.stringify(defaultVal, null, 2), "utf-8");
-            return defaultVal;
-        }
-        const raw = fs.readFileSync(filePath, "utf-8").trim();
-        if (!raw) return defaultVal;
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : defaultVal;
-    } catch {
-        return defaultVal;
-    }
-}
-
-function saveJsonLocal(filePath, data) {
-    try {
-        fs.mkdirSync(path.dirname(filePath), { recursive: true });
-        const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`;
-        fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), "utf-8");
-        try {
-            fs.renameSync(tempPath, filePath);
-        } catch {
-            fs.copyFileSync(tempPath, filePath);
-            fs.unlinkSync(tempPath);
-        }
-    } catch (error) {
-        console.error(`Failed saving local file ${filePath}:`, error.message);
-    }
+function saveJsonLocal(fileName, data) {
+    safeWriteJson(fileName, data);
 }
 
 // ============================================================
@@ -79,58 +57,22 @@ function saveJsonLocal(filePath, data) {
 // ============================================================
 
 export async function readAllResources() {
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref("resources").once("value");
-            const val = snapshot.val();
-            if (val) return Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        } catch (error) {
-            console.warn("Firebase RTDB resources read error, using local fallback:", error.message);
-        }
-    }
-    const local = readJsonLocal(RESOURCES_FILE, []);
-    if (local.length === 0) {
+    const resources = await readCollection("resources", []);
+    if (!resources || resources.length === 0) {
         return seedDefaultResources();
     }
-    return local;
+    return resources;
 }
 
 export async function saveResource(resource) {
     if (!resource || !resource.id) throw new Error("Invalid resource payload.");
     resource.updatedAt = Date.now();
-
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            await db.ref(`resources/${resource.id}`).set(resource);
-            return resource;
-        } catch (error) {
-            console.warn("Firebase RTDB save resource failed, using local:", error.message);
-        }
-    }
-
-    const resources = readJsonLocal(RESOURCES_FILE, []);
-    const index = resources.findIndex(r => r.id === resource.id);
-    if (index >= 0) resources[index] = resource;
-    else resources.push(resource);
-    saveJsonLocal(RESOURCES_FILE, resources);
-    return resource;
+    return saveItem("resources", resource.id, resource);
 }
 
 export async function getResourceById(id) {
     if (!id) return null;
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref(`resources/${id}`).once("value");
-            if (snapshot.exists()) return snapshot.val();
-        } catch (error) {
-            console.warn("Firebase RTDB get resource failed, using local:", error.message);
-        }
-    }
-    const resources = await readAllResources();
-    return resources.find(r => r.id === id) || null;
+    return getItem("resources", id);
 }
 
 export async function updateResourceStatus(resourceId, status) {
@@ -203,54 +145,18 @@ export async function seedDefaultResources() {
 // ============================================================
 
 export async function readAllMissions() {
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref("missions").once("value");
-            const val = snapshot.val();
-            if (val) return Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        } catch (error) {
-            console.warn("Firebase RTDB missions read error, using local fallback:", error.message);
-        }
-    }
-    return readJsonLocal(MISSIONS_FILE, []);
+    return readCollection("missions", []);
 }
 
 export async function saveMission(mission) {
     if (!mission || !mission.id) throw new Error("Invalid mission payload.");
     mission.updatedAt = Date.now();
-
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            await db.ref(`missions/${mission.id}`).set(mission);
-            return mission;
-        } catch (error) {
-            console.warn("Firebase RTDB save mission failed, using local:", error.message);
-        }
-    }
-
-    const missions = readJsonLocal(MISSIONS_FILE, []);
-    const index = missions.findIndex(m => m.id === mission.id);
-    if (index >= 0) missions[index] = mission;
-    else missions.unshift(mission);
-    saveJsonLocal(MISSIONS_FILE, missions);
-    return mission;
+    return saveItem("missions", mission.id, mission);
 }
 
 export async function getMissionById(id) {
     if (!id) return null;
-    if (isFirebaseStoreEnabled()) {
-        try {
-            const db = adminDatabaseGetter();
-            const snapshot = await db.ref(`missions/${id}`).once("value");
-            if (snapshot.exists()) return snapshot.val();
-        } catch (error) {
-            console.warn("Firebase RTDB get mission failed, using local:", error.message);
-        }
-    }
-    const missions = await readAllMissions();
-    return missions.find(m => m.id === id) || null;
+    return getItem("missions", id);
 }
 
 export async function createMission({

@@ -18,9 +18,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00012",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201539
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548739
   },
   {
     "id": "ambulance_a09",
@@ -39,15 +39,15 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00009",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201540
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548740
   },
   {
     "id": "rescue_r04",
     "name": "Rescue Team R-04 (Water & Flood Specialist)",
     "type": "RESCUE_TEAM",
-    "status": "AVAILABLE",
+    "status": "DISPATCHED",
     "capabilities": [
       "WATER_RESCUE",
       "SEARCH_AND_RESCUE",
@@ -62,9 +62,10 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00104",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201542
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454551838,
+    "activeMissionId": "MSN-A2G5EH"
   },
   {
     "id": "boat_b02",
@@ -84,9 +85,9 @@
       "ward": "Ward 7"
     },
     "contact": "",
-    "lastSeenAt": 1789371200829,
-    "createdAt": 1789371200829,
-    "updatedAt": 1789371200835
+    "lastSeenAt": 1789454547687,
+    "createdAt": 1789454547687,
+    "updatedAt": 1789454547719
   },
   {
     "id": "shelter_s01",
@@ -107,9 +108,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00201",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201544
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548747
   },
   {
     "id": "amb_test_disp",
@@ -125,9 +126,9 @@
       "ward": null
     },
     "contact": "",
-    "lastSeenAt": 1789371200852,
-    "createdAt": 1789371200852,
-    "updatedAt": 1789371200862,
+    "lastSeenAt": 1789454547738,
+    "createdAt": 1789454547738,
+    "updatedAt": 1789454547752,
     "activeMissionId": null
   },
   {
@@ -144,10 +145,10 @@
       "ward": null
     },
     "contact": "",
-    "lastSeenAt": 1789371202808,
-    "createdAt": 1789371202808,
-    "updatedAt": 1789371202810,
-    "activeMissionId": "MSN-QC386U"
+    "lastSeenAt": 1789454550808,
+    "createdAt": 1789454550808,
+    "updatedAt": 1789454550811,
+    "activeMissionId": "MSN-3W1VUN"
   },
   {
     "id": "ambulance_a03",
@@ -168,9 +169,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00003",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201540
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548741
   },
   {
     "id": "ambulance_a15",
@@ -188,9 +189,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00015",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201541
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548742
   },
   {
     "id": "rescue_r01",
@@ -210,9 +211,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00101",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201542
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548745
   },
   {
     "id": "cutter_h01",
@@ -232,9 +233,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00105",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201543
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548746
   },
   {
     "id": "shelter_s02",
@@ -254,9 +255,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00202",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201544
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548748
   },
   {
     "id": "shelter_s03",
@@ -276,8 +277,8 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00203",
-    "lastSeenAt": 1789371201539,
-    "createdAt": 1789371201539,
-    "updatedAt": 1789371201545
+    "lastSeenAt": 1789454548739,
+    "createdAt": 1789454548739,
+    "updatedAt": 1789454548749
   }
 ]

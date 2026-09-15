@@ -1,5 +1,29 @@
 [
   {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789454550892,
+    "id": "rc_1789454550893",
+    "closureId": "rc_1789454550893",
+    "updatedAt": 1789454550893
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789454493451,
+    "id": "rc_1789454493451",
+    "closureId": "rc_1789454493451",
+    "updatedAt": 1789454493451
+  },
+  {
     "id": "rc_river_road_km3",
     "roadName": "River Road Embankment Curve",
     "latitude": 22.578,
@@ -7,7 +31,9 @@
     "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
     "incidentId": "INC-2026-STRUCT-03",
     "reportedBy": "Traffic Police Ward 7",
-    "reportedAt": 1789297472054
+    "reportedAt": 1789452148752,
+    "closureId": "rc_river_road_km3",
+    "updatedAt": 1789454548752
   },
   {
     "id": "rc_barrackpore_km14",
@@ -17,7 +43,9 @@
     "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
     "incidentId": "INC-2026-FLOOD-01",
     "reportedBy": "Field Unit Alpha",
-    "reportedAt": 1789304443448
+    "reportedAt": 1789452748750,
+    "closureId": "rc_barrackpore_km14",
+    "updatedAt": 1789454548750
   },
   {
     "id": "rc_river_road_km3",
@@ -238,5 +266,75 @@
     "reportedBy": "Responder (worker_field_9)",
     "reportedAt": 1789371202865,
     "id": "rc_1789371202865"
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789452286321
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789451686323
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789452286361
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789451686362
+  },
+  {
+    "id": "rc_barrackpore_km14",
+    "roadName": "Barrackpore Highway Km 14 Underpass",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
+    "incidentId": "INC-2026-FLOOD-01",
+    "reportedBy": "Field Unit Alpha",
+    "reportedAt": 1789452286441
+  },
+  {
+    "id": "rc_river_road_km3",
+    "roadName": "River Road Embankment Curve",
+    "latitude": 22.578,
+    "longitude": 88.358,
+    "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
+    "incidentId": "INC-2026-STRUCT-03",
+    "reportedBy": "Traffic Police Ward 7",
+    "reportedAt": 1789451686442
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789454088479,
+    "id": "rc_1789454088480"
   }
 ]
