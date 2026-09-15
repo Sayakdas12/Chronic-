@@ -6,6 +6,18 @@
     "reason": "Submerged under 1 meter of floodwater",
     "incidentId": "INC-API-SYNC-1",
     "reportedBy": "Responder (worker_field_9)",
+    "reportedAt": 1789454892049,
+    "id": "rc_1789454892049",
+    "closureId": "rc_1789454892049",
+    "updatedAt": 1789454892049
+  },
+  {
+    "roadName": "Barrackpore Highway Km 14",
+    "latitude": 22.75,
+    "longitude": 88.35,
+    "reason": "Submerged under 1 meter of floodwater",
+    "incidentId": "INC-API-SYNC-1",
+    "reportedBy": "Responder (worker_field_9)",
     "reportedAt": 1789454550892,
     "id": "rc_1789454550893",
     "closureId": "rc_1789454550893",
@@ -31,9 +43,9 @@
     "reason": "Retaining wall breach and road fissure. Cordoned off by police.",
     "incidentId": "INC-2026-STRUCT-03",
     "reportedBy": "Traffic Police Ward 7",
-    "reportedAt": 1789452148752,
+    "reportedAt": 1789452489784,
     "closureId": "rc_river_road_km3",
-    "updatedAt": 1789454548752
+    "updatedAt": 1789454889784
   },
   {
     "id": "rc_barrackpore_km14",
@@ -43,9 +55,9 @@
     "reason": "Submerged under 1.2 meters of flood run-off. Impassable for low-clearance vehicles.",
     "incidentId": "INC-2026-FLOOD-01",
     "reportedBy": "Field Unit Alpha",
-    "reportedAt": 1789452748750,
+    "reportedAt": 1789453089782,
     "closureId": "rc_barrackpore_km14",
-    "updatedAt": 1789454548750
+    "updatedAt": 1789454889782
   },
   {
     "id": "rc_river_road_km3",

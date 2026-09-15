@@ -1,5 +1,82 @@
 [
   {
+    "id": "op_b2_1789454891990",
+    "deviceId": "device_anonymous",
+    "type": "REPORT_ROAD_CLOSURE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "roadName": "Barrackpore Highway Km 14",
+      "latitude": 22.75,
+      "longitude": 88.35,
+      "reason": "Submerged under 1 meter of floodwater"
+    },
+    "clientCreatedAt": 1789454892049,
+    "serverReceivedAt": 1789454892049,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "closureId": "rc_1789454892049",
+      "roadName": "Barrackpore Highway Km 14"
+    },
+    "updatedAt": 1789454892054
+  },
+  {
+    "id": "op_b1_1789454891990",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-API-SYNC-1",
+    "payload": {
+      "rescuedCount": 3
+    },
+    "clientCreatedAt": 1789454892041,
+    "serverReceivedAt": 1789454892041,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-API-SYNC-1",
+      "totalRescued": 3
+    },
+    "updatedAt": 1789454892046
+  },
+  {
+    "id": "op_rescue_1789454891977",
+    "deviceId": "device_anonymous",
+    "type": "RECORD_RESCUE",
+    "entityId": "INC-SYNC-RESCUE-1",
+    "payload": {
+      "rescuedCount": 7,
+      "notes": "Transferred 7 children to evacuation raft"
+    },
+    "clientCreatedAt": 1789454891977,
+    "serverReceivedAt": 1789454891977,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "incidentId": "INC-SYNC-RESCUE-1",
+      "totalRescued": 7
+    },
+    "updatedAt": 1789454891982
+  },
+  {
+    "id": "op_sync_1789454891955",
+    "deviceId": "device_anonymous",
+    "type": "MISSION_STATUS_UPDATE",
+    "entityId": "MSN-E8A6VC",
+    "payload": {
+      "status": "ARRIVED",
+      "notes": "First on scene via boat"
+    },
+    "clientCreatedAt": 1789454891956,
+    "serverReceivedAt": 1789454891956,
+    "status": "APPLIED",
+    "retryCount": 0,
+    "result": {
+      "missionId": "MSN-E8A6VC",
+      "status": "ARRIVED"
+    },
+    "updatedAt": 1789454891965
+  },
+  {
     "id": "op_b2_1789454550833",
     "deviceId": "device_anonymous",
     "type": "REPORT_ROAD_CLOSURE",

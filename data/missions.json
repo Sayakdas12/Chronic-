@@ -1,5 +1,133 @@
 [
   {
+    "id": "MSN-UV778E",
+    "incidentId": "INC-2026-7LR61E",
+    "resourceId": "rescue_r04",
+    "assignedTo": "unit_boat4",
+    "status": "ARRIVED",
+    "etaMinutes": 5,
+    "routeRisk": "MEDIUM",
+    "notes": "Unit arrived at site",
+    "dispatchedBy": "Commander Banerjee",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Commander Banerjee",
+        "timestamp": 1789454893034,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "NDRF Unit 04",
+        "timestamp": 1789454893049,
+        "notes": "Unit arrived at site"
+      }
+    ],
+    "createdAt": 1789454893034,
+    "updatedAt": 1789454893049
+  },
+  {
+    "id": "MSN-E8A6VC",
+    "incidentId": "INC-SYNC-001",
+    "resourceId": "res_sync_amb",
+    "assignedTo": "worker_sync_1",
+    "status": "ARRIVED",
+    "etaMinutes": 10,
+    "routeRisk": "MEDIUM",
+    "notes": "First on scene via boat",
+    "dispatchedBy": "Officer",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer",
+        "timestamp": 1789454891945,
+        "notes": ""
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "worker_sync_1",
+        "timestamp": 1789454891957,
+        "notes": "First on scene via boat"
+      }
+    ],
+    "createdAt": 1789454891945,
+    "updatedAt": 1789454891957
+  },
+  {
+    "id": "MSN-BUIDX8",
+    "incidentId": "INC-2026-EG4321",
+    "resourceId": "rescue_r04",
+    "assignedTo": "field_alpha",
+    "status": "ARRIVED",
+    "etaMinutes": 6,
+    "routeRisk": "LOW",
+    "notes": "Search team on scene.",
+    "dispatchedBy": "Local Administrator",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789454888262,
+        "notes": "Deploy search dog and cutters"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Local Administrator",
+        "timestamp": 1789454888281,
+        "notes": "Search team on scene."
+      }
+    ],
+    "createdAt": 1789454888262,
+    "updatedAt": 1789454888281
+  },
+  {
+    "id": "MSN-7WEF0M",
+    "incidentId": "INC-TEST-MSN-1",
+    "resourceId": "amb_test_disp",
+    "assignedTo": "worker_77",
+    "status": "COMPLETED",
+    "etaMinutes": 8,
+    "routeRisk": "LOW",
+    "notes": "All 4 elderly victims safely evacuated to shelter",
+    "dispatchedBy": "Officer Sharma",
+    "events": [
+      {
+        "type": "MISSION_DISPATCHED",
+        "status": "ASSIGNED",
+        "actor": "Officer Sharma",
+        "timestamp": 1789454888132,
+        "notes": "Proceed via Sector 2 bridge"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "ARRIVED",
+        "previousStatus": "ASSIGNED",
+        "actor": "Responder Unit",
+        "timestamp": 1789454888141,
+        "notes": "Arrived at primary school perimeter"
+      },
+      {
+        "type": "MISSION_STATUS_UPDATED",
+        "status": "COMPLETED",
+        "previousStatus": "ARRIVED",
+        "actor": "Responder Unit",
+        "timestamp": 1789454888148,
+        "notes": "All 4 elderly victims safely evacuated to shelter"
+      }
+    ],
+    "createdAt": 1789454888132,
+    "updatedAt": 1789454888148
+  },
+  {
     "id": "MSN-A2G5EH",
     "incidentId": "INC-2026-82DUFG",
     "resourceId": "rescue_r04",
@@ -692,7 +820,7 @@
         "type": "MISSION_DISPATCHED",
         "status": "ASSIGNED",
         "actor": "Officer Sharma",
-        "timestamp": 1789454548753,
+        "timestamp": 1789454889786,
         "notes": "Dispatched to Elder Care Haven. Water depth ~3.5 ft at gate. Avoid River Road Underpass."
       },
       {
@@ -700,12 +828,12 @@
         "status": "ARRIVED",
         "previousStatus": "ASSIGNED",
         "actor": "Responder Amit",
-        "timestamp": 1789453828753,
+        "timestamp": 1789454169786,
         "notes": "Arrived at nursing facility. First 4 patients stabilized for transfer."
       }
     ],
-    "createdAt": 1789454548753,
-    "updatedAt": 1789454548753
+    "createdAt": 1789454889786,
+    "updatedAt": 1789454889786
   },
   {
     "id": "MSN-WW8DKV",

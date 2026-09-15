@@ -18,9 +18,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00012",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548739
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889763
   },
   {
     "id": "ambulance_a09",
@@ -39,9 +39,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00009",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548740
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889765
   },
   {
     "id": "rescue_r04",
@@ -62,10 +62,10 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00104",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454551838,
-    "activeMissionId": "MSN-A2G5EH"
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454893034,
+    "activeMissionId": "MSN-UV778E"
   },
   {
     "id": "boat_b02",
@@ -85,9 +85,9 @@
       "ward": "Ward 7"
     },
     "contact": "",
-    "lastSeenAt": 1789454547687,
-    "createdAt": 1789454547687,
-    "updatedAt": 1789454547719
+    "lastSeenAt": 1789454888086,
+    "createdAt": 1789454888086,
+    "updatedAt": 1789454888104
   },
   {
     "id": "shelter_s01",
@@ -108,9 +108,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00201",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548747
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889776
   },
   {
     "id": "amb_test_disp",
@@ -126,9 +126,9 @@
       "ward": null
     },
     "contact": "",
-    "lastSeenAt": 1789454547738,
-    "createdAt": 1789454547738,
-    "updatedAt": 1789454547752,
+    "lastSeenAt": 1789454888129,
+    "createdAt": 1789454888129,
+    "updatedAt": 1789454888151,
     "activeMissionId": null
   },
   {
@@ -145,10 +145,10 @@
       "ward": null
     },
     "contact": "",
-    "lastSeenAt": 1789454550808,
-    "createdAt": 1789454550808,
-    "updatedAt": 1789454550811,
-    "activeMissionId": "MSN-3W1VUN"
+    "lastSeenAt": 1789454891942,
+    "createdAt": 1789454891942,
+    "updatedAt": 1789454891945,
+    "activeMissionId": "MSN-E8A6VC"
   },
   {
     "id": "ambulance_a03",
@@ -169,9 +169,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00003",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548741
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889767
   },
   {
     "id": "ambulance_a15",
@@ -189,9 +189,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00015",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548742
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889769
   },
   {
     "id": "rescue_r01",
@@ -211,9 +211,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00101",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548745
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889773
   },
   {
     "id": "cutter_h01",
@@ -233,9 +233,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00105",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548746
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889774
   },
   {
     "id": "shelter_s02",
@@ -255,9 +255,9 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00202",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548748
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889779
   },
   {
     "id": "shelter_s03",
@@ -277,8 +277,8 @@
       "ward": "Ward 7"
     },
     "contact": "+91 98300 00203",
-    "lastSeenAt": 1789454548739,
-    "createdAt": 1789454548739,
-    "updatedAt": 1789454548749
+    "lastSeenAt": 1789454889763,
+    "createdAt": 1789454889763,
+    "updatedAt": 1789454889780
   }
 ]

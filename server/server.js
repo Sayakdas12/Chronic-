@@ -59,7 +59,8 @@ function initializePrimaryCluster() {
 	function startWorker(index = 0) {
 		const worker = cluster.fork({
 			CHRONICAI_WORKER: "true",
-			CHRONICAI_LISTEN: index === 0 ? "true" : "false",
+			CHRONICAI_LISTEN: "true",
+			WORKER_INDEX: String(index),
 			PORT: String(port),
 		});
 

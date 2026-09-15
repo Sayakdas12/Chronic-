@@ -201,6 +201,134 @@ export function safeWriteJson(filename, data) {
     }
 }
 
+/**
+ * Fresh JSON reader directly from disk (bypasses memory cache for atomic updates)
+ */
+export function readFreshJsonFromDisk(filename, defaultValue = []) {
+    if (isPrimaryReadOnly) {
+        const tmpPath = path.join(SERVERLESS_TMP_DIR, filename);
+        if (fs.existsSync(tmpPath)) {
+            try {
+                const raw = fs.readFileSync(tmpPath, "utf-8").trim();
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    memoryStore.set(`file:${filename}`, parsed);
+                    return parsed;
+                }
+            } catch (err) {
+                console.warn(`[StorageAdapter] Failed reading fresh tmp ${filename}:`, err.message);
+            }
+        }
+    }
+
+    const primaryPath = path.join(PRIMARY_DATA_DIR, filename);
+    if (fs.existsSync(primaryPath)) {
+        try {
+            const raw = fs.readFileSync(primaryPath, "utf-8").trim();
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                memoryStore.set(`file:${filename}`, parsed);
+                return parsed;
+            }
+        } catch (err) {
+            console.warn(`[StorageAdapter] Failed reading fresh primary ${filename}:`, err.message);
+        }
+    }
+
+    return defaultValue;
+}
+
+// ============================================================
+// 1.1. ATOMIC CROSS-PROCESS & IN-PROCESS LOCKING (P1 Race Protection)
+// ============================================================
+
+const inProcessLocks = new Map();
+
+/**
+ * Try to atomically create lock file (O_CREAT | O_EXCL)
+ */
+export function tryAcquireLock(lockPath, staleMs = 5000) {
+    try {
+        safeMkdirSync(path.dirname(lockPath));
+        const fd = fs.openSync(lockPath, "wx");
+        const payload = JSON.stringify({ pid: process.pid, createdAt: Date.now() });
+        fs.writeFileSync(fd, payload, "utf-8");
+        fs.closeSync(fd);
+        return true;
+    } catch (err) {
+        if (err.code === "EEXIST") {
+            try {
+                const stats = fs.statSync(lockPath);
+                if (Date.now() - stats.mtimeMs > staleMs) {
+                    // Stale lock cleanup
+                    try { fs.unlinkSync(lockPath); } catch {}
+                    const fd = fs.openSync(lockPath, "wx");
+                    const payload = JSON.stringify({ pid: process.pid, createdAt: Date.now(), recovered: true });
+                    fs.writeFileSync(fd, payload, "utf-8");
+                    fs.closeSync(fd);
+                    return true;
+                }
+            } catch {}
+            return false;
+        }
+        return false;
+    }
+}
+
+/**
+ * Acquire cross-process file lock with backoff retry
+ */
+export async function acquireFileLock(filename, { timeoutMs = 5000, retryIntervalMs = 15, staleMs = 5000 } = {}) {
+    const lockPath = resolveFilePath(`${filename}.lock`);
+    const startTime = Date.now();
+
+    while (Date.now() - startTime < timeoutMs) {
+        if (tryAcquireLock(lockPath, staleMs)) {
+            return () => {
+                try { fs.unlinkSync(lockPath); } catch {}
+            };
+        }
+        const jitter = Math.floor(Math.random() * 20);
+        await new Promise((resolve) => setTimeout(resolve, retryIntervalMs + jitter));
+    }
+
+    console.warn(`[StorageAdapter] Lock acquisition timed out for ${filename}. Proceeding with fail-safe release.`);
+    return () => {
+        try { fs.unlinkSync(lockPath); } catch {}
+    };
+}
+
+/**
+ * Serialize operations with both in-process mutex and cross-process file lock
+ */
+export async function withFileLock(filename, fn) {
+    const queueKey = `lock:${filename}`;
+    let releaseInProcess;
+    const inProcessWait = new Promise((resolve) => {
+        releaseInProcess = resolve;
+    });
+    const prevPromise = inProcessLocks.get(queueKey) || Promise.resolve();
+    inProcessLocks.set(queueKey, prevPromise.then(() => inProcessWait));
+
+    await prevPromise;
+
+    let releaseFile = null;
+    try {
+        releaseFile = await acquireFileLock(filename);
+        // Evict memory cache to ensure fresh read from disk
+        memoryStore.delete(`file:${filename}`);
+        return await fn();
+    } finally {
+        if (releaseFile) {
+            try { releaseFile(); } catch {}
+        }
+        releaseInProcess();
+        if (inProcessLocks.get(queueKey) === inProcessWait) {
+            inProcessLocks.delete(queueKey);
+        }
+    }
+}
+
 // ============================================================
 // 2. RESILIENT FIREBASE CREDENTIAL PARSER & CLIENT
 // ============================================================
@@ -444,7 +572,7 @@ export async function getItem(collectionName, id) {
 }
 
 /**
- * Save / update a single item in a collection
+ * Save / update a single item in a collection (Atomic with cross-process locking)
  */
 export async function saveItem(collectionName, id, item) {
     if (!item) throw new Error(`Cannot save empty item to ${collectionName}`);
@@ -456,41 +584,43 @@ export async function saveItem(collectionName, id, item) {
     }
 
     item.updatedAt = item.updatedAt || Date.now();
-
-    // 1. Write to Cloud (Admin SDK)
-    let cloudWritten = false;
-    if (isFirebaseCloudEnabled()) {
-        try {
-            const db = getAdminDatabase(getAdminApp());
-            await db.ref(`${collectionName}/${itemId}`).set(item);
-            cloudWritten = true;
-        } catch (err) {
-            console.warn(`[StorageAdapter] Firebase save failed for ${collectionName}/${itemId}:`, err.message);
-        }
-    }
-
-    // 2. If Admin SDK not used, try REST write
-    if (!cloudWritten && isFirebaseRestEnabled()) {
-        await firebaseRestWriteItem(collectionName, itemId, item);
-    }
-
-    // 3. Always write-through to local safe store & memory
     const filename = COLLECTION_FILES[collectionName] || `${collectionName}.json`;
-    const items = safeReadJson(filename, []);
-    const index = items.findIndex((existing) => extractItemId(existing, defaultField) === itemId);
 
-    if (index >= 0) {
-        items[index] = item;
-    } else {
-        items.unshift(item);
-    }
-    safeWriteJson(filename, items);
+    return await withFileLock(filename, async () => {
+        // 1. Write to Cloud (Admin SDK)
+        let cloudWritten = false;
+        if (isFirebaseCloudEnabled()) {
+            try {
+                const db = getAdminDatabase(getAdminApp());
+                await db.ref(`${collectionName}/${itemId}`).set(item);
+                cloudWritten = true;
+            } catch (err) {
+                console.warn(`[StorageAdapter] Firebase save failed for ${collectionName}/${itemId}:`, err.message);
+            }
+        }
 
-    return item;
+        // 2. If Admin SDK not used, try REST write
+        if (!cloudWritten && isFirebaseRestEnabled()) {
+            await firebaseRestWriteItem(collectionName, itemId, item);
+        }
+
+        // 3. Always write-through to local safe store & memory with fresh on-disk read
+        const items = readFreshJsonFromDisk(filename, []);
+        const index = items.findIndex((existing) => extractItemId(existing, defaultField) === itemId);
+
+        if (index >= 0) {
+            items[index] = item;
+        } else {
+            items.unshift(item);
+        }
+        safeWriteJson(filename, items);
+
+        return item;
+    });
 }
 
 /**
- * Save an entire array of items to a collection
+ * Save an entire array of items to a collection (Atomic with cross-process locking)
  */
 export async function saveCollection(collectionName, items) {
     if (!Array.isArray(items)) {
@@ -500,47 +630,51 @@ export async function saveCollection(collectionName, items) {
     const defaultField = ID_FIELDS[collectionName] || "id";
     const filename = COLLECTION_FILES[collectionName] || `${collectionName}.json`;
 
-    // 1. Cloud persistence (Admin SDK)
-    if (isFirebaseCloudEnabled()) {
-        try {
-            const db = getAdminDatabase(getAdminApp());
-            const updates = {};
-            for (const item of items) {
-                const id = extractItemId(item, defaultField);
-                if (id) updates[id] = item;
+    return await withFileLock(filename, async () => {
+        // 1. Cloud persistence (Admin SDK)
+        if (isFirebaseCloudEnabled()) {
+            try {
+                const db = getAdminDatabase(getAdminApp());
+                const updates = {};
+                for (const item of items) {
+                    const id = extractItemId(item, defaultField);
+                    if (id) updates[id] = item;
+                }
+                await db.ref(collectionName).set(updates);
+            } catch (err) {
+                console.warn(`[StorageAdapter] Cloud batch save failed for ${collectionName}:`, err.message);
             }
-            await db.ref(collectionName).set(updates);
-        } catch (err) {
-            console.warn(`[StorageAdapter] Cloud batch save failed for ${collectionName}:`, err.message);
         }
-    }
 
-    // 2. Safe local write
-    safeWriteJson(filename, items);
-    return items;
+        // 2. Safe local write
+        safeWriteJson(filename, items);
+        return items;
+    });
 }
 
 /**
- * Delete an item from a collection
+ * Delete an item from a collection (Atomic with cross-process locking)
  */
 export async function deleteItem(collectionName, id) {
     if (!id) return false;
     const defaultField = ID_FIELDS[collectionName] || "id";
     const filename = COLLECTION_FILES[collectionName] || `${collectionName}.json`;
 
-    if (isFirebaseCloudEnabled()) {
-        try {
-            const db = getAdminDatabase(getAdminApp());
-            await db.ref(`${collectionName}/${id}`).remove();
-        } catch (err) {
-            console.warn(`[StorageAdapter] Cloud delete failed for ${collectionName}/${id}:`, err.message);
+    return await withFileLock(filename, async () => {
+        if (isFirebaseCloudEnabled()) {
+            try {
+                const db = getAdminDatabase(getAdminApp());
+                await db.ref(`${collectionName}/${id}`).remove();
+            } catch (err) {
+                console.warn(`[StorageAdapter] Cloud delete failed for ${collectionName}/${id}:`, err.message);
+            }
         }
-    }
 
-    const items = safeReadJson(filename, []);
-    const filtered = items.filter((item) => extractItemId(item, defaultField) !== id);
-    safeWriteJson(filename, filtered);
-    return true;
+        const items = readFreshJsonFromDisk(filename, []);
+        const filtered = items.filter((item) => extractItemId(item, defaultField) !== id);
+        safeWriteJson(filename, filtered);
+        return true;
+    });
 }
 
 /**
